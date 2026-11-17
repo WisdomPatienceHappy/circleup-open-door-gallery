@@ -1,0 +1,56 @@
+:root {
+  --ink: #092522;
+  --line-ink: #142635;
+  --paper: #faf0e3;
+  --grain: url("../media/paper-grain.png");
+  --dry-ink: url("../media/grain.png");
+  --sage: #cdd0a6;
+  --gold: #ffc86b;
+  --coral: #f7ae8c;
+  --upright: polygon(39% 0, 58% 0, 65% 8%, 56% 17%, 74% 23%, 62% 32%, 70% 44%, 57% 58%, 68% 66%, 56% 83%, 63% 92%, 54% 100%, 34% 100%, 40% 92%, 28% 83%, 43% 66%, 34% 58%, 45% 44%, 38% 32%, 49% 23%, 34% 17%, 44% 8%);
+  --chip-edge: polygon(0 52%, 1% 39%, 2.5% 27%, 5% 15%, 8% 8%, 12% 5%, 16% 4%, 21% 6%, 26% 3%, 32% 4%, 38% 2%, 44% 5%, 49% 3%, 55% 5%, 61% 2%, 66% 4%, 71% 3%, 76% 5%, 81% 3%, 86% 5%, 91% 7%, 95% 16%, 98% 30%, 99.5% 45%, 100% 56%, 99% 67%, 96.5% 81%, 93% 91%, 89% 96%, 84% 97%, 79% 94%, 74% 97%, 69% 95%, 63% 99%, 57% 96%, 52% 98%, 46% 94%, 40% 96%, 34% 94%, 28% 97%, 23% 94%, 17% 96%, 12% 93%, 8% 91%, 4% 80%, 1.5% 68%);
+  --torn-pill: polygon(0 48%, 1% 36%, 3% 22%, 7% 10%, 12% 4%, 21% 2%, 27% 3%, 34% 1%, 41% 2%, 48% 1%, 56% 3%, 64% 1%, 72% 2%, 81% 1%, 88% 4%, 94% 11%, 97% 23%, 99% 37%, 100% 53%, 98% 68%, 96% 81%, 91% 92%, 85% 98%, 76% 97%, 68% 99%, 60% 97%, 52% 99%, 44% 98%, 36% 99%, 29% 97%, 20% 98%, 12% 96%, 7% 90%, 3% 78%, 1% 64%);
+  --torn-rect: polygon(0 28%, .7% 18%, 1.8% 11%, 3.2% 5%, 5.2% 2%, 9% 1%, 14% 2%, 20% 1%, 25% 2%, 31% 1%, 38% 2%, 44% 1%, 51% 2%, 61% 1%, 65% 2%, 74% 1%, 80% 2%, 86% 1%, 91% 2%, 95% 4%, 97% 8%, 98.6% 16%, 99.6% 25%, 100% 56%, 99.7% 73%, 98.7% 83%, 97.1% 90%, 94.7% 96%, 91% 98%, 86% 99%, 79% 98%, 73% 99%, 67% 98%, 59% 99%, 53% 98%, 47% 99%, 38% 98%, 30% 99%, 22% 98%, 16% 99%, 9% 98%, 5% 96%, 3% 92%, 1.4% 84%, .4% 74%, 0 52%);
+  --rule-shape: polygon(0 42%, 2% 28%, 5% 43%, 8% 32%, 10% 42%, 14% 23%, 17% 35%, 21% 28%, 25% 40%, 28% 24%, 31% 41%, 34% 32%, 37% 46%, 41% 26%, 44% 33%, 47% 30%, 50% 45%, 54% 29%, 58% 39%, 61% 29%, 65% 36%, 68% 23%, 72% 41%, 75% 31%, 78% 42%, 82% 29%, 85% 42%, 88% 32%, 91% 42%, 94% 30%, 97% 39%, 100% 30%, 100% 69%, 97% 73%, 94% 63%, 91% 79%, 88% 69%, 85% 79%, 82% 64%, 78% 79%, 75% 67%, 72% 77%, 68% 61%, 65% 72%, 61% 63%, 58% 76%, 54% 67%, 50% 82%, 47% 71%, 44% 65%, 41% 63%, 37% 81%, 34% 71%, 31% 81%, 28% 60%, 25% 73%, 21% 68%, 17% 72%, 14% 60%, 10% 78%, 8% 65%, 5% 79%, 2% 68%, 0 74%);
+}
+
+.paper-outline { position: relative; border: 1.7px solid var(--line-ink); border-radius: 25px 22px 24px 24px / 23px 24px 21px 25px; }
+.paper-stroke { display: none; }
+@supports (clip-path: shape(evenodd from 10px 0, line to 100% 100%, close)) {
+  .paper-outline { border-color: transparent; }
+  .paper-stroke, .format {
+    --inside: 3.1px;
+    --paper-contour: shape(evenodd from 24px 1.2px,
+      curve to 53% 1.3px with 17% .2px / 36% 2.5px,
+      curve to calc(100% - 22px) .8px with 66% .3px / 83% 2.1px,
+      curve to calc(100% - .7px) 24px with calc(100% - 7px) .8px / calc(100% - .7px) 8px,
+      curve to calc(100% - 1.2px) calc(100% - 23px) with calc(100% - 1.9px) 39% / calc(100% - .3px) 66%,
+      curve to calc(100% - 24px) calc(100% - .8px) with calc(100% - 1.2px) calc(100% - 8px) / calc(100% - 9px) calc(100% - .1px),
+      curve to 47% calc(100% - 1.3px) with 83% calc(100% - 2.2px) / 65% calc(100% - .4px),
+      curve to 23px calc(100% - .8px) with 32% calc(100% - 2.6px) / 16% calc(100% - .2px),
+      curve to .9px calc(100% - 24px) with 9px calc(100% - .9px) / .9px calc(100% - 8px),
+      curve to 1.1px 24px with 2px 63% / .3px 34%,
+      curve to 24px 1.2px with .8px 9px / 9px 1.4px, close,
+      move to 24px calc(var(--inside) + .2px),
+      curve to 53% calc(var(--inside) + .1px) with 17% calc(var(--inside) - .7px) / 36% calc(var(--inside) + 1.6px),
+      curve to calc(100% - 22px) calc(var(--inside) - .3px) with 66% calc(var(--inside) - .8px) / 83% calc(var(--inside) + 1px),
+      curve to calc(100% - var(--inside) + .4px) 24px with calc(100% - 8px) calc(var(--inside) - .1px) / calc(100% - var(--inside) + .4px) 9px,
+      curve to calc(100% - var(--inside)) calc(100% - 23px) with calc(100% - var(--inside) - .8px) 39% / calc(100% - var(--inside) + .9px) 66%,
+      curve to calc(100% - 24px) calc(100% - var(--inside) + .2px) with calc(100% - var(--inside)) calc(100% - 9px) / calc(100% - 9px) calc(100% - var(--inside) + .8px),
+      curve to 47% calc(100% - var(--inside) - .2px) with 83% calc(100% - var(--inside) - 1.1px) / 65% calc(100% - var(--inside) + .6px),
+      curve to 23px calc(100% - var(--inside) + .3px) with 32% calc(100% - var(--inside) - 1.5px) / 16% calc(100% - var(--inside) + .6px),
+      curve to calc(var(--inside) - .2px) calc(100% - 24px) with 9px calc(100% - var(--inside) + .2px) / calc(var(--inside) - .2px) calc(100% - 9px),
+      curve to calc(var(--inside) + .1px) 24px with calc(var(--inside) + .8px) 63% / calc(var(--inside) - .7px) 34%,
+      curve to 24px calc(var(--inside) + .2px) with var(--inside) 9px / 9px calc(var(--inside) + .3px), close);
+  }
+  .paper-stroke {
+    position: absolute;
+    display: block;
+    inset: -2px;
+    pointer-events: none;
+    background: var(--dry-ink) repeat, var(--line-ink);
+    clip-path: var(--paper-contour);
+  }
+  .picker > .paper-stroke { --inside: 2.5px; }
+  .format > .paper-stroke { --inside: 2.85px; }
+}

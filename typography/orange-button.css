@@ -1,4 +1,5 @@
 @import url("../cut-paper-topics/raised-action.css");
+@import url("../cut-paper-topics/paper.css");
 
 @font-face {
   font-family: "Inter";
@@ -16,23 +17,29 @@
 
 :root {
   color-scheme: light;
-  --ink: #102d24;
-  --paper: #f7eee1;
   --rule: #a6ab8f;
-  --grain: url("../media/paper-grain.png");
   font: 16px/1.5 Inter, sans-serif;
   color: var(--ink);
-  background: var(--grain) repeat, var(--paper);
+  background: var(--paper);
 }
 
 * { box-sizing: border-box; }
 
-body { margin: 0; }
+body { margin: 0; min-height: 100vh; isolation: isolate; position: relative; }
+body::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--grain) repeat, var(--dry-ink) repeat;
+  opacity: .65;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
 
 main { width: min(1390px, calc(100% - 7vw)); margin-inline: auto; }
 
 header {
-  border-bottom: 1px solid var(--ink);
   padding: 15px 0 17px;
 }
 
@@ -80,15 +87,17 @@ h1 {
 .portrait::before {
   inline-size: 125px;
   aspect-ratio: 1;
-  background: #f7bb49;
-  border-radius: 50%;
+  background: var(--grain) repeat, var(--gold);
+  border-radius: 49% 51% 48% 52% / 51% 46% 54% 49%;
   inset: -20px auto auto -21px;
 }
 
 .portrait::after {
-  inset: 14% -16px -18px 8%;
-  background: #c9cfab;
-  border-radius: 28px;
+  width: 43%;
+  aspect-ratio: 1;
+  inset: auto -14px -18px auto;
+  background: var(--grain) repeat, var(--sage);
+  border-radius: 46% 54% 51% 49% / 54% 48% 52% 46%;
 }
 
 .portrait img {
@@ -97,7 +106,7 @@ h1 {
   aspect-ratio: 1.71;
   object-fit: cover;
   object-position: center 37%;
-  border-radius: clamp(18px, 3vw, 42px);
+  border-radius: 5% 7% 5% 6% / 8% 10% 8% 10%;
 }
 
 .states, .gatherings { border-top: 1px solid var(--rule); padding: 28px 0 36px; }
