@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CircleUp · Typography playground</title>
+  <link rel="stylesheet" href="orange-button.css">
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="playground.css">
+  <script defer src="playground.js"></script>
+</head>
+<body>
+  <aside class="workbench" aria-label="Typography playground">
+    <div class="workbench-inner">
+      <div class="workbench-heading">
+        <p><a href="../gallery.html">← Design gallery</a> <span> / </span> <strong>Typography playground</strong></p>
+        <div class="views" aria-label="Preview mode">
+          <button type="button" data-mode="preview" aria-pressed="true">Live preview</button>
+          <button type="button" data-mode="compare" aria-pressed="false">Compare all</button>
+        </div>
+      </div>
+      <div id="pickers" class="pickers">
+        <label>Pairing <select id="pairing"></select></label>
+        <label>Headline <select id="headline"></select></label>
+        <label>Supporting line <select id="support"></select></label>
+        <label>Controls <select id="controls"></select></label>
+      </div>
+      <p id="font-status" class="font-status" role="status" hidden></p>
+    </div>
+  </aside>
+
+  <main id="preview" class="type-scene" aria-label="Live preview"></main>
+  <div id="comparison" class="comparison" aria-label="Compare typefaces" hidden></div>
+
+  <template id="welcome-template">
+    <header><span class="wordmark">CircleUp</span></header>
+    <section class="welcome" aria-label="Welcome">
+      <div class="invitation">
+        <h1>Find your<br>circle.</h1>
+        <p>Small gatherings for<br>real conversation.</p>
+        <button class="raised find-gathering" type="button">
+          <span class="face">Find a gathering <span class="arrow" aria-hidden="true">→</span></span>
+        </button>
+      </div>
+      <div class="portrait">
+        <img src="assets/court.png" alt="Six people turn toward one another on a neighborhood handball court">
+      </div>
+    </section>
+  </template>
+
+  <template id="directory-template">
+    <section class="directory" aria-label="Directory specimen">
+      <div class="directory-top">
+        <h2 tabindex="-1">Upcoming gatherings</h2>
+        <label class="search">
+          <span class="visually-hidden">Search gatherings</span>
+          <span class="lens" aria-hidden="true"></span>
+          <input type="search" placeholder="Search gatherings" autocomplete="off">
+        </label>
+      </div>
+      <article class="event">
+        <img class="event-art" src="assets/listening.png" alt="A woman listens to a man speaking in a small circle">
+        <div class="event-text">
+          <h3>Listening Together</h3>
+          <p>Thu, Nov 19 · 7–8 PM PT · Online · Free</p>
+        </div>
+        <button class="raised event-action" type="button" aria-expanded="false">
+          <span class="face">View gathering <span class="arrow" aria-hidden="true">→</span></span>
+        </button>
+        <p class="event-detail" hidden>A host welcomes everyone. People take turns speaking, and you can listen or pass.</p>
+      </article>
+      <p class="no-match" role="status" hidden>No gatherings match your search.</p>
+    </section>
+  </template>
+
+  <template id="pair-template">
+    <article class="pair-card">
+      <div class="pair-heading">
+        <div>
+          <h2></h2>
+          <p class="pair-families"></p>
+        </div>
+        <button class="try-pair" type="button">Try in preview</button>
+      </div>
+      <div class="type-scene miniature"></div>
+    </article>
+  </template>
+
+  <noscript><p class="workbench-inner">Enable JavaScript to switch typefaces and compare pairings.</p></noscript>
+</body>
+</html>

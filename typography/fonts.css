@@ -1,0 +1,97 @@
+/* Source binaries and licenses are in fonts/. The baseline faces come from orange-button.css. */
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("fonts/InstrumentSerif-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("fonts/InstrumentSans[wdth,wght].ttf") format("truetype");
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: Baskervville;
+  src: url("fonts/Baskervville[wght].ttf") format("truetype");
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("fonts/SourceSans3[wght].ttf") format("truetype");
+  font-weight: 200 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Young Serif";
+  src: url("fonts/YoungSerif-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Sans";
+  src: url("fonts/DMSans[opsz,wght].ttf") format("truetype");
+  font-weight: 100 1000;
+  font-display: swap;
+}
+@font-face {
+  font-family: "News Cycle";
+  src: url("fonts/NewsCycle-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "News Cycle";
+  src: url("fonts/NewsCycle-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("fonts/AtkinsonHyperlegibleNext[wght].ttf") format("truetype");
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: Fraunces;
+  src: url("fonts/Fraunces[SOFT,WONK,opsz,wght].ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Serif Text";
+  src: url("../media/DMSerifText-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("fonts/BricolageGrotesque[opsz,wdth,wght].ttf") format("truetype");
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: Literata;
+  src: url("fonts/Literata[opsz,wght].ttf") format("truetype");
+  font-weight: 200 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Text";
+  src: url("fonts/CrimsonText-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Work Sans";
+  src: url("fonts/WorkSans[wght].ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow Semi Condensed";
+  src: url("fonts/BarlowSemiCondensed-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
