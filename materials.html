@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CircleUp · Paper and motion study</title>
+  <link rel="stylesheet" href="gallery.css">
+  <link rel="stylesheet" href="materials.css">
+  <script src="materials.js" defer></script>
+</head>
+<body>
+  <header class="masthead wrap">
+    <a class="wordmark" href="index.html">CircleUp</a>
+    <a class="quiet" href="index.html">← Design gallery</a>
+  </header>
+  <main class="wrap">
+    <section class="material-hero">
+      <div class="material-copy">
+        <h1>Find your<br>circle.</h1>
+        <p>Small gatherings for real conversation.</p>
+        <a class="press" href="#gatherings">Find a gathering <span aria-hidden="true">→</span></a>
+      </div>
+      <figure class="scene" id="scene">
+        <div class="orbit" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <img src="media/court.jpg" alt="Six people take a moment to talk on a handball court." width="720" height="460">
+      </figure>
+    </section>
+    <div class="motion-row">
+      <label><input type="checkbox" id="motion"> Move the background circles</label>
+    </div>
+    <section id="gatherings" class="material-directory" aria-labelledby="gatherings-title">
+      <div class="material-heading">
+        <h2 id="gatherings-title">Upcoming gatherings</h2>
+        <div class="material-filters">
+          <details id="date-picker">
+            <summary>Any date</summary>
+            <div class="picker">
+              <button type="button" data-value="">Any date</button>
+              <button type="button" data-value="nov-19">Thu, Nov 19</button>
+              <button type="button" data-value="nov-21">Sat, Nov 21</button>
+              <button type="button" data-value="nov-22">Sun, Nov 22</button>
+            </div>
+          </details>
+          <details id="format-picker">
+            <summary>All formats</summary>
+            <div class="picker">
+              <button type="button" data-value="">All formats</button>
+              <button type="button" data-value="online">Online</button>
+              <button type="button" data-value="in-person">In person</button>
+            </div>
+          </details>
+        </div>
+      </div>
+      <p id="results" role="status"></p>
+      <div class="material-results">
+        <article class="paper-ticket" data-date="nov-19" data-format="online">
+          <img src="media/listening-poster.png" alt="" width="110" height="110">
+          <div><h3>Listening Together</h3><p>Thu, Nov 19 · 7–8 PM PT<br>Online · Free</p></div>
+        </article>
+        <article class="paper-ticket" data-date="nov-21" data-format="in-person">
+          <img src="media/workshop.png" alt="" width="110" height="110">
+          <div><h3>Clay at the Common Table</h3><p>Sat, Nov 21 · 11 AM<br>In person · Oakland</p></div>
+        </article>
+        <article class="paper-ticket" data-date="nov-22" data-format="in-person">
+          <img src="media/story-flyer.png" alt="" width="110" height="110">
+          <div><h3>Neighborhood Story Exchange</h3><p>Sun, Nov 22 · 3–4 PM<br>In person · Berkeley</p></div>
+        </article>
+      </div>
+      <button id="clear-date" class="quiet" type="button" hidden>Show any date</button>
+    </section>
+  </main>
+</body>
+</html>

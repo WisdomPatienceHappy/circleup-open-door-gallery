@@ -1,0 +1,15 @@
+Use case: ui-mockup. One 1536×1024 desktop screenshot of a believable responsive video room, edge to edge, no device, border, captions, presentation labels, or chrome around the screen. References are style anchors: 1 Welcome for candid photography and small paper shapes, 2 Directory for dry hand-drawn pine rules and simple sans labels, 3 Detail for pale ivory, dark pine display serif, warm torn paper, and one coral action with a visible clay edge. Use clean warm ivory paper, fresh sage and quiet marigold; exquisite but restrained texture, gentle lines, clear accessible controls. Plain CircleUp wordmark. Photographs and type stay stable. No saffron/sepia grading, no gradients, no glossy dashboard or decorative text.
+
+Primary request: show the moment BEFORE a host publishes a shared scene. Listening Together in the Main circle with Maya speaking. Maya is a middle-aged East Asian woman with dark shoulder-length hair, teal cardigan, and clear square glasses, speaking into her own webcam at home next to a simple bookshelf and a lamp. Understated natural candid imperfect lighting like the documentary photography in the references. Three smaller listener positions: Luis with dark hair and olive shirt, Priya with dark wavy hair and rust blouse, and Jo with camera off so only a pale sage initials tile reading “JO”. Small secondary portraits stay smaller than Maya.
+
+Composition: slim “CircleUp” masthead and “Listening Together / Main circle” breadcrumb. Two-column single screen. Left 66% is the active call and retains a large speaker-first webcam stage, a row of three small listener tiles, and its single real call bar. On the stage container above the photo on solid ivory, write “Live · Window Light”. Below Maya's portrait write “Maya is speaking” on a small solid label. The room atmosphere is quiet pale sage paper with a subtle angled light wash outside the video. The call bar is visible at bottom left, flat outlined controls “Mic”, “Camera”, “Leave”.
+
+At right add one clean raised-paper host inspector, no extra navigation. Header “Room scene” then muted “Main circle · Host”. Below include a thumbnail proof of the seat composition over a distinctly different muted garden twilight texture. Directly above this inset on solid paper explicitly label “Private preview”. Below are two short preset rows with miniature background swatches: “Window Light” with a small sage “Live” badge, and “Garden dusk” with a check in outline. At bottom of this panel reserve raised coral with near-vertical dark clay edge for the only primary action “Apply to Main circle”. Just above it write “Everyone in Main circle will see the change.” Include a plain “Cancel” link beside the header. Readable comfortable work surface; side panel stays absorbed in actual app, participants are dominant, no graphic elements obscuring speaker. The live stage and quiet controls remain active and independent. This is one screenshot, not a comparison plate.
+
+Reference image paths (in order):
+[local reference image]
+[local reference image]
+[local reference image]
+
+Built-in ImageGen original:
+[local reference image]

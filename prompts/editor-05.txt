@@ -1,0 +1,15 @@
+Use case: ui-mockup. One 1536×1024 desktop screenshot of a believable responsive video room, edge to edge, no device, border, captions, presentation labels, or chrome around the screen. References are style anchors: 1 Welcome for candid photography and small paper shapes, 2 Directory for dry hand-drawn pine rules and simple sans labels, 3 Detail for pale ivory, dark pine display serif, warm torn paper, and one coral action with a visible clay edge. Use clean warm ivory paper, fresh sage and quiet marigold; exquisite but restrained texture, gentle lines, clear accessible controls. Plain CircleUp wordmark. Photographs and type stay stable. No saffron/sepia grading, no gradients, no glossy dashboard or decorative text.
+
+Primary request: show the moment AFTER the host successfully applies the shared “Garden dusk” scene in this call. Listening Together in the Main circle with Maya speaking. Maya is a middle-aged East Asian woman with dark shoulder-length hair, teal cardigan, and clear square glasses, speaking into her own webcam at home next to a simple bookshelf and a lamp. Understated natural candid imperfect lighting like the documentary photography in the references. Three smaller listener positions: Luis with dark hair and olive shirt, Priya with dark wavy hair and rust blouse, and Jo with camera off so only a pale sage initials tile reading “JO”. Small secondary portraits stay smaller than Maya.
+
+Compose a single full-width speaker-first web screen, centered focus layout. Slim top with “CircleUp” wordmark and “Listening Together / Main circle”. Just below a thin dry pine rule place a modest sage acknowledgment banner reading exactly “Scene applied to Main circle”. Beneath it use a wide central speaker area with a large centered landscape webcam tile, a vertical narrow listener rail just to its right, and generous side margins. The live shared stage surrounding Maya is muted green garden twilight, subtle silhouettes at far edges, restrained dusk ink and sage. Maya's own webcam room remains unchanged, with her shirt and skin tones natural. Solid warm white small label below webcam image “Maya is speaking”. One visible call control bar centered below the stage with flat buttons “Mic”, “Camera”, and “Leave”. No extra video views.
+
+Below the call bar, a low horizontal host shelf on pale paper separated by a finely hand-inked line. Left aligned “Room scene” with thumbnail and label “Garden dusk” and a discreet green “Live” chip. Right aligned compact outlined “Change scene” button. Main view is clearly the current active conversation. The editor has closed and the scene confirmation is readable; no pending selection, draft preview, Apply, Undo, or additional panel. Go easy on coral here: subtle orange focus edge on speaker only, no loud primary button in a confirmation state. Good body typography and calm whitespace. This is one screenshot, not a comparison plate.
+
+Reference image paths (in order):
+[local reference image]
+[local reference image]
+[local reference image]
+
+Built-in ImageGen original:
+[local reference image]

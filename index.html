@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CircleUp · Open Door design gallery</title>
+  <link rel="stylesheet" href="gallery.css">
+  <script src="catalog.js" defer></script>
+  <script src="gallery.js" defer></script>
+</head>
+<body>
+  <header class="masthead wrap">
+    <a class="wordmark" href="index.html">CircleUp</a>
+    <nav class="masthead-links" aria-label="Gallery sections">
+      <a class="quiet" href="personas.html">Personas</a>
+      <a class="quiet" href="materials.html">Try the materials <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="title">
+      <div>
+        <h1 id="title">Open Door</h1>
+        <p>Design studies for finding, joining and hosting a circle.</p>
+      </div>
+      <p class="count" id="count" aria-live="polite"></p>
+      <div class="paper-circles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    </section>
+    <nav class="filters" id="filters" aria-label="Filter by page"></nav>
+    <div class="actions">
+      <button type="button" class="quiet" id="saved" aria-pressed="false">Show saved</button>
+      <details>
+        <summary>Style references</summary>
+        <div class="references">
+          <a href="references/welcome.png">Court welcome</a>
+          <a href="references/directory.png">Calendar tickets</a>
+          <a href="references/detail.png">First-visit detail</a>
+        </div>
+      </details>
+    </div>
+    <div class="gallery" id="gallery"></div>
+    <noscript>Enable JavaScript to browse the gallery, or open the PNG files in the assets folder.</noscript>
+  </main>
+  <dialog id="viewer" aria-label="Full-size design">
+    <div class="viewer-top">
+      <div><h2 id="view-title"></h2><p id="view-note"></p></div>
+      <button id="close" class="quiet" type="button">Close</button>
+    </div>
+    <img id="view-img" alt="">
+    <div class="viewer-bottom">
+      <button id="previous" class="quiet" type="button">← Previous</button>
+      <a class="quiet" id="original" target="_blank" rel="noopener">Open PNG ↗</a>
+      <a class="quiet" id="prompt" target="_blank" rel="noopener">View prompt ↗</a>
+      <button id="next" class="quiet" type="button">Next →</button>
+    </div>
+  </dialog>
+</body>
+</html>

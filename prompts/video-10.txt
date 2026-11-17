@@ -1,0 +1,9 @@
+Built-in ImageGen
+References:
+[local reference image]
+[local reference image]
+[local reference image]
+[local reference image]
+
+Exact prompt:
+Create one fresh 1536×1024 realistic desktop web app screenshot without captions or border: CircleUp, “Listening Together”, “Main room”, HOST viewing Speaker view, People drawer open. References 1–3 provide actual app baseline: generous warm paper, pine type, faint hand-drawn rules, candid documentary people, fresh sage and one medium dark coral raised button with a crisp near-vertical dark clay edge. Reference 4 supplies webcam identities. In left two-thirds put a large rounded rectangular documentary webcam of Maya from reference 4, off-center next to a tall narrow vertical rail of FOUR smaller stable video thumbnails: Alex, You · Host, Sam, Noor. Exactly five unique faces. Maya upper eyelids natural, no model pose, authentic ordinary space. Only her large portrait has a restrained double ochre/pine ring and flat backed name “Maya has the stick”. The host is listening. Quiet footer Mic off with slashed icon, Camera on, More, outlined Leave. No Pass. Header small plain CircleUp wordmark and current-view menu “Speaker view” alongside “People (1 waiting)”. Right one-third People pane with close X and waiting card for “Priya”, two buttons “Admit” and “Decline”. Admit is the only raised dark coral action; Decline flat thin outline. Below show “In the room (5)” and a quiet simple text roster; Priya has no camera visible before acceptance. Practical font sizes, no badged ornaments, no duplicate video, keep surface continuous and ideally add slightly torn pale sage offset behind the big screen only. Nothing behind stage resembles a loading indicator. Do not add product dashboard nav, device frames, device/device permission prompts, generic laptop icons, or a competing action. Visible words exact.

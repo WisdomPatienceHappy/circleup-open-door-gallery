@@ -1,0 +1,14 @@
+Built-in ImageGen
+References:
+[local reference image]
+[local reference image]
+[local reference image]
+[local reference image]
+
+Exact original prompt:
+One fresh 1536×1024 desktop application screenshot, full viewport crop, CircleUp host view in “Listening Together” / “Main room”. Reference images 1–3 show Open Door styling, including warm pale paper, pine ink, candid photo cuts, light hand-inked rules, fresh sage and restrained coral with a near-vertical clay edge. Ref 4 only supplies five candid synthetic webcam identities: Host viewer (“You · Host”), Maya, Alex, Sam, and Noor. Use these exact five unique people, keep name roles consistent. Use a plain CircleUp serif wordmark. Quiet utility: header “People (1 waiting)” and a view selector accurately showing the current mode. Host opens right People drawer. Waiting card is a distinct text-only request “Priya”, “Waiting to join”, single raised darker coral “Admit” with 4px flat clay bottom edge, flat outline “Decline”. “In the room (5)” count, a compact legible roster; Priya has no video until admitted and her video connects. Maya currently holds the stick, consistently show flat “Maya has the stick” label and thin double ring on her alone; no Pass. Host mic off, camera on with live webcam (optional camera capability, do not imply required), quiet “More”, and outlined “Leave” in a stable footer. Keep all actual control labels accurate, type readable at desktop scale, show background as cream/sage subtle layer with restrained imperfect paper edge behind people and a hand-drawn divider. Single isolated screen, no board caption, explanatory text, external navigation, device frame, laptop icon, gradients or gratuitous badges. Gallery proposal, real usable product density. Circle-first composition: left two-thirds holds all five at genuinely equal circular sizes in a wide loose oval seating plan, Maya upper right and the host lower left, no emphasized crop size. Set view selector label “Circle view”. Right one-third is a crisp ruled People drawer. Main focus remains seated conversation.
+
+Original variant: [local reference image]
+
+Exact final edit prompt:
+Edit this exact 1536×1024 CircleUp host screenshot. Remove the entire raised coral Request a turn button from the footer so Admit for Priya is the sole raised coral action. Regroup the remaining five footer controls “Mic off”, “Camera on”, “Heart”, “More”, “Leave” to have balanced spacing. Preserve all other elements exactly: title, five circle seats, identity, photo composition, off-center Maya seat and turn ring, backdrop, labels, People drawer, counts, and Priya. Circle view text remains; the icon at left of that view label can be removed, keep chevron. Do not change the labels or add any role, button, caption, or app screen.
