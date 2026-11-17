@@ -101,4 +101,15 @@ dialog::backdrop { background: #142b24ca; }
 
 .masthead-links { display: flex; gap: clamp(12px, 2.5vw, 28px); align-items: center; }
 
+@media (max-width: 640px) {
+  .masthead:has(.masthead-links) {
+    height: auto;
+    min-height: 59px;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    padding-block: 10px;
+  }
+  .masthead-links { flex-wrap: wrap; }
+}
+
 @media (max-width: 400px) { .masthead-links { font-size: 13px; gap: 10px; } }
