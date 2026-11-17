@@ -1,0 +1,17 @@
+.logo-jump { padding-bottom: 24px; }
+.logo-jump .filter { text-decoration: none; }
+.logo-group { border-top: 1px solid var(--rule); padding-block: 24px 34px; scroll-margin-top: 12px; }
+.logo-group h2 { margin: 0 0 18px; font: 700 clamp(30px, 4vw, 46px)/1 var(--heading); }
+.logo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.logo-grid-wide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.logo-card { margin: 0; min-width: 0; }
+.logo-art { display: block; overflow: hidden; border: 1px solid #ded7c3; border-radius: 10px; background: var(--wash); }
+.logo-art img { width: 100%; height: auto; }
+.logo-card figcaption { margin-top: 6px; }
+.logo-context { border-top: 1px solid var(--rule); margin: 0; padding-block: 22px 54px; }
+@media (max-width: 890px) {
+  .logo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .logo-grid, .logo-grid-wide { grid-template-columns: 1fr; }
+}
