@@ -1,3 +1,3 @@
 # CircleUp · Open Door
 
-A design review gallery with 100 generated concepts, eleven fictional persona photo essays, and a materials demo.
+The homepage demos finding a gathering with the cut-paper topic, date, and format controls. The [design gallery](gallery.html) includes 100 generated concepts, with separate pages for logos, personas, and materials.
