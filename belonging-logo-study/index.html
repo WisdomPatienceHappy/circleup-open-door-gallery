@@ -22,148 +22,23 @@
       font: 500 clamp(28px, 4vw, 46px)/1.05 Georgia, serif;
       letter-spacing: -.035em;
     }
-    fieldset {
-      border: 0;
-      padding: 0;
-      margin: 0 0 16px;
-      min-inline-size: 0;
-    }
-    legend { padding: 0; margin-bottom: 8px; }
-    .choices { display: flex; gap: 7px; flex-wrap: wrap; }
-    .choice {
-      position: relative;
-      display: inline-flex;
-      cursor: pointer;
-    }
-    .choice input {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-    }
-    .choice span {
-      display: block;
-      background: #f8f3e9;
-      border: 1px solid #b6b4a5;
-      border-radius: 99px;
-      padding: 6px 12px;
-    }
-    .choice:hover span { border-color: #103328; }
-    .choice input:checked + span {
-      background: #153f31;
-      border-color: #153f31;
-      color: #fcf7ec;
-    }
-    .choice input:focus-visible + span {
-      outline: 2px solid #103328;
-      outline-offset: 3px;
-    }
-    figure {
-      margin: 0;
-      position: relative;
-      overflow: hidden;
-      border-radius: 8px;
-      box-shadow: 0 6px 28px #321e1418;
-    }
-    .reference { width: 100%; height: auto; display: block; }
-    .mark { position: absolute; pointer-events: none; }
   </style>
+  <link rel="stylesheet" href="picker.css">
+  <script defer src="picker.js"></script>
 </head>
 <body>
-  <main>
+  <main class="topic-picker" data-sync-hash>
     <h1>CircleUp in the topic picker</h1>
     <fieldset>
       <legend>Choose a mark to preview beside the original wordmark.</legend>
-      <div class="choices" id="choices"></div>
+      <div class="logo-choices"></div>
     </fieldset>
     <figure>
-      <img class="reference" src="topic-picker-reference.png" width="1536" height="1024" alt="CircleUp topic picker reference, with eight photo topics and a list of selected topics.">
-      <svg class="mark" id="mark" aria-hidden="true" overflow="hidden" hidden>
-        <image id="sheet"></image>
+      <img class="picker-reference" src="topic-picker-reference.png" width="1536" height="1024" alt="CircleUp topic picker reference, with eight photo topics and a list of selected topics.">
+      <svg class="picker-mark" aria-hidden="true" overflow="hidden" hidden>
+        <image></image>
       </svg>
     </figure>
   </main>
-  <script>
-    const variants = [
-      { id: "warm-dots", name: "Warm dots", vector: "warm-dots.svg", size: 50 },
-      { id: "brush-dots", name: "Brush dots", vector: "brush-dots.svg", size: 50 },
-      { id: "close-ring", name: "Close ring", vector: "close-ring.svg", size: 50 },
-      { id: "open-ring", name: "Open ring", vector: "open-ring.svg", size: 50 },
-      { id: "deep-tones", name: "Deep tones", vector: "deep-tones.svg", size: 50 },
-      { id: "table-soft-ink", name: "Around the Table · Soft ink", vector: "table-soft-ink.svg" },
-      { id: "table-loose-ink", name: "Around the Table · Loose ink", vector: "table-loose-ink.svg" },
-      { id: "table-original", name: "Around the Table · Original", vector: "table-original.svg" },
-      { id: "wordmark", name: "Wordmark only" },
-      { id: "room", name: "Room for one more", sheet: "welcome-and-listening.png", crop: [202, 71, 621, 479] },
-      { id: "listeners", name: "Two listeners", sheet: "welcome-and-listening.png", crop: [890, 101, 1336, 464] },
-      { id: "chair", name: "Pull up a chair", sheet: "welcome-and-listening.png", crop: [248, 565, 632, 966] },
-      { id: "door", name: "Open door", sheet: "welcome-and-listening.png", crop: [856, 579, 1343, 965] },
-      { id: "ground", name: "Common ground", sheet: "coming-together.png", crop: [231, 72, 634, 476] },
-      { id: "thread", name: "Returning thread", sheet: "coming-together.png", crop: [903, 75, 1281, 463] },
-      { id: "center", name: "Shared center", sheet: "coming-together.png", crop: [221, 555, 632, 968] },
-      { id: "turn", name: "Passing the turn", sheet: "coming-together.png", crop: [899, 563, 1299, 960] }
-    ];
-
-    const choices = document.querySelector("#choices");
-    const mark = document.querySelector("#mark");
-    const sheet = document.querySelector("#sheet");
-    const referenceWidth = 1536;
-    const referenceHeight = 1024;
-    const padding = 12;
-
-    function show(variant) {
-      const source = variant.vector ?? variant.sheet;
-      mark.toggleAttribute("hidden", !source);
-      if (!source) return;
-
-      const [imageWidth, imageHeight] = variant.vector ? [144, 144] : [1536, 1024];
-      const [left, top, right, bottom] = variant.crop ?? [0, 0, imageWidth, imageHeight];
-      const inset = variant.crop ? padding : 0;
-      const width = right - left + 2 * inset;
-      const height = bottom - top + 2 * inset;
-      const maxHeight = variant.size ?? 38;
-      const maxWidth = variant.size ?? 45;
-      const scale = Math.min(maxHeight / height, maxWidth / width);
-      const displayWidth = width * scale;
-      const displayHeight = height * scale;
-      mark.setAttribute("viewBox", [left - inset, top - inset, width, height].join(" "));
-      sheet.setAttribute("width", imageWidth);
-      sheet.setAttribute("height", imageHeight);
-      sheet.setAttribute("href", source);
-      mark.style.left = 243 / referenceWidth * 100 + "%";
-      mark.style.top = (31 - displayHeight / 2) / referenceHeight * 100 + "%";
-      mark.style.width = displayWidth / referenceWidth * 100 + "%";
-      mark.style.height = displayHeight / referenceHeight * 100 + "%";
-    }
-
-    for (const variant of variants) {
-      const label = document.createElement("label");
-      label.className = "choice";
-      const input = document.createElement("input");
-      input.type = "radio";
-      input.name = "logo";
-      input.value = variant.id;
-      const copy = document.createElement("span");
-      copy.textContent = variant.name;
-      label.append(input, copy);
-      choices.append(label);
-    }
-
-    function showFromHash() {
-      const id = location.hash.slice(1);
-      const variant = variants.find(candidate => candidate.id === id) ?? variants[0];
-      choices.querySelector(`input[value="${variant.id}"]`).checked = true;
-      show(variant);
-    }
-
-    choices.addEventListener("change", event => {
-      const variant = variants.find(candidate => candidate.id === event.target.value);
-      location.hash = variant.id;
-      show(variant);
-    });
-
-    window.addEventListener("hashchange", showFromHash);
-    showFromHash();
-  </script>
 </body>
 </html>

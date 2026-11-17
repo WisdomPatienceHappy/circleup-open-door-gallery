@@ -1,0 +1,46 @@
+.topic-picker fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-inline-size: 0;
+}
+.topic-picker legend { padding: 0; margin-bottom: 8px; }
+.logo-choices { display: flex; gap: 7px; flex-wrap: wrap; }
+.logo-choice {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+.logo-choice input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.logo-choice span {
+  display: block;
+  background: #f8f3e9;
+  border: 1px solid #b6b4a5;
+  border-radius: 99px;
+  padding: 6px 12px;
+}
+.logo-choice:hover span { border-color: #103328; }
+.logo-choice input:checked + span {
+  background: #153f31;
+  border-color: #153f31;
+  color: #fcf7ec;
+}
+.logo-choice input:focus-visible + span {
+  outline: 2px solid #103328;
+  outline-offset: 3px;
+}
+.topic-picker figure {
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 6px 28px #321e1418;
+}
+.picker-reference { width: 100%; height: auto; display: block; }
+.picker-mark { position: absolute; pointer-events: none; }
+.topic-picker [hidden] { display: none !important; }

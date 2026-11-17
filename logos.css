@@ -16,21 +16,15 @@
   .logo-grid, .logo-grid-wide { grid-template-columns: 1fr; }
 }
 
-.logo-spotlight {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-  gap: clamp(20px, 4vw, 48px);
-  align-items: center;
+.topic-picker-lead {
+  width: min(100%, max(720px, calc((100svh - 155px) * 1.5)));
+  margin-inline: auto;
+  padding-block: 16px 24px;
 }
-.spotlight-mark { margin-bottom: 10px; }
-.logo-spotlight p { margin: 0 0 12px; }
-.spotlight-preview { position: relative; }
-.spotlight-preview .spotlight-preview-mark {
-  position: absolute;
+.topic-picker-lead figure { margin-bottom: 16px; }
+.topic-picker-lead .picker-mark {
   left: 15.8203125%;
   top: .5859375%;
   width: 3.25520833%;
-}
-@media (max-width: 700px) {
-  .logo-spotlight { grid-template-columns: 1fr; }
+  height: 4.8828125%;
 }
