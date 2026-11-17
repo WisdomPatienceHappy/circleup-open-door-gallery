@@ -354,3 +354,27 @@ h1 { font-size: clamp(49px, 4.6vw, 71px); letter-spacing: .005em; margin: 15px 2
 }
 .demo-footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
 .demo-footer a { text-underline-offset: .18em; }
+
+@media (min-width: 1024px) {
+  .page { width: min(1280px, 90%); }
+}
+
+@media (min-width: 1241px) {
+  :root { font-size: 22px; }
+  .masthead { min-height: 60px; }
+  .wordmark { font-size: 40px; }
+  .masthead .current { font-size: 24px; }
+  h1 { font-size: clamp(49px, 4.2vw, 65px); }
+  .filters { gap: 30px; margin-bottom: 21px; }
+  .dates::before, .format::before { left: -17px; }
+  .format select { padding-inline: 54px 35px; }
+  .laptop { left: 18px; }
+  .format::after { right: 16px; }
+  .picker-heading h2 { font-size: 38px; }
+  .picker-heading p { font-size: 19px; }
+  .topic-name { min-height: 42px; font-size: 21px; }
+  .selection-heading h2 { font-size: 36px; }
+  .remove-topic { min-height: 48px; font-size: 23px; }
+  .show-gatherings.raised { margin-top: 68px; font-size: 26px; }
+  .show-gatherings .face { min-height: 62px; }
+}
