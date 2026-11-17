@@ -191,7 +191,7 @@ h1 { font-size: clamp(49px, 4.6vw, 71px); letter-spacing: .005em; margin: 15px 2
   .format select::picker(select)::before {
     content: "";
     position: absolute;
-    inset: -1px;
+    inset: 0;
     pointer-events: none;
     background: var(--dry-ink) repeat, var(--line-ink);
     clip-path: var(--paper-contour);
