@@ -15,6 +15,7 @@ const variants = [
   { id: "open-ring", name: "Open ring", vector: "open-ring.svg", size: 50 },
   { id: "deep-tones", name: "Deep tones", vector: "deep-tones.svg", size: 50 },
   { id: "table-soft-ink", name: "Around the Table · Soft ink", vector: "table-soft-ink.svg" },
+  { id: "table-soft-ink-black", name: "Around the Table · Black", vector: "table-soft-ink-black.svg" },
   { id: "table-loose-ink", name: "Around the Table · Loose ink", vector: "table-loose-ink.svg" },
   { id: "table-original", name: "Around the Table · Original", vector: "table-original.svg" },
   { id: "wordmark", name: "Wordmark only" },
