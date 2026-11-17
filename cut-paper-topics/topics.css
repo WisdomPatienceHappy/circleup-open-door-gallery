@@ -96,14 +96,9 @@ h1 { font-size: clamp(49px, 4.6vw, 71px); letter-spacing: .005em; margin: 15px 2
 .paper-stroke { display: none; }
 @supports (clip-path: shape(evenodd from 10px 0, line to 100% 100%, close)) {
   .paper-outline { border-color: transparent; }
-  .paper-stroke {
+  .paper-stroke, .format {
     --inside: 3.1px;
-    position: absolute;
-    display: block;
-    inset: -2px;
-    pointer-events: none;
-    background: var(--dry-ink) repeat, var(--line-ink);
-    clip-path: shape(evenodd from 24px 1.2px,
+    --paper-contour: shape(evenodd from 24px 1.2px,
       curve to 53% 1.3px with 17% .2px / 36% 2.5px,
       curve to calc(100% - 22px) .8px with 66% .3px / 83% 2.1px,
       curve to calc(100% - .7px) 24px with calc(100% - 7px) .8px / calc(100% - .7px) 8px,
@@ -125,6 +120,14 @@ h1 { font-size: clamp(49px, 4.6vw, 71px); letter-spacing: .005em; margin: 15px 2
       curve to calc(var(--inside) - .2px) calc(100% - 24px) with 9px calc(100% - var(--inside) + .2px) / calc(var(--inside) - .2px) calc(100% - 9px),
       curve to calc(var(--inside) + .1px) 24px with calc(var(--inside) + .8px) 63% / calc(var(--inside) - .7px) 34%,
       curve to 24px calc(var(--inside) + .2px) with var(--inside) 9px / 9px calc(var(--inside) + .3px), close);
+  }
+  .paper-stroke {
+    position: absolute;
+    display: block;
+    inset: -2px;
+    pointer-events: none;
+    background: var(--dry-ink) repeat, var(--line-ink);
+    clip-path: var(--paper-contour);
   }
   .picker > .paper-stroke { --inside: 2.5px; }
   .format > .paper-stroke { --inside: 2.85px; }
@@ -178,9 +181,21 @@ h1 { font-size: clamp(49px, 4.6vw, 71px); letter-spacing: .005em; margin: 15px 2
     font-size: .9em;
   }
   .format option { padding: 9px 12px; border-radius: 10px 12px 9px 11px; }
-  .format option:checked { background: var(--sage); }
-  .format option:is(:hover, :focus-visible) { background: #f4d493; }
-  .format option:focus-visible { outline-offset: -2px; }
+  .format option:is(:hover, :focus-visible) { background: var(--grain) repeat, #f4d493; }
+  .format option:checked { background: var(--grain) repeat, var(--sage); }
+  .format option:is(:checked, :hover, :focus-visible) { clip-path: var(--chip-edge); }
+  .format option:focus-visible { outline-offset: -3px; }
+}
+@supports (appearance: base-select) and (clip-path: shape(evenodd from 10px 0, line to 100% 100%, close)) and selector(select::picker(select)::before) {
+  .format select::picker(select) { border-color: transparent; }
+  .format select::picker(select)::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    background: var(--dry-ink) repeat, var(--line-ink);
+    clip-path: var(--paper-contour);
+  }
 }
 
 .picker-track { display: grid; grid-template-rows: 1fr; opacity: 1; transition: grid-template-rows 235ms cubic-bezier(.22,.75,.27,1), opacity 185ms ease; }
