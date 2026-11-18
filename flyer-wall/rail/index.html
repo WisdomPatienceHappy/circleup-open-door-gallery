@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f7f4ec">
+  <title>CircleUp — The community board</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="events.js" defer></script>
+  <script src="rail.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="CircleUp home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>CircleUp</a>
+    <nav aria-label="Main"><a class="current" href="#boards">Find a gathering</a><a href="../">Flyer wall</a></nav>
+    <a class="host-link" href="#about">A place to come together <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="top">
+    <section class="intro" aria-labelledby="heading">
+      <p class="eyebrow">THE COMMUNITY BOARD</p>
+      <h1 id="heading">Something good<br>happens <em>when we gather.</em></h1>
+      <p class="intro-copy">Follow a little curiosity. Find a conversation,<br class="desktop-break"> a shared practice, or people to make something with.</p>
+      <span class="handwritten" aria-hidden="true">See what catches your eye <svg viewBox="0 0 93 43"><path d="M3 5C38-5 76 4 79 35m-14-9 14 11 10-14"/></svg></span>
+    </section>
+    <section id="boards" class="directory" aria-labelledby="directory-heading">
+      <div class="directory-top">
+        <div><h2 id="directory-heading">A few doors to open.</h2><p id="result-count" role="status" aria-live="polite">8 gatherings across 3 boards</p></div>
+        <div class="rail-controls"><button id="previous" type="button" aria-label="Previous board">←</button><button id="next" type="button" aria-label="Next board">→</button></div>
+      </div>
+      <div class="category-picker" role="group" aria-label="Choose a board category">
+        <button class="category active" data-category="all" aria-pressed="true"><span class="category-dot all"></span>All the boards <span class="count">8</span></button>
+        <button class="category" data-category="conversation" aria-pressed="false"><span class="category-dot"></span>Good conversation</button>
+        <button class="category" data-category="practice" aria-pressed="false"><span class="category-dot practice"></span>A little practice</button>
+        <button class="category" data-category="creative" aria-pressed="false"><span class="category-dot creative"></span>Make & wonder</button>
+      </div>
+      <div class="rail" id="rail" tabindex="0" aria-label="Community noticeboards. Scroll horizontally for more boards."></div>
+      <div class="rail-footer"><p>Every flyer is a little invitation.</p><span id="board-position">1 / 3 boards</span><p>Swipe or use the arrows <span aria-hidden="true">→</span></p></div>
+    </section>
+    <aside id="about" class="about"><span class="about-mark" aria-hidden="true">✳</span><p><strong>A place for the things that bring us together.</strong><br>Conversations worth having. Practices worth sharing. People worth meeting.</p><p class="study-note">Design study · Five public organizer artworks and three labelled concept gatherings. Open a flyer for its source and attribution.</p></aside>
+  </main>
+  <footer class="site-footer"><a href="#top">CircleUp</a><span>There’s room for you here.</span><span>Noticeboard rail · November 18, 2026</span></footer>
+  <dialog id="detail" aria-labelledby="detail-title"><button class="close" aria-label="Close gathering details" type="button">×</button><div class="detail-layout"><div class="detail-art"><img id="detail-image" alt=""></div><div class="detail-copy"><p id="detail-kind" class="eyebrow"></p><h2 id="detail-title"></h2><p id="detail-host"></p><p id="detail-note"></p><p id="detail-attribution"></p><a id="detail-source" class="source-link" target="_blank" rel="noopener noreferrer">See the original listing <span aria-hidden="true">↗</span></a><p class="detail-disclaimer">This is a visual prototype. No booking is made here.</p></div></div></dialog>
+</body>
+</html>

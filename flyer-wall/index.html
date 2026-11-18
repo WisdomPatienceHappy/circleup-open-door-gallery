@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flyer wall · CircleUp</title>
+  <link rel="stylesheet" href="../cut-paper-topics/paper.css">
+  <link rel="stylesheet" href="wall.css">
+  <script defer src="gatherings.js"></script>
+  <script defer src="wall.js"></script>
+</head>
+<body>
+  <header class="masthead page">
+    <a class="wordmark" href="../">CircleUp</a>
+    <nav aria-label="Demo navigation">
+      <a href="../">Directory</a>
+      <a href="./" aria-current="page">Flyer wall</a>
+      <a href="../gallery.html">Design gallery</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="intro">
+      <div>
+        <h1>Find a gathering</h1>
+        <p>See what’s on the flyer wall.</p>
+      </div>
+      <label class="search">
+        <span class="sr-only">Search flyers</span>
+        <span class="search-icon" aria-hidden="true"></span>
+        <input id="search" type="search" placeholder="Search flyers" autocomplete="off">
+      </label>
+    </div>
+
+    <div class="browse">
+      <div id="topics" class="topics" role="group" aria-label="Filter by topic"></div>
+      <label class="grouping">Group by
+        <select id="grouping">
+          <option value="wall">One wall</option>
+          <option value="topic">Topic boards</option>
+          <option value="date">Date boards</option>
+        </select>
+      </label>
+    </div>
+    <p class="sr-only" role="status" id="results-count"></p>
+    <nav id="board-links" class="board-links" aria-label="Jump to a board" hidden></nav>
+    <div id="boards"></div>
+    <section id="empty" class="empty" hidden>
+      <h2>No flyers match</h2>
+      <p>Try a different search or look at all topics.</p>
+      <button id="reset" type="button">Show all flyers</button>
+    </section>
+    <noscript><p>Enable JavaScript to browse the flyer wall.</p></noscript>
+
+    <footer class="foot">
+      <p>Design preview with sample and archived listings.</p>
+      <nav><a href="../">Back to the directory</a><a href="rail/">Scrolling boards</a><a href="studies.html">Layout studies</a></nav>
+    </footer>
+  </main>
+
+  <dialog id="details" aria-labelledby="event-title">
+    <form method="dialog" class="dialog-nav"><button type="submit" aria-label="Close flyer">Close <span aria-hidden="true">×</span></button></form>
+    <div class="dialog-body">
+      <div id="event-art" class="detail-art"></div>
+      <div class="event-copy">
+        <span id="event-topic" class="event-topic"></span>
+        <h2 id="event-title"></h2>
+        <p id="event-meta" class="event-meta"></p>
+        <p id="event-description"></p>
+        <p id="event-credit" class="event-meta" hidden></p>
+        <a id="event-source" class="source" target="_blank" rel="noopener" hidden>View original listing <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>
