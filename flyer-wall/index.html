@@ -7,9 +7,10 @@
   <title>Community board · CircleUp</title>
   <link rel="stylesheet" href="../cut-paper-topics/paper.css">
   <link rel="stylesheet" href="../cut-paper-topics/raised-action.css">
-  <link rel="stylesheet" href="wall.css?v=cork">
+  <link rel="stylesheet" href="wall.css?v=listing-action">
   <script defer src="gatherings.js?v=cork"></script>
-  <script defer src="wall.js?v=cork"></script>
+  <script defer src="wall.js?v=listing-action"></script>
+  <link rel="stylesheet" href="../listing-action.css">
 </head>
 <body>
   <header class="masthead page">
@@ -61,10 +62,8 @@
     <p class="sr-only" role="status" id="results-count"></p>
     <nav id="board-links" class="board-links" aria-label="Jump to a board" hidden></nav>
     <div id="boards"></div>
-    <section id="empty" class="empty" hidden>
-      <h2>No flyers match</h2>
-      <p>Try a different search or clear your filters.</p>
-      <button id="reset" type="button">Show all flyers</button>
+    <section id="empty" class="board listing-empty" aria-label="Add a listing">
+      <a class="listing-flyer" href="../flyer-wall/add-listing.html"><span class="listing-flyer-plus" aria-hidden="true">+</span><span>Add your listing!</span></a>
     </section>
     <noscript><p>Enable JavaScript to browse the flyer wall.</p></noscript>
 

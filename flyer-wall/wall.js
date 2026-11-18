@@ -25,6 +25,7 @@ let listings = [...wallGatherings];
 const search = document.querySelector('#search');
 const count = document.querySelector('#results-count');
 const empty = document.querySelector('#empty');
+const listingAction = empty.querySelector('.listing-flyer');
 const dialog = document.querySelector('#details');
 const pacific = 'America/Los_Angeles';
 const dateFormats = new Map();
@@ -272,7 +273,11 @@ function render() {
   const groups = groupFlyers(matches).filter(group => group.items.length);
   for (const board of activeBoards) resize.unobserve(board.wall);
   activeBoards = groups.map(createBoard);
+  const actionWasFocused = document.activeElement === listingAction;
   boards.replaceChildren(...activeBoards.map(board => board.section));
+  const actionTarget = activeBoards[0]?.section.querySelector('.board-head') || empty;
+  actionTarget.append(listingAction);
+
   activeBoards.forEach(board => {
     layOut(board);
     resize.observe(board.wall);
@@ -284,6 +289,7 @@ function render() {
     return link;
   }));
   empty.hidden = Boolean(matches.length);
+  if (actionWasFocused) listingAction.focus({preventScroll: true});
   count.textContent = matches.length + (matches.length === 1 ? ' flyer' : ' flyers');
   for (const button of topics.children) {
     button.setAttribute('aria-pressed', String(button.dataset.topic === activeTopic));
@@ -343,15 +349,6 @@ locationSelect.addEventListener('change', () => {
   refresh();
 });
 search.addEventListener('input', refresh);
-document.querySelector('#reset').addEventListener('click', () => {
-  activeTopic = 'all';
-  search.value = '';
-  kind.value = '';
-  locationSelect.value = '';
-  awaitingLocation = null;
-  refresh();
-  topics.firstElementChild.focus();
-});
 render();
 
 const trialFiles = document.querySelector('#trial-files');
