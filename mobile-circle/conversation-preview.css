@@ -3,3 +3,21 @@
 .conversation-play { min-height: 44px; padding: 9px 12px; color: var(--ink); background: var(--grain) repeat, var(--paper); font: inherit; font-size: 13px; cursor: pointer; }
 .conversation-play[aria-pressed="true"] { background-color: var(--sage); }
 .conversation-play:active { transform: translateY(1px); }
+
+/* One visible action, sharing the drawer's existing conversation controller. */
+.table-top.conversation-quick-header { top: calc(max(12px, env(safe-area-inset-top)) + 71px); right: 128px; gap: 6px; }
+.conversation-quick-header .table-heading { min-width: 0; flex: 1 1 auto; padding-inline: 9px; }
+.conversation-quick-header .speaking-dot { flex: none; }
+.conversation-quick-header #holder-text { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.conversation-quick-play { flex: 0 0 44px; width: 44px; height: 44px; min-height: 44px; padding: 0; display: grid; place-items: center; pointer-events: auto; cursor: pointer; color: var(--ink); background: var(--grain) repeat, var(--paper); font-size: 17px; }
+.conversation-quick-play .paper-stroke { --inside: 2.35px; }
+.conversation-quick-play[aria-pressed="true"] { background-color: var(--sage); }
+.conversation-quick-play:active { background-color: var(--sage); }
+@container room-preview (min-width: 700px) {
+  .table-top.conversation-quick-header { top: 18px; right: auto; width: max-content; max-width: calc(100% - 300px); }
+  .conversation-quick-header .table-heading { flex: 0 1 auto; }
+}
+@media (max-height: 600px) {
+  .table-top.conversation-quick-header { display: flex; top: max(12px, env(safe-area-inset-top)); left: 128px; right: auto; width: 44px; max-width: 44px; transform: none; }
+  .conversation-quick-header .table-heading { display: none; }
+}

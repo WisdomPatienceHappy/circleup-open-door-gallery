@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="cut-paper-topics/topics.css">
   <link rel="stylesheet" href="room.css?v=adaptive-room-v3">
   <link rel="stylesheet" href="gesture-help.css?v=1">
-  <link rel="stylesheet" href="conversation-preview.css?v=1">
+  <link rel="stylesheet" href="conversation-preview.css?v=visible-play-2">
   <script defer src="gesture-help.js?v=1"></script>
   <script defer src="room.js?v=adaptive-room-v3"></script>
-  <script defer src="conversation-preview.js?v=1"></script>
+  <script defer src="conversation-preview.js?v=visible-play-2"></script>
   <link rel="stylesheet" href="../shared-sample-video.css?v=1">
   <script defer src="../shared-sample-video.js?v=1"></script>
   <link rel="stylesheet" href="../listing-action.css">
@@ -23,9 +23,18 @@
     }
     @media (max-height: 600px) {
       .room a.listing-flyer--room { position: absolute; top: 0; right: auto; left: 50%; translate: -50% 0; }
-      @container room-preview (max-width: 390px) {
+      @container room-preview (max-width: 480px) {
+        .layout-tuning:not([open]) summary { padding-inline: 4px; font-size: 11px; }
+        .table-top.conversation-quick-header { left: 106px; }
         .room .listing-flyer-plus { display: none; }
-        .room a.listing-flyer--room { left: 52%; padding-inline: 4px; font-size: 10px; }
+        .room a.listing-flyer--room {
+          left: 139px;
+          width: 56px;
+          translate: none;
+          padding-inline: 4px;
+          font-size: 10px;
+          white-space: normal;
+        }
       }
     }
   </style>

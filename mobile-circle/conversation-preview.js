@@ -21,19 +21,46 @@
   grid.append(section);
 
   const play = section.querySelector('#conversation-play');
+  const quick = document.createElement('button');
+  quick.id = 'conversation-quick-play';
+  quick.className = 'conversation-quick-play paper-outline';
+  quick.type = 'button';
+  quick.setAttribute('aria-pressed', 'false');
+  quick.setAttribute('aria-label', 'Play example conversation');
+  quick.setAttribute('title', 'Play example conversation (simulated)');
+  quick.innerHTML = '<span class="paper-stroke" aria-hidden="true"></span><span class="conversation-quick-icon" aria-hidden="true">▶</span>';
+  const header = document.querySelector('.table-top');
+  if (header) { header.classList.add('conversation-quick-header'); header.append(quick); }
+
   const speed = section.querySelector('#conversation-speed');
   const response = section.querySelector('#conversation-response');
   const status = section.querySelector('#conversation-status');
   // Stable seat choices and durations make both camera policies comparable.
   const pattern = [0, 1, 0, 1, 2, 0, 2, 1, 0, 3, 1, 3, 0, 1];
   const durations = [1800, 700, 1200, 550, 2400, 850, 1350, 600, 1750, 900, 650, 1450, 700, 2100];
-  let running = false;
+  let running = false, paused = false;
   let step = 0;
   let turnTimer;
   let focusTimer;
+  let releaseTimer;
+  let turnDeadline = 0, remainingTurn = 0;
   let lastFocusAt = -Infinity;
   let rosterSize = seats.length;
 
+  function syncControls() {
+    play.setAttribute('aria-pressed', String(running));
+    play.querySelector('span:last-child').textContent = running ? 'Stop conversation preview' : paused ? 'Restart conversation preview' : 'Start conversation preview';
+    quick.setAttribute('aria-pressed', String(running));
+    const label = running ? 'Pause example conversation' : 'Play example conversation';
+    quick.setAttribute('aria-label', label);
+    quick.setAttribute('title', label + ' (simulated)');
+    quick.querySelector('.conversation-quick-icon').textContent = running ? 'Ⅱ' : '▶';
+  }
+  function scheduleTurn(duration) {
+    remainingTurn = duration;
+    turnDeadline = performance.now() + duration;
+    turnTimer = setTimeout(advance, duration);
+  }
   function speakerFor(index) {
     // Four seats distributed around the current roster, rather than four
     // tiny neighboring steps in a large group.
@@ -74,28 +101,48 @@
     const duration = Math.round(durations[step % durations.length] * factor);
     status.textContent = 'Simulated: ' + names[holder] + ' is speaking · next change in ' + (duration / 1000).toFixed(1) + 's.';
     step++;
-    turnTimer = setTimeout(advance, duration);
+    scheduleTurn(duration);
   }
   function stopPreview(message = 'Preview stopped. No real call is running.') {
-    if (!running) return;
-    running = false;
-    clearTimeout(turnTimer); clearTimeout(focusTimer);
-    play.setAttribute('aria-pressed', 'false');
-    play.querySelector('span:last-child').textContent = 'Start conversation preview';
+    if (!running && !paused) return;
+    running = false; paused = false;
+    clearTimeout(turnTimer); clearTimeout(focusTimer); clearTimeout(releaseTimer);
+    stop();
+    remainingTurn = 0;
+    syncControls();
     status.textContent = message;
-    // Restore ordinary stick semantics after the simulated open-time mode.
     if (holder < seats.length) markSpeaker();
   }
   function startPreview() {
+    clearTimeout(turnTimer); clearTimeout(focusTimer); clearTimeout(releaseTimer);
     rosterSize = seats.length;
     step = 0;
     lastFocusAt = -Infinity;
-    running = true;
-    play.setAttribute('aria-pressed', 'true');
-    play.querySelector('span:last-child').textContent = 'Stop conversation preview';
+    running = true; paused = false;
+    syncControls();
     advance();
   }
+  function pausePreview() {
+    if (!running) return;
+    remainingTurn = Math.max(0, turnDeadline - performance.now());
+    running = false; paused = true;
+    clearTimeout(turnTimer); clearTimeout(focusTimer); clearTimeout(releaseTimer);
+    stop();
+    syncControls();
+    holderText.textContent = names[holder] + ' · paused preview';
+    status.textContent = 'Simulated conversation paused. Play resumes this turn.';
+  }
+  function resumePreview() {
+    if (!paused || seats.length !== rosterSize) { startPreview(); return; }
+    running = true; paused = false;
+    syncControls();
+    holderText.textContent = names[holder] + ' is speaking · preview';
+    status.textContent = 'Simulated: ' + names[holder] + ' is speaking · resumed.';
+    requestFocus();
+    scheduleTurn(remainingTurn);
+  }
   play.addEventListener('click', () => running ? stopPreview() : startPreview());
+  quick.addEventListener('click', () => running ? pausePreview() : paused ? resumePreview() : startPreview());
   response.addEventListener('change', () => { if (running) requestFocus(); });
   speed.addEventListener('change', () => {
     if (!running) return;
@@ -109,13 +156,13 @@
   seatingLayout.addEventListener('change', stopForChange);
   document.querySelector('#reset-layout').addEventListener('click', stopForChange);
   // The ordinary manual handoff should not compete with the simulator.
-  passStick.addEventListener('click', () => stopPreview('Preview stopped for a manual handoff.'));
+  passStick.addEventListener('click', () => stopPreview('Preview stopped for a manual handoff.'), {capture: true});
   camera.addEventListener('pointerdown', () => clearTimeout(focusTimer));
   const released = () => {
     if (!running) return;
-    setTimeout(() => { if (running && !pointers.size) { updateFocusPitch(); render(); } }, 0);
+    releaseTimer = setTimeout(() => { if (running && !pointers.size) { updateFocusPitch(); render(); } }, 0);
   };
   camera.addEventListener('pointerup', released);
   camera.addEventListener('pointercancel', released);
-  window.addEventListener('pagehide', () => stopPreview(), {once:true});
+  window.addEventListener('pagehide', () => stopPreview());
 })();
