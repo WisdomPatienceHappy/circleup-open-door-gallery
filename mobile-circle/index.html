@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Listening Together · CircleUp</title>
+  <link rel="stylesheet" href="cut-paper-topics/topics.css">
+  <link rel="stylesheet" href="room.css">
+  <script defer src="room.js"></script>
+</head>
+<body>
+  <div class="paper-circles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="room">
+    <header class="masthead">
+      <span class="wordmark">CircleUp</span>
+      <label class="people-count paper-outline">
+        <span class="paper-stroke" aria-hidden="true"></span>
+        <span class="sr-only">Demo group size</span>
+        <select id="group-size">
+          <option value="3">3 people</option>
+          <option value="4">4 people</option>
+          <option value="5">5 people</option>
+          <option value="6">6 people</option>
+          <option value="7" selected>7 people</option>
+          <option value="8">8 people</option>
+          <option value="9">9 people</option>
+          <option value="10">10 people</option>
+          <option value="11">11 people</option>
+          <option value="12">12 people</option>
+          <option value="13">13 people</option>
+          <option value="14">14 people</option>
+          <option value="15">15 people</option>
+          <option value="16">16 people</option>
+          <option value="17">17 people</option>
+          <option value="18">18 people</option>
+        </select>
+      </label>
+    </header>
+    <main>
+      <h1>Listening Together</h1>
+      <p class="room-name">Main room</p>
+      <section class="table paper-outline" aria-label="Video circle">
+        <span class="paper-stroke" aria-hidden="true"></span>
+        <div class="table-heading" aria-live="polite">
+          <span class="speaking-dot" aria-hidden="true"></span>
+          <span id="holder-text">Maya has the stick</span>
+        </div>
+        <div class="camera" tabindex="0" aria-label="Orbit the table" aria-describedby="view-instructions">
+          <canvas class="rim" aria-hidden="true"></canvas>
+          <ul class="ring" aria-label="Participants"></ul>
+          <template id="seat-template">
+            <li class="seat">
+              <span class="photo"><img alt="" draggable="false"></span>
+              <span class="name topic-name torn"></span>
+            </li>
+          </template>
+        </div>
+        <p class="orbit-hint" aria-hidden="true">Drag to turn · Release to refocus</p>
+        <div class="camera-controls">
+          <div class="zoom-group paper-outline" role="group" aria-label="Zoom">
+            <i class="paper-stroke" aria-hidden="true"></i>
+            <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+            <output id="zoom-level">100%</output>
+            <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+          </div>
+          <button type="button" class="text-action" id="reset-view">Reset view</button>
+        </div>
+        <p class="sr-only" id="view-instructions">Drag sideways to turn and vertically to tilt. Pinch to zoom. The angle lowers as you zoom in to frame the speaker. The arrow keys turn and tilt. The circle returns to the speaker on release. Press zero to reset.</p>
+      </section>
+      <button class="raised show-gatherings turn-button" type="button" aria-pressed="false"><span class="face">Request a turn</span></button>
+      <footer class="call-bar" aria-label="Illustrative call controls">
+        <span class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Mic off</span>
+        <span class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Camera on</span>
+        <span class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Leave</span>
+      </footer>
+      <section class="sample-turn" aria-label="Demo controls">
+        <button type="button" class="text-action" id="pass-stick">Demo · Pass the stick to Sam</button>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
