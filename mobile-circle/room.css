@@ -339,3 +339,4 @@ body { min-height: 0; }
 /* Give Safari the same full-height drawn group selector as Chrome. */
 .people-count select { appearance: none; -webkit-appearance: none; height: 44px; padding-right: 25px; }
 .people-count::after { content: '⌄'; position: absolute; right: 9px; top: 50%; transform: translateY(-58%); pointer-events: none; }
+.room .people-count { margin-left: auto; }
