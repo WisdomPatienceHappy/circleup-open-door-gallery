@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Listening Together · CircleUp</title>
+  <link rel="stylesheet" href="cut-paper-topics/topics.css">
+  <link rel="stylesheet" href="room.css?v=fullscreen-orbit">
+  <script defer src="room.js?v=fullscreen-orbit"></script>
+  <link rel="stylesheet" href="listing-action.css">
+</head>
+<body>
+  <div class="paper-circles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="preview-shell">
+  <div class="room">
+    <header class="masthead">
+      <span class="wordmark">CircleUp</span>
+      <a class="listing-flyer listing-flyer--room" href="../flyer-wall/add-listing.html"><span class="listing-flyer-plus" aria-hidden="true">+</span><span>Add your listing!</span></a>
+      <label class="people-count paper-outline">
+        <span class="paper-stroke" aria-hidden="true"></span>
+        <span class="sr-only">Demo group size</span>
+        <select id="group-size">
+          <option value="3">3 people</option>
+          <option value="4">4 people</option>
+          <option value="5">5 people</option>
+          <option value="6">6 people</option>
+          <option value="7" selected>7 people</option>
+          <option value="8">8 people</option>
+          <option value="9">9 people</option>
+          <option value="10">10 people</option>
+          <option value="11">11 people</option>
+          <option value="12">12 people</option>
+          <option value="13">13 people</option>
+          <option value="14">14 people</option>
+          <option value="15">15 people</option>
+          <option value="16">16 people</option>
+          <option value="17">17 people</option>
+          <option value="18">18 people</option>
+        </select>
+      </label>
+    </header>
+    <main>
+      <h1>Listening Together</h1>
+      <p class="room-name">Main room</p>
+      <section class="table paper-outline" aria-label="Video circle">
+        <span class="paper-stroke" aria-hidden="true"></span>
+        <div class="table-top">
+          <div class="table-heading" aria-live="polite">
+            <span class="speaking-dot" aria-hidden="true"></span>
+            <span id="holder-text">Maya has the stick</span>
+          </div>
+          <label class="seating-choice paper-outline" hidden>
+            <i class="paper-stroke" aria-hidden="true"></i>
+            <span class="sr-only">Seating layout</span>
+            <select id="seating-layout">
+              <option value="single">One ring</option>
+              <option value="double">Two rings · 6 + 12</option>
+            </select>
+          </label>
+        </div>
+        <div class="camera" tabindex="0" aria-label="Orbit the table" aria-describedby="view-instructions">
+          <canvas class="rim" aria-hidden="true"></canvas>
+          <ul class="ring" aria-label="Participants"></ul>
+          <template id="seat-template">
+            <li class="seat">
+              <span class="photo"><img alt="" draggable="false"></span>
+              <span class="name topic-name torn"></span>
+            </li>
+          </template>
+        </div>
+        <p class="orbit-hint" aria-hidden="true">Drag to turn · Release to refocus</p>
+        <div class="camera-controls">
+          <div class="zoom-group paper-outline" role="group" aria-label="Zoom">
+            <i class="paper-stroke" aria-hidden="true"></i>
+            <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+            <output id="zoom-level">100%</output>
+            <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+          </div>
+          <button type="button" class="text-action" id="reset-view">Reset view</button>
+        </div>
+        <p class="sr-only" id="view-instructions">Drag sideways to turn and vertically to tilt. Pinch to zoom. Use Adjust layout to change face size, spacing, ovality and resting angle. The arrow keys turn and tilt. The circle returns to the speaker on release. Press zero to reset.</p>
+      </section>
+      <section class="call-tools paper-outline" aria-label="Call controls">
+        <span class="paper-stroke" aria-hidden="true"></span>
+        <h2>Call controls</h2>
+        <button class="raised show-gatherings turn-button" type="button" aria-pressed="false"><span class="face">Request a turn</span></button>
+        <footer class="call-bar" aria-label="Illustrative call controls">
+          <span class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Mic off</span>
+          <span class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Camera on</span>
+          <span class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Leave</span>
+        </footer>
+        <section class="sample-turn" aria-label="Demo controls">
+          <button type="button" class="text-action" id="pass-stick">Demo · Pass the stick to Sam</button>
+        </section>
+      </section>
+    </main>
+  </div>
+  <details class="layout-tuning">
+    <summary>Adjust layout</summary>
+    <div class="tuning-grid">
+      <label class="tuning-control" for="face-size">
+        <span>Face size <output id="face-size-value" for="face-size">110%</output></span>
+        <input id="face-size" type="range" min="80" max="150" step="1" value="110">
+      </label>
+      <label class="tuning-control" for="circle-spacing">
+        <span>Circle spacing <output id="circle-spacing-value" for="circle-spacing">100%</output></span>
+        <input id="circle-spacing" type="range" min="75" max="125" step="1" value="100">
+      </label>
+      <label class="tuning-control" for="ovality">
+        <span>Ovality <output id="ovality-value" for="ovality">100%</output></span>
+        <input id="ovality" type="range" min="0" max="100" step="1" value="100" aria-describedby="ovality-help">
+        <span id="ovality-help" class="range-ends"><span>Round</span><span>Fit height</span></span>
+      </label>
+      <label class="tuning-control" for="rest-angle">
+        <span>Rest angle <output id="rest-angle-value" for="rest-angle">38°</output></span>
+        <input id="rest-angle" type="range" min="-45" max="135" step="1" value="38" aria-describedby="rest-angle-help">
+        <span id="rest-angle-help" class="range-ends"><span>Below table</span><span>Past overhead</span></span>
+      </label>
+      <label class="tuning-control" for="preview-width">
+        <span>Preview width</span>
+        <select id="preview-width">
+          <option value="auto">Window width</option>
+          <option value="320">320 px phone</option>
+          <option value="375">375 px phone</option>
+          <option value="390">390 px phone</option>
+          <option value="430">430 px phone</option>
+        </select>
+      </label>
+      <button type="button" id="reset-layout" class="text-action">Reset layout</button>
+    </div>
+  </details>
+  </div>
+</body>
+</html>
