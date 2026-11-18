@@ -22,6 +22,8 @@ const circleSpacing = document.querySelector('#circle-spacing');
 const previewWidth = document.querySelector('#preview-width');
 const ovality = document.querySelector('#ovality');
 const ovalityValue = document.querySelector('#ovality-value');
+const shapeMode = document.querySelector('#shape-mode');
+const restMode = document.querySelector('#rest-mode');
 const restAngle = document.querySelector('#rest-angle');
 const restAngleValue = document.querySelector('#rest-angle-value');
 const previewShell = document.querySelector('.preview-shell');
@@ -106,31 +108,29 @@ function rotationAngles() {
 }
 
 function updateOvality() {
-  // Shape is a layout choice. Keep it independent of the current orbit,
-  // zoom, manual rest angle, face-size slider, and circle-spacing slider.
+  // Adapt only at layout/zoom changes, never while orbiting. Photos stay round.
   const amount = Number(ovality.value) / 100;
-  const normal = (38 + Math.max(0, seats.length - 7) * 2.2) * radians;
-  const projectedScale = stage.radius / (1 - .24 * Math.cos(normal));
-  const nominalPortraitRadius = baseDiameter * 1.1 * projectedScale / 2;
-  const headroom = stage.height / 2 - nominalPortraitRadius - framePadding.y;
-  const radiusY = Math.sin(normal) * projectedScale;
-  const fitHeight = radiusY > 0 ? headroom / radiusY : 1;
-
-  // A minimum visible expansion keeps the control useful on wide screens.
-  // Narrowing the seat positions also makes the change visible at low angles,
-  // where a Y-only expansion can appear to do nothing.
-  horizontalStretch = 1 - .28 * amount;
-  verticalStretch = 1 + (Math.max(1.55, fitHeight) - 1) * amount;
+  const adaptive = shapeMode.value === 'adaptive';
+  const tall = shapeMode.value === 'tall' || (adaptive && stage.height >= stage.width);
+  const aspect = tall ? stage.height / stage.width : stage.width / stage.height;
+  const density = Math.min(1, .75 + seats.length / 72);
+  const closeness = Math.max(0, Math.min(1, (zoom - 1) / (maxZoom - 1)));
+  const strength = shapeMode.value === 'round' ? 0 : amount * (adaptive ? density * (1 - .4 * closeness) : 1);
+  const extension = Math.max(1.4, Math.min(1.85, Math.sqrt(Math.max(1, aspect)) * 1.15));
+  horizontalStretch = tall ? 1 - .16 * strength : 1 + (extension - 1) * strength;
+  verticalStretch = tall ? 1 + (extension - 1) * strength : 1 - .16 * strength;
   ovalityValue.value = ovality.value + '%';
 }
 
 function updateFocusPitch() {
-  if (chosenRestAngle !== null) {
-    focusPitch = chosenRestAngle * radians;
+  if (restMode.value === 'fixed') {
+    focusPitch = Number(restAngle.value) * radians;
     return;
   }
   const density = Math.max(0, seats.length - 7);
-  const normal = Number(restAngle.value) * radians;
+  const normal = (38 + density * 2.2) * radians;
+  // Apply user tuning after automatic framing so it remains effective at full zoom.
+  const tuning = (Number(restAngle.value) * radians) - normal;
   const overview = (66 + density * .85) * radians;
   const out = (1 - zoom) / (1 - minZoom);
   const inside = (zoom - 1) / (maxZoom - 1);
@@ -146,13 +146,11 @@ function updateFocusPitch() {
     return pose.y + pose.diameter / 2;
   };
   const padding = 9 + (framePadding.y - 9) * Math.min(1, Math.max(0, (zoom - 1) * 4));
-  const bounds = camera.getBoundingClientRect();
-  const controlsTop = document.querySelector('.camera-controls').getBoundingClientRect().top;
-  const limit = Math.min(stage.height / 2, controlsTop - bounds.top - stage.height / 2) - padding;
+  const limit = stage.height / 2 - padding;
   let low = 0;
   let high = desired;
   if (bottomAt(high) <= limit) {
-    focusPitch = high;
+    focusPitch = high + tuning;
     return;
   }
   // Find the steepest safe angle before applying any manual orbit offset.
@@ -161,11 +159,13 @@ function updateFocusPitch() {
     if (bottomAt(middle) <= limit) low = middle;
     else high = middle;
   }
-  focusPitch = low;
+  focusPitch = low + tuning;
 }
 
 function render() {
   const { width, height, pixelRatio } = stage;
+  document.querySelector('#effective-angle').value = Math.round(focusPitch / radians) + '°';
+  document.querySelector('#rest-angle-label').textContent = restMode.value === 'adaptive' ? 'Base rest angle' : 'Rest angle';
   const angles = rotationAngles();
   const projections = seatPoints.map(point => project(point, angles));
   context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -216,10 +216,11 @@ function zoomTo(next) {
   zoomLevel.textContent = Math.round(zoom * 100) + '%';
   zoomOut.disabled = zoom === minZoom;
   zoomIn.disabled = zoom === maxZoom;
+  updateOvality();
   updateFocusPitch();
   render();
   const target = speakerView();
-  if (animation === undefined && (Math.abs(orientation.pitch) > .001 ||
+  if (!pointers.size && animation === undefined && (Math.abs(orientation.pitch) > .001 ||
       Math.abs(shortestArc(orientation.yaw - target.yaw)) > .001)) {
     returnToSpeaker();
   }
@@ -413,6 +414,7 @@ function setGroupSize(count) {
   restAngleValue.value = restAngle.value + '°';
   updateOvality();
   markSpeaker();
+  document.querySelector('.version-link').href = '../mobile-circle-classic/?people=' + count + (twoRings ? '&layout=double' : '');
   zoomTo(zoom);
 }
 
@@ -429,6 +431,12 @@ function updateLayout() {
 faceSize.addEventListener('input', updateLayout);
 circleSpacing.addEventListener('input', updateLayout);
 ovality.addEventListener('input', updateLayout);
+shapeMode.addEventListener('change', updateLayout);
+restMode.addEventListener('change', () => {
+  updateFocusPitch();
+  render();
+  if (!pointers.size) returnToSpeaker();
+});
 restAngle.addEventListener('input', () => {
   chosenRestAngle = Number(restAngle.value);
   restAngleValue.value = restAngle.value + '°';
@@ -444,6 +452,8 @@ document.querySelector('#reset-layout').addEventListener('click', () => {
   faceSize.value = '110';
   circleSpacing.value = '100';
   ovality.value = '100';
+  shapeMode.value = 'adaptive';
+  restMode.value = 'adaptive';
   chosenRestAngle = null;
   restAngle.value = String(Math.round(38 + Math.max(0, seats.length - 7) * 2.2));
   restAngleValue.value = restAngle.value + '°';

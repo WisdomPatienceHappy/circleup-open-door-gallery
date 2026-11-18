@@ -5,9 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Listening Together · CircleUp</title>
   <link rel="stylesheet" href="cut-paper-topics/topics.css">
-  <link rel="stylesheet" href="room.css?v=fullscreen-orbit">
-  <script defer src="room.js?v=fullscreen-orbit"></script>
+  <link rel="stylesheet" href="room.css?v=adaptive-room-v2">
+  <script defer src="room.js?v=adaptive-room-v2"></script>
   <link rel="stylesheet" href="../listing-action.css">
+  <style>
+    @container room-preview (min-width: 700px) {
+      .room a.listing-flyer--room { top: calc(100% + 4px); left: 16rem; }
+    }
+    @media (max-height: 600px) {
+      .room a.listing-flyer--room { position: absolute; top: 0; left: 50%; translate: -50% 0; }
+      .room .people-count { margin-left: auto; }
+      @container room-preview (max-width: 390px) {
+        .room .listing-flyer-plus { display: none; }
+        .room a.listing-flyer--room { left: 52%; padding-inline: 4px; font-size: 10px; }
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="paper-circles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -49,14 +62,6 @@
             <span class="speaking-dot" aria-hidden="true"></span>
             <span id="holder-text">Maya has the stick</span>
           </div>
-          <label class="seating-choice paper-outline" hidden>
-            <i class="paper-stroke" aria-hidden="true"></i>
-            <span class="sr-only">Seating layout</span>
-            <select id="seating-layout">
-              <option value="single">One ring</option>
-              <option value="double">Two rings · 6 + 12</option>
-            </select>
-          </label>
         </div>
         <div class="camera" tabindex="0" aria-label="Orbit the table" aria-describedby="view-instructions">
           <canvas class="rim" aria-hidden="true"></canvas>
@@ -89,15 +94,21 @@
           <span class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Camera on</span>
           <span class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Leave</span>
         </footer>
-        <section class="sample-turn" aria-label="Demo controls">
-          <button type="button" class="text-action" id="pass-stick">Demo · Pass the stick to Sam</button>
-        </section>
       </section>
     </main>
   </div>
   <details class="layout-tuning">
     <summary>Adjust layout</summary>
     <div class="tuning-grid">
+          <label class="seating-choice paper-outline" hidden>
+            <i class="paper-stroke" aria-hidden="true"></i>
+            <span class="sr-only">Seating layout</span>
+            <select id="seating-layout">
+              <option value="single">One ring</option>
+              <option value="double">Two rings · 6 + 12</option>
+            </select>
+          </label>
+
       <label class="tuning-control" for="face-size">
         <span>Face size <output id="face-size-value" for="face-size">110%</output></span>
         <input id="face-size" type="range" min="80" max="150" step="1" value="110">
@@ -106,16 +117,34 @@
         <span>Circle spacing <output id="circle-spacing-value" for="circle-spacing">100%</output></span>
         <input id="circle-spacing" type="range" min="75" max="125" step="1" value="100">
       </label>
+      <label class="tuning-control" for="shape-mode">
+        <span>Oval direction</span>
+        <select id="shape-mode">
+          <option value="adaptive">Adaptive · fit the screen</option>
+          <option value="tall">Always taller</option>
+          <option value="wide">Always wider</option>
+          <option value="round">Round</option>
+        </select>
+      </label>
       <label class="tuning-control" for="ovality">
         <span>Ovality <output id="ovality-value" for="ovality">100%</output></span>
         <input id="ovality" type="range" min="0" max="100" step="1" value="100" aria-describedby="ovality-help">
-        <span id="ovality-help" class="range-ends"><span>Round</span><span>Fit height</span></span>
+        <span id="ovality-help" class="range-ends"><span>Round</span><span>More oval</span></span>
+      </label>
+      <label class="tuning-control" for="rest-mode">
+        <span>Rest angle behavior</span>
+        <select id="rest-mode">
+          <option value="adaptive">Adaptive · follows zoom</option>
+          <option value="fixed">Fixed · use exact angle</option>
+        </select>
       </label>
       <label class="tuning-control" for="rest-angle">
-        <span>Rest angle <output id="rest-angle-value" for="rest-angle">38°</output></span>
+        <span><span id="rest-angle-label">Base rest angle</span> <output id="rest-angle-value" for="rest-angle">38°</output></span>
         <input id="rest-angle" type="range" min="-45" max="135" step="1" value="38" aria-describedby="rest-angle-help">
         <span id="rest-angle-help" class="range-ends"><span>Below table</span><span>Past overhead</span></span>
       </label>
+      <p class="tuning-note">Resting view: <output id="effective-angle">38°</output></p>
+      <p class="tuning-note">Adaptive keeps your angle adjustment as you zoom. Fixed uses the exact angle. Dragging always holds the shape and zoom.</p>
       <label class="tuning-control" for="preview-width">
         <span>Preview width</span>
         <select id="preview-width">
@@ -126,7 +155,12 @@
           <option value="430">430 px phone</option>
         </select>
       </label>
+      <a class="version-link" href="../mobile-circle-classic/">Compare previous version ↗</a>
       <button type="button" id="reset-layout" class="text-action">Reset layout</button>
+        <section class="sample-turn" aria-label="Demo controls">
+          <button type="button" class="text-action" id="pass-stick">Demo · Pass the stick to Sam</button>
+        </section>
+
     </div>
   </details>
   </div>

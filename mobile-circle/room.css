@@ -238,27 +238,6 @@ body { min-height: 0; }
 .layout-tuning .text-action { justify-self: start; min-height: 44px; font-size: 13px; }
 .range-ends { font-size: 10px; opacity: .8; }
 
-@container room-preview (min-width: 700px) {
-  .room .masthead { top: 18px; left: 24px; right: 24px; }
-  .room .wordmark { font-size: 33px; }
-  .room h1 { top: 72px; left: 25px; font-size: 31px; }
-  .room-name { top: 109px; left: 26px; }
-  .table-top { top: 18px; left: 50%; right: auto; transform: translateX(-50%); gap: 12px; width: max-content; }
-  .table-heading { font-size: 13px; }
-  .layout-tuning { top: 77px; right: 24px; }
-  .layout-tuning[open] { max-height: calc(100dvh - 105px); }
-  .call-tools { left: 50%; right: auto; transform: translateX(-50%); width: min(600px, calc(100% - 48px)); grid-template-columns: 230px 1fr; align-items: center; bottom: 18px; gap: 12px; }
-  .sample-turn { grid-column: 1 / -1; }
-  .camera-controls { bottom: 131px; }
-  .orbit-hint { display: block; position: absolute; z-index: 5000; left: 50%; bottom: 183px; transform: translateX(-50%); font-size: 11px; margin: 0; pointer-events: none; }
-}
-@media (max-height: 620px) {
-  .room h1, .room-name { display: none; }
-  .table-top { top: calc(max(12px, env(safe-area-inset-top)) + 48px); }
-  .layout-tuning { top: calc(max(12px, env(safe-area-inset-top)) + 98px); }
-  .layout-tuning[open] { max-height: calc(100dvh - 140px); }
-}
-
 .camera-controls .text-action,
 .sample-turn .text-action {
   background: var(--grain) repeat, var(--paper);
@@ -266,3 +245,97 @@ body { min-height: 0; }
   padding-inline: 10px;
   text-shadow: none;
 }
+
+
+/* The stage ends before the bottom bar and side zoom rail. */
+.preview-shell {
+  --header-height: calc(132px + env(safe-area-inset-top));
+  --bar-height: calc(64px + env(safe-area-inset-bottom));
+  --zoom-width: 56px;
+}
+.camera {
+  inset: var(--header-height) var(--zoom-width) var(--bar-height) 0;
+}
+.room h1 {
+  top: calc(max(12px, env(safe-area-inset-top)) + 46px);
+  font-size: 20px;
+}
+.room-name { display: none; }
+.table-top {
+  top: calc(max(12px, env(safe-area-inset-top)) + 75px);
+  right: auto;
+}
+.layout-tuning {
+  top: calc(max(12px, env(safe-area-inset-top)) + 70px);
+  right: 10px;
+}
+.layout-tuning[open] {
+  max-height: calc(100dvh - 150px - env(safe-area-inset-bottom));
+}
+.layout-tuning summary { font-size: 12px; padding-inline: 10px; }
+.seating-choice { display: block; width: fit-content; }
+.seating-choice select { max-width: 100%; }
+.camera-controls {
+  left: auto;
+  right: 5px;
+  top: calc(var(--header-height) + (100% - var(--header-height) - var(--bar-height)) / 2);
+  bottom: auto;
+  width: 46px;
+  transform: translateY(-50%);
+  flex-direction: column;
+  gap: 4px;
+}
+.zoom-group { flex-direction: column; width: 44px; }
+.zoom-group output { display: grid; place-items: center; min-height: 30px; font-size: 11px; }
+.camera-controls .text-action { width: 46px; min-height: 44px; font-size: 10px; padding: 2px; }
+.orbit-hint { display: none; }
+.call-tools {
+  inset: auto 0 0;
+  height: var(--bar-height);
+  padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+  grid-template-columns: minmax(94px, 1.45fr) repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  align-items: center;
+  background: var(--grain) repeat, var(--paper);
+  border-top: 1.5px solid var(--line-ink);
+  border-radius: 0;
+  pointer-events: auto;
+}
+.call-bar { display: contents; }
+.call-bar > span { min-height: 44px; padding: 2px; font-size: 11px; }
+.room .turn-button.show-gatherings.raised { width: 100%; font-size: 13px; --depth: 4px; }
+.room .turn-button .face { min-height: 40px; padding: 3px 5px; white-space: normal; line-height: 1.1; }
+.sample-turn { text-align: left; }
+.sample-turn .text-action { font-size: 12px; min-height: 44px; }
+@container room-preview (min-width: 700px) {
+  .room { --header-height: calc(112px + env(safe-area-inset-top)); }
+  .room h1 { font-size: 24px; }
+  .table-top { top: 18px; left: 50%; transform: translateX(-50%); }
+  .layout-tuning { top: 68px; right: 16px; }
+  .call-tools {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .room .turn-button.show-gatherings.raised { width: 190px; font-size: 16px; }
+  .call-bar > span { width: 116px; font-size: 13px; }
+}
+@media (max-height: 600px) {
+  .preview-shell { --header-height: calc(68px + env(safe-area-inset-top)); }
+  .room h1, .table-top { display: none; }
+  .layout-tuning { top: max(12px, env(safe-area-inset-top)); right: 123px; }
+  .layout-tuning summary { padding-inline: 8px; }
+  .layout-tuning[open] { max-height: calc(100dvh - 85px); }
+}
+
+.tuning-note { margin: 0; font-size: 11px; line-height: 1.45; }
+.version-link { min-height: 44px; display: flex; align-items: center; color: var(--ink); font-size: 12px; }
+.seating-choice[hidden] { display: none; }
+@media (max-height: 600px) { .room { --header-height: calc(68px + env(safe-area-inset-top)); } }
+
+@media (max-height: 600px) { .room .wordmark { display: none; } .layout-tuning { left: 15px; right: auto; } }
+
+.camera-controls .text-action { white-space: normal; line-height: 1.2; }
+/* Give Safari the same full-height drawn group selector as Chrome. */
+.people-count select { appearance: none; -webkit-appearance: none; height: 44px; padding-right: 25px; }
+.people-count::after { content: '⌄'; position: absolute; right: 9px; top: 50%; transform: translateY(-58%); pointer-events: none; }
