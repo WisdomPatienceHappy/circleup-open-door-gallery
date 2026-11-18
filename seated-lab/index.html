@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>From your seat · Shared turns · CircleUp</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="model.js"></script>
+    <script defer src="fixtures.js"></script>
+    <script defer src="panorama.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="room">
+      <header>
+        <div>
+          <span class="wordmark">CircleUp</span>
+          <h1>From your seat</h1>
+        </div>
+        <div class="header-actions">
+          <label
+            ><span class="sr-only">People including you</span
+            ><select id="count"></select></label
+          ><button id="adjust" aria-controls="drawer" aria-expanded="false">
+            Adjust view
+          </button>
+        </div>
+      </header>
+      <nav class="comparison" aria-label="Video surface comparison">
+        <button id="billboard" aria-pressed="true">Camera-facing</button
+        ><button id="shared" aria-pressed="false">Shared turns</button
+        ><span class="demo-tag">Local photo simulation</span>
+      </nav>
+      <div class="speaker-row">
+        <span id="speaker" class="torn" role="status">Ana · speaking</span
+        ><button id="play" aria-pressed="false">▶ Play conversation</button
+        ><button id="next">Next →</button>
+      </div>
+      <div id="hint" class="hint">
+        <svg viewBox="0 0 60 32" aria-hidden="true">
+          <path
+            d="M3 16h32m-32 0 6-5m-6 5 6 5m26-5-6-5m6 5-6 5M43 28l13-23m-13 23 1-8m-1 8 8-4M56 5l-8 3m8-3-1 8"
+          /></svg
+        ><span
+          >Drag to pan · Pinch to zoom<br /><small
+            >Let go to face the speaker</small
+          ></span
+        ><button id="dismiss-hint" aria-label="Dismiss gesture hint">×</button>
+      </div>
+      <main
+        id="scene"
+        tabindex="0"
+        aria-label="Your fixed-seat view"
+        aria-describedby="scene-instructions"
+      >
+        <canvas id="ring" aria-hidden="true"></canvas>
+        <ul id="participants" aria-label="People in this photo simulation"></ul>
+        <p class="scene-note" id="scene-note">
+          Seats stay put. Your view turns.
+        </p>
+      </main>
+      <aside class="view-rail" aria-label="View controls">
+        <div class="zoom">
+          <button id="zoom-in" aria-label="Zoom in">+</button
+          ><output id="zoom-value">72°</output
+          ><button id="zoom-out" aria-label="Zoom out">−</button>
+        </div>
+        <button id="face-speaker">Face<br />speaker</button
+        ><button id="help" aria-label="Gesture help">?</button>
+      </aside>
+      <aside class="self">
+        <div class="self-frame">
+          <div id="self-surface">
+            <img
+              src="assets/you.webp"
+              alt="Your simulated video circle from an observer's view"
+            />
+          </div>
+        </div>
+        <span class="torn">You · observer view</span
+        ><small id="self-status">Direction private</small>
+      </aside>
+      <section id="drawer" class="drawer" aria-labelledby="drawer-title" hidden>
+        <div class="drawer-head">
+          <h2 id="drawer-title">Adjust your view</h2>
+          <button id="close-drawer" aria-label="Close adjustments">×</button>
+        </div>
+        <div class="drawer-scroll">
+          <section id="help-content" hidden>
+            <h3>From your seat</h3>
+            <p>
+              The stable circle keeps every seat the same distance apart as you
+              pan. Pinch changes magnification. Release all fingers to spring
+              toward the current speaker.
+            </p>
+            <p>
+              Focus the scene: arrow keys turn/look, +/− zoom, 0 faces the
+              speaker. Range controls also support arrow keys.
+            </p>
+            <p>
+              Shared turns rotates whole video circles. Their pictures stay
+              unchanged. This is a local simulation of chosen direction.
+            </p>
+            <button id="show-hint">Show gesture cue</button>
+            <hr />
+          </section>
+          <fieldset>
+            <legend>Your view</legend>
+            <label
+              >Projection<select id="projection">
+                <option value="panorama">
+                  Panoramic seat · steady spacing
+                </option>
+                <option value="stable">Stable circle · rigid pan</option>
+                <option value="perspective">
+                  Perspective seat · comparison
+                </option>
+              </select></label
+            >
+            <label
+              >Field of view <output for="fov"></output
+              ><input
+                id="fov"
+                type="range"
+                min="30"
+                max="110"
+                value="72" /></label
+            ><label
+              >Rest pitch <output for="pitch"></output
+              ><input
+                id="pitch"
+                type="range"
+                min="-25"
+                max="25"
+                value="0" /></label
+            ><label
+              >Look sensitivity <output for="sensitivity"></output
+              ><input
+                id="sensitivity"
+                type="range"
+                min="25"
+                max="200"
+                value="100" /></label
+            ><button id="reset-view">Reset view</button>
+            <p>FOV is shared by pinch, zoom buttons and this slider.</p>
+          </fieldset>
+          <fieldset>
+            <legend>Geometry</legend>
+            <label
+              >Seating curve <output for="curve"></output
+              ><input id="curve" type="range" min="0" max="100" value="60"
+            /></label>
+            <label class="toggle"
+              >Prevent circle overlap<input
+                id="fit-circles"
+                type="checkbox"
+                role="switch"
+                checked
+            /></label>
+            <p id="fit-status" role="status">
+              Circles shrink in place; seats stay fixed.
+            </p>
+            <label
+              >Circle clearance <output for="clearance"></output
+              ><input id="clearance" type="range" min="0" max="35" value="10"
+            /></label>
+            <label
+              >Distance compensation <output for="compensation"></output
+              ><input
+                id="compensation"
+                type="range"
+                min="0"
+                max="100"
+                value="0"
+                disabled
+            /></label>
+            <p id="compensation-note">
+              Stable circle already uses equal video sizes. Try Perspective seat
+              to compare near/far compensation.
+            </p>
+            <label
+              >Face diameter <output for="face"></output
+              ><input
+                id="face"
+                type="range"
+                min="55"
+                max="160"
+                value="100" /></label
+            ><label
+              >Ring spacing <output for="spacing"></output
+              ><input id="spacing" type="range" min="75" max="150" value="100"
+            /></label>
+            <p>
+              Spacing explicitly changes the layout. Your seat stays anchored.
+            </p>
+          </fieldset>
+          <fieldset>
+            <legend>Return to speaker</legend>
+            <label
+              >Return strength <output for="follow"></output
+              ><input
+                id="follow"
+                type="range"
+                min="0"
+                max="100"
+                value="100" /></label
+            ><label
+              >Return delay <output for="delay"></output
+              ><input
+                id="delay"
+                type="range"
+                min="0"
+                max="1600"
+                step="50"
+                value="0" /></label
+            ><label
+              >Spring speed <output for="speed"></output
+              ><input
+                id="speed"
+                type="range"
+                min="40"
+                max="200"
+                value="100" /></label
+            ><label
+              >Damping <output for="damping"></output
+              ><input id="damping" type="range" min="45" max="150" value="85"
+            /></label>
+            <p>
+              Lower damping adds bounce; 1.0 settles without bounce. Drag always
+              takes control.
+            </p>
+          </fieldset>
+          <fieldset>
+            <legend>Shared turns</legend>
+            <label class="toggle"
+              >Share my direction
+              <input id="sharing" type="checkbox" role="switch"
+            /></label>
+            <p id="sharing-note">Off · only your local view changes.</p>
+            <label
+              >Turn strength <output for="turn"></output
+              ><input
+                id="turn"
+                type="range"
+                min="0"
+                max="100"
+                value="100" /></label
+            ><label
+              >Viewer-relative angle limit<select id="limit">
+                <option value="0">Off · natural turns</option>
+                <option value="80">80° · readability approximation</option>
+                <option value="65">65° · readability approximation</option>
+                <option value="45">45° · readability approximation</option>
+              </select></label
+            >
+            <p>
+              Turning away reveals a named paper reverse. No face fading or seat
+              movement.
+            </p>
+          </fieldset>
+          <fieldset>
+            <legend>Direction simulation</legend>
+            <label>Person<select id="pose-person"></select></label
+            ><label>Facing<select id="pose-target"></select></label
+            ><label
+              >Person's look pitch <output for="remote-pitch"></output
+              ><input
+                id="remote-pitch"
+                type="range"
+                min="-25"
+                max="25"
+                value="0" /></label
+            ><label
+              >Availability<select id="availability">
+                <option value="live">Live updates</option>
+                <option value="stopped">Stop updates → stale after 2s</option>
+                <option value="offline">Offline direction</option>
+              </select></label
+            ><label
+              >Simulated latency <output for="latency"></output
+              ><input
+                id="latency"
+                type="range"
+                min="0"
+                max="1500"
+                step="50"
+                value="150" /></label
+            ><label
+              >Remote smoothing <output for="smooth"></output
+              ><input
+                id="smooth"
+                type="range"
+                min="0"
+                max="1000"
+                step="25"
+                value="200" /></label
+            ><label class="toggle"
+              >Rapid back-and-forth <input id="rapid" type="checkbox" /></label
+            ><button id="restore-poses">Follow conversation again</button>
+            <p>All direction updates are local fixtures. No signal is sent.</p>
+          </fieldset>
+          <button id="reset-all">Reset all</button>
+          <p id="session-status" role="status">
+            Preview running · no call connected.
+          </p>
+          <p>
+            <a href="CONTRACT.md">Interaction contract</a> ·
+            <a href="FEASIBILITY.md">Transport feasibility</a>
+          </p>
+        </div>
+      </section>
+      <footer class="call-bar" aria-label="Simulated call controls">
+        <button class="raised" id="request" aria-pressed="false">
+          <span>Request a turn</span></button
+        ><button id="mic" aria-pressed="false">Mic off</button
+        ><button id="camera" aria-pressed="true">Camera on</button
+        ><button id="leave">Leave</button
+        ><small>Photo prototype · no call connected</small>
+      </footer>
+      <p class="sr-only" id="scene-instructions">
+        Drag to pan the rigid circle. Pinch to zoom. Release all fingers to face
+        the current speaker. Use arrow keys, plus, minus and zero. Help reopens
+        instructions. All people and call controls are simulated.
+      </p>
+    </div>
+  </body>
+</html>
