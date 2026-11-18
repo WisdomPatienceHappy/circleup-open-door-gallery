@@ -13,8 +13,6 @@
 
 :root {
   color-scheme: light;
-  --ink: #14352b;
-  --paper: #faf2e6;
   --linen: #fcf1d7;
   --muted: #475d51;
   --chalk: #faedce;
@@ -439,3 +437,146 @@ dialog::backdrop { background: #081d16be; }
   .board-controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
   .grouping select { width: 100%; max-width: none; min-height: 38px; padding-left: 8px; font-size: 12px; }
 }
+
+/* The directory's paper family, around the existing community corkboard. */
+html { background: var(--paper); }
+body {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background: transparent;
+  font-size: 17px;
+  line-height: 1.4;
+}
+body::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--grain) repeat, var(--dry-ink) repeat;
+  opacity: .65;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.paper-circles { position: absolute; z-index: -2; inset: 0; overflow: hidden; pointer-events: none; }
+.paper-circles i { position: absolute; display: block; aspect-ratio: 1; border-radius: 49% 51% 48% 52% / 51% 46% 54% 49%; }
+.paper-circles i:nth-child(1) { width: min(24vw,364px); top: -199px; right: -170px; background: #b9c0a0; opacity: .25; }
+.paper-circles i:nth-child(2) { width: min(22vw,330px); top: min(106px,14vh); right: max(12.3vw,calc((100% - 1158px)/2)); background: #f7cb73; opacity: .19; }
+.paper-circles i:nth-child(3) { width: min(19vw,291px); top: min(614px,60vh); left: max(-160px,calc((100% - 1832px)/2)); background: #f1b197; opacity: .29; }
+.paper-circles i:nth-child(4) { width: min(19vw,280px); top: min(864px,84.4vh); right: -141px; background: #b9c0a0; opacity: .21; }
+.page { width: min(1180px,84%); }
+.masthead {
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: 24.2% 1fr;
+  padding: 0 13px 3px 27px;
+}
+.masthead::after { background: var(--line-ink); }
+.wordmark { font-size: 38px; letter-spacing: -.015em; }
+.masthead nav { justify-content: space-between; gap: 10px; font-size: 19px; }
+.masthead nav [aria-current] { font-family: var(--title-face); font-size: 21px; line-height: .95; letter-spacing: .01em; font-weight: 400; padding: 9px 16px; }
+.intro { display: block; margin: 32px 26px 24px; }
+h1 { font-size: clamp(45px,4.02vw,60px); line-height: .98; letter-spacing: .005em; }
+.intro p { font-size: 17px; margin-top: 12px; }
+.wall-filters { display: grid; grid-template-columns: minmax(0,1.03fr) minmax(0,1.75fr); gap: 26px; margin: 0 16px 20px; align-items: end; }
+.search { min-width: 0; min-height: 51px; gap: 20px; padding: 0 22px; background: transparent; border-width: 1.7px; border-color: var(--line-ink); border-radius: 25px 22px 24px 24px / 23px 24px 21px 25px; }
+.search input { min-height: 48px; font-size: 17px; }
+.search input::placeholder { color: var(--line-ink); opacity: 1; }
+.search-icon { flex-basis: 20px; height: 20px; border-width: 2px; transform: translateY(-2px); }
+.search-icon::after { width: 10px; height: 2px; right: -7px; bottom: -4px; }
+.board-controls { display: grid; grid-template-columns: 1fr 1.24fr 1fr; gap: 16px; width: 100%; min-width: 0; }
+.grouping { display: grid; grid-template-columns: minmax(0,1fr); gap: 5px; min-width: 0; font-size: 11px; color: var(--muted); }
+.grouping > span:first-child { padding-left: 12px; }
+.select-paper { display: block; color: var(--ink); background: transparent; box-shadow: none; }
+.select-paper--gold { background: var(--grain) repeat,var(--gold); box-shadow: 0 2px 0 #ae91594d; }
+.grouping select { display: block; width: 100%; max-width: none; min-height: 48px; padding: 5px 32px 5px 15px; font-size: 16px; line-height: 1.2; border: 0; border-radius: inherit; background: transparent; }
+.select-paper::after { content: ""; position: absolute; width: 8px; height: 8px; right: 16px; top: calc(50% - 6px); border: solid currentColor; border-width: 0 2px 2px 0; transform: rotate(45deg); pointer-events: none; }
+.select-paper:focus-within { outline: 2px solid var(--ink); outline-offset: 3px; }
+.select-paper select:focus-visible { outline: none; }
+.browse { margin: 0 16px 27px; }
+.topics { gap: 12px; }
+.topic { min-height: 43px; padding: 6px 16px; gap: 9px; font-size: 16px; font-weight: 450; border: 1px solid transparent; border-radius: 22px 19px 21px 18px; }
+.topic::before { content: ""; position: absolute; z-index: -1; inset: 1px 0; clip-path: var(--torn-pill); background: var(--grain) repeat,var(--chip,var(--sage)); opacity: .57; }
+.topic[aria-pressed="true"] { border-color: var(--ink); font-weight: 650; }
+.topic[aria-pressed="true"]::before { inset: 2px; opacity: 1; }
+.topic:hover { background: transparent; }
+.topic:hover::before { opacity: 1; }
+.topic-dot { width: 7px; height: 7px; background: var(--ink); opacity: .6; }
+.board {
+  --frame: 8px;
+  border-color: #b18a63 #947252 #896749 #ac835c;
+  border-radius: 4px 3px 4px 2px;
+  background-image: linear-gradient(115deg,#fff4dfc4,#f9e9d3a8 55%,#f3dfc4b5),url("illustrated-cork.webp");
+  background-color: #d9b58e;
+  box-shadow: 0 2px 0 #87674b,0 6px 10px #59362424,inset 0 2px 4px #68402636;
+  padding: clamp(20px,2.8vw,36px) clamp(15px,3vw,39px) 22px;
+}
+.board::before { inset: -5px; border-color: #f7dbb68c; }
+.board-head h2 { font-size: clamp(29px,3vw,39px); letter-spacing: -.015em; }
+.board-head::after { background: #8676578c; }
+.board-sill { height: 6px; bottom: -11px; background: linear-gradient(#b28c65,#977450); box-shadow: 0 2px 3px #5b40221f; }
+.board-sill::after { display: none; }
+.flyer-note strong { font-size: 14px; font-weight: 600; }
+.flyer-note small { font-size: 12px; }
+.poster-fallback { color: var(--ink); }
+.foot { font-size: 12px; gap: 22px; }
+@supports (clip-path: shape(evenodd from 10px 0, line to 100% 100%, close)) {
+  .search.paper-outline { border-color: transparent; }
+}
+@media (min-width: 1241px) {
+  .masthead nav { font-size: 20px; }
+}
+@media (max-width: 1023px) {
+  .page { width: calc(100% - 40px); }
+  .masthead { grid-template-columns: 20% 1fr; padding-inline: 10px; }
+  .masthead nav { font-size: 14px; }
+  .masthead nav [aria-current] { font-size: 17px; padding-inline: 11px; }
+  .wall-filters { grid-template-columns: minmax(0,.9fr) minmax(0,1.6fr); gap: 17px; }
+  .board-controls { gap: 10px; }
+  .grouping select { font-size: 14px; padding-left: 12px; padding-right: 25px; }
+  .select-paper::after { right: 12px; }
+  .search { gap: 14px; padding-inline: 17px; }
+  .search input { font-size: 15px; }
+}
+@media (max-width: 760px) {
+  .masthead { grid-template-columns: 1fr; padding: 12px 0; gap: 11px; }
+  .masthead nav { justify-content: flex-start; gap: 10px 19px; flex-wrap: wrap; }
+  .wordmark { font-size: 35px; }
+  .intro { margin: 26px 12px 21px; }
+  .intro h1 { font-size: clamp(39px,6.3vw,48px); }
+  .intro p { font-size: 15px; }
+  .wall-filters { grid-template-columns: 1fr; margin: 0 6px 20px; gap: 12px; }
+  .search input { font-size: 16px; }
+  .board-controls { grid-template-columns: 1fr 1.25fr 1fr; gap: 12px; }
+  .grouping { font-size: 10px; }
+  .grouping select { font-size: 14px; min-height: 45px; }
+  .browse { margin-inline: 6px; margin-bottom: 22px; }
+  .topics { gap: 8px; }
+  .topic { min-height: 39px; padding: 6px 13px; font-size: 14px; }
+  .board { --frame: 6px; padding: 19px 16px 18px; }
+}
+@media (max-width: 480px) {
+  .page { width: calc(100% - 26px); }
+  .masthead nav { gap: 9px 15px; font-size: 13px; }
+  .masthead nav [aria-current] { font-size: 16px; padding: 7px 10px; }
+  .intro { margin-left: 6px; margin-right: 6px; }
+  .intro h1 { font-size: 41px; }
+  .intro p { font-size: 14px; line-height: 1.5; }
+  .wall-filters { margin-inline: 0; }
+  .board-controls { gap: 8px; }
+  .grouping select { font-size: 12px; padding-left: 10px; }
+  .grouping > span:first-child { padding-left: 9px; }
+  .browse { margin-inline: 0; }
+  .topic { min-height: 38px; padding-inline: 11px; font-size: 13px; }
+  .board-head h2 { font-size: 30px; }
+  .paper-circles i:nth-child(1) { width: 44vw; top: -75px; right: -55px; }
+  .paper-circles i:nth-child(2) { width: 50vw; top: 160px; right: -20px; }
+  .paper-circles i:nth-child(3) { width: 42vw; top: 71vh; left: -80px; }
+  .paper-circles i:nth-child(4) { width: 44vw; top: 84.4vh; right: -65px; }
+}
+
+/* Keep the native image picker within the board column in WebKit. */
+.image-trial input[type="file"] { display: block; min-width: 0; width: 100%; max-width: 100%; font-size: 14px; }
+
+/* Narrow portrait flyers keep their full titles within the paper width. */
+.flyer-note { overflow-wrap: anywhere; }

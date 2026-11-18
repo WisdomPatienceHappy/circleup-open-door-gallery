@@ -7,57 +7,71 @@
   <title>Community board · CircleUp</title>
   <link rel="stylesheet" href="../cut-paper-topics/paper.css">
   <link rel="stylesheet" href="../cut-paper-topics/raised-action.css">
-  <link rel="stylesheet" href="wall.css?v=listing-action">
+  <link rel="stylesheet" href="wall.css?v=demo-family">
   <script defer src="gatherings.js?v=cork"></script>
   <script defer src="wall.js?v=listing-action"></script>
   <link rel="stylesheet" href="../listing-action.css">
 </head>
 <body>
+  <div class="paper-circles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <header class="masthead page">
     <a class="wordmark" href="../">CircleUp</a>
-    <nav aria-label="Demo navigation">
-      <a href="../">Directory</a>
-      <a href="./" aria-current="page">Flyer wall</a>
-      <a href="../gallery.html">Design gallery</a>
+    <nav aria-label="Main navigation">
+      <a href="../">Find a gathering</a>
+      <a class="current" href="./" aria-current="page">Flyer wall</a>
+      <a href="https://playground.circleup.org/gatherings/new">Host a circle</a>
+      <a href="https://playground.circleup.org/about">About</a>
+      <a href="https://playground.circleup.org/account/signin">Log in</a>
+      <a href="../gallery.html">Demos</a>
     </nav>
   </header>
 
   <main class="page">
     <div class="intro">
-      <div>
-        <h1>The community board</h1>
-        <p>Find a gathering, meet a facilitator, or discover a community.</p>
-      </div>
-      <label class="search">
-        <span class="sr-only">Search flyers</span>
-        <span class="search-icon" aria-hidden="true"></span>
-        <input id="search" type="search" placeholder="Search flyers" autocomplete="off">
-      </label>
+      <h1>The community board</h1>
+      <p>Find a gathering, meet a facilitator, or discover a community.</p>
     </div>
 
-    <div class="browse">
-      <div id="topics" class="topics" role="group" aria-label="Filter by topic"></div>
+    <div class="wall-filters" role="group" aria-label="Filter community listings">
+      <label class="search paper-outline">
+        <span class="paper-stroke" aria-hidden="true"></span>
+        <span class="sr-only">Search flyers</span>
+        <span class="search-icon" aria-hidden="true"></span>
+        <input id="search" type="search" placeholder="Search the board" autocomplete="off">
+      </label>
       <div class="board-controls">
         <label class="grouping"><span>Show</span>
-          <select id="kind">
-            <option value="">All flyers</option>
-            <option value="event">Gatherings</option>
-            <option value="facilitator">Facilitators</option>
-            <option value="community">Communities</option>
-          </select>
+          <span class="select-paper paper-outline select-paper--gold">
+            <span class="paper-stroke" aria-hidden="true"></span>
+            <select id="kind">
+              <option value="">All flyers</option>
+              <option value="event">Gatherings</option>
+              <option value="facilitator">Facilitators</option>
+              <option value="community">Communities</option>
+            </select>
+          </span>
         </label>
         <label class="grouping"><span>Location</span>
-          <select id="location"><option value="">All locations</option></select>
+          <span class="select-paper paper-outline">
+            <span class="paper-stroke" aria-hidden="true"></span>
+            <select id="location"><option value="">All locations</option></select>
+          </span>
         </label>
         <label class="grouping"><span>Group by</span>
-          <select id="grouping">
-            <option value="wall">One wall</option>
-            <option value="topic">Topic boards</option>
-            <option value="date">Date boards</option>
-            <option value="kind">Type boards</option>
-          </select>
+          <span class="select-paper paper-outline">
+            <span class="paper-stroke" aria-hidden="true"></span>
+            <select id="grouping">
+              <option value="wall">One wall</option>
+              <option value="topic">Topic boards</option>
+              <option value="date">Date boards</option>
+              <option value="kind">Type boards</option>
+            </select>
+          </span>
         </label>
       </div>
+    </div>
+    <div class="browse" aria-label="Explore topics">
+      <div id="topics" class="topics" role="group" aria-label="Filter by topic"></div>
     </div>
     <p class="sr-only" role="status" id="results-count"></p>
     <nav id="board-links" class="board-links" aria-label="Jump to a board" hidden></nav>
