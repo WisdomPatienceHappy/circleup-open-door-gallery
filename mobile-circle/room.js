@@ -116,23 +116,10 @@ function updateFocusPitch() {
   focusPitch = low;
 }
 
-function frameScale(speaker) {
-  if (zoom <= 1) return 1;
-  const radius = speaker.diameter / 2;
-  // Ease back the magnification only as much as the framing requires.
-  // The camera keeps the same pivot through the entire drag.
-  return Math.min(1,
-    (stage.width / 2 - framePadding.x) / (Math.abs(speaker.x) + radius),
-    (stage.height / 2 - framePadding.y) / (Math.abs(speaker.y) + radius));
-}
-
 function render() {
   const { width, height, pixelRatio } = stage;
   const angles = rotationAngles();
   const projections = seatPoints.map(point => project(point, angles));
-  const speaker = projections[holder];
-  const fit = frameScale(speaker);
-  const revealDistance = zoom > 1 ? 12 : 2;
   context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   context.clearRect(0, 0, width, height);
   const centerX = width / 2;
@@ -141,8 +128,8 @@ function render() {
     context.beginPath();
     guide.forEach((point, step) => {
       const { x, y } = project(point, angles);
-      if (step === 0) context.moveTo(centerX + x * fit, centerY + y * fit);
-      else context.lineTo(centerX + x * fit, centerY + y * fit);
+      if (step === 0) context.moveTo(centerX + x, centerY + y);
+      else context.lineTo(centerX + x, centerY + y);
     });
     context.closePath();
     if (index === 0) {
@@ -156,13 +143,10 @@ function render() {
 
   seats.forEach((seat, index) => {
     const { x, y, diameter, depth } = projections[index];
-    seat.style.setProperty('--x', x * fit + 'px');
-    seat.style.setProperty('--y', y * fit + 'px');
-    seat.style.setProperty('--size', diameter * fit + 'px');
-    const gap = (Math.hypot(x - speaker.x, y - speaker.y) - (diameter + speaker.diameter) / 2) * fit;
-    seat.style.opacity = index === holder ? '1' : String(Math.max(0, Math.min(1, gap / revealDistance)));
-    const order = zoom > 1 && index === holder ? 2002 : 1001 + Math.round(depth * 1000);
-    seat.style.setProperty('--depth', String(order));
+    seat.style.setProperty('--x', x + 'px');
+    seat.style.setProperty('--y', y + 'px');
+    seat.style.setProperty('--size', diameter + 'px');
+    seat.style.setProperty('--depth', String(1001 + Math.round(depth * 1000)));
   });
 }
 
