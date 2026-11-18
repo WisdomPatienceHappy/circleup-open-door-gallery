@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Listening Together · CircleUp</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="pan.js"></script>
+</head>
+<body>
+<main class="phone">
+  <header>
+    <div class="top"><span class="brand">CircleUp</span><span class="count">7 people</span></div>
+    <h1>Listening Together</h1>
+    <p>Main room</p>
+  </header>
+  <section class="stage" aria-label="Circle">
+    <div class="room-cue">
+      <p id="turn-status" class="sr-only" aria-live="polite">Maya has the stick</p>
+      <button type="button" id="back" class="speaker-chip" aria-label="Find speaker: Maya">
+        <img src="portraits/maya.webp" alt="">
+        <span><small>Has the stick</small><strong>Maya</strong></span>
+      </button>
+    </div>
+    <div class="carousel">
+      <div id="pan" tabindex="0" role="region" aria-label="Participant carousel. Swipe horizontally or use arrow keys.">
+        <ul class="seats" aria-label="Participant seating order">
+          <li class="seat" data-name="Alex"><span class="portrait"><img src="portraits/alex.webp" alt=""></span></li>
+          <li class="seat" data-name="Jordan"><span class="portrait"><img src="portraits/jordan.webp" alt=""></span></li>
+          <li class="seat" data-name="Maya" data-speaker><span class="portrait"><img src="portraits/maya.webp" alt=""></span></li>
+          <li class="seat" data-name="Sam"><span class="portrait"><img src="portraits/sam.webp" alt=""></span></li>
+          <li class="seat" data-name="Ana"><span class="portrait"><img src="portraits/ana.webp" alt=""></span></li>
+          <li class="seat" data-name="Noor"><span class="portrait"><img src="portraits/noor.webp" alt=""></span></li>
+          <li class="seat" data-name="You"><span class="portrait"><img src="portraits/you.webp" alt=""></span></li>
+        </ul>
+      </div>
+      <p id="view-label" aria-live="polite">Jordan</p>
+      <div class="browse">
+        <button type="button" id="previous" aria-label="Browse left">‹</button>
+        <span>Swipe to browse seats</span>
+        <button type="button" id="next" aria-label="Browse right">›</button>
+      </div>
+    </div>
+  </section>
+  <div class="turn-action" inert><span>Request a turn</span></div>
+  <footer class="call-bar" aria-label="Illustrative call controls">
+    <span>Mic off</span><span>Camera on</span><span>Leave</span>
+  </footer>
+</main>
+<section class="demo" aria-label="Demo controls">
+  <fieldset>
+    <legend>Preview layout</legend>
+    <label><input type="radio" name="layout" value="vertical" checked> Upward stack</label>
+    <label><input type="radio" name="layout" value="stack"> Side stack</label>
+    <label><input type="radio" name="layout" value="open"> Open peeks</label>
+  </fieldset>
+  <button type="button" id="pass">Demo · Pass the stick to Noor</button>
+<p><a href="../gallery.html" style="color: inherit; text-underline-offset: .2em;">← Design gallery</a></p>
+</section>
+</body>
+</html>
