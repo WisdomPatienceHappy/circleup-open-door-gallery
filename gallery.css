@@ -99,7 +99,9 @@ dialog::backdrop { background: #142b24ca; }
   .lane { padding: 13px; }
 }
 
-.masthead-links { display: flex; gap: clamp(12px, 2.5vw, 28px); align-items: center; }
+.masthead:has(.masthead-links) { height: auto; min-height: 74px; gap: 14px; padding-block: 10px; }
+.masthead-links { display: flex; flex-wrap: wrap; gap: 6px clamp(12px, 2.5vw, 28px); align-items: center; }
+.masthead-links .quiet { white-space: nowrap; }
 
 @media (max-width: 800px) {
   .masthead:has(.masthead-links) {
@@ -109,7 +111,6 @@ dialog::backdrop { background: #142b24ca; }
     gap: 6px 14px;
     padding-block: 10px;
   }
-  .masthead-links { flex-wrap: wrap; }
 }
 
 @media (max-width: 400px) { .masthead-links { font-size: 13px; gap: 10px; } }
