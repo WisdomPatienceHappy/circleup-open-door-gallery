@@ -4,6 +4,7 @@ const rim = camera.querySelector('.rim');
 const context = rim.getContext('2d');
 const groupSize = document.querySelector('#group-size');
 const seatTemplate = document.querySelector('#seat-template');
+const seatingLayout = document.querySelector('#seating-layout');
 const names = [
   'Maya', 'Sam', 'Ana', 'Noor', 'You', 'Alex', 'Jordan', 'Elise', 'Ben',
   'Priya', 'Omar', 'Tessa', 'Luis', 'Nia', 'June', 'Ramon', 'Leila', 'Kit'
@@ -27,6 +28,7 @@ const closePitch = 7 * radians;
 const framePadding = { x: 7, y: 12 };
 let seats = [];
 let seatPoints = [];
+let guidePaths;
 let worldDiameter = .52;
 let maxZoom = baseMaxZoom;
 let holder = 0;
@@ -41,17 +43,19 @@ let keyTimer;
 
 // Adapted from Uni's glyph-sphere.tsx ringPoints: equal, fixed positions on a
 // unit great circle. A different starting axis keeps the speaker in front.
-function ringPoints(count) {
+function ringPoints(count, radius = 1, offset = 0) {
   return Array.from({ length: count }, (_, i) => {
-    const u = (i / count) * Math.PI * 2;
-    return [Math.sin(u), 0, Math.cos(u)];
+    const u = (i / count) * Math.PI * 2 + offset;
+    return [radius * Math.sin(u), 0, radius * Math.cos(u)];
   });
 }
 
-const rimPoints = ringPoints(96);
+const outerGuide = ringPoints(96);
+const innerGuide = ringPoints(64, .5);
 
 function speakerView() {
-  return { pitch: 0, yaw: -holder * Math.PI * 2 / seats.length };
+  const [x, , z] = seatPoints[holder];
+  return { pitch: 0, yaw: -Math.atan2(x, z) };
 }
 
 function shortestArc(angle) {
@@ -87,8 +91,10 @@ function updateFocusPitch() {
   const desired = zoom <= 1
     ? normal + (overview - normal) * out
     : normal + (closePitch - normal) * inside;
+  const [speakerX, , speakerZ] = seatPoints[holder];
+  const focusRadius = zoom <= 1 ? 1 : Math.hypot(speakerX, speakerZ);
   const bottomAt = pitch => {
-    const pose = project([0, 0, 1], {
+    const pose = project([0, 0, focusRadius], {
       cosYaw: 1, sinYaw: 0, cosPitch: Math.cos(pitch), sinPitch: Math.sin(pitch)
     });
     return pose.y + pose.diameter / 2;
@@ -129,20 +135,24 @@ function render() {
   const revealDistance = zoom > 1 ? 12 : 2;
   context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   context.clearRect(0, 0, width, height);
-  context.beginPath();
   const centerX = width / 2;
   const centerY = height / 2;
-  rimPoints.forEach((point, index) => {
-    const { x, y } = project(point, angles);
-    if (index === 0) context.moveTo(centerX + x * fit, centerY + y * fit);
-    else context.lineTo(centerX + x * fit, centerY + y * fit);
-  });
-  context.closePath();
-  context.fillStyle = '#e7debf3b';
-  context.strokeStyle = '#3d594a61';
-  context.lineWidth = 1;
-  context.fill();
-  context.stroke();
+  for (const [index, guide] of guidePaths.entries()) {
+    context.beginPath();
+    guide.forEach((point, step) => {
+      const { x, y } = project(point, angles);
+      if (step === 0) context.moveTo(centerX + x * fit, centerY + y * fit);
+      else context.lineTo(centerX + x * fit, centerY + y * fit);
+    });
+    context.closePath();
+    if (index === 0) {
+      context.fillStyle = '#e7debf3b';
+      context.fill();
+    }
+    context.strokeStyle = '#3d594a61';
+    context.lineWidth = 1;
+    context.stroke();
+  }
 
   seats.forEach((seat, index) => {
     const { x, y, diameter, depth } = projections[index];
@@ -330,6 +340,7 @@ function markSpeaker() {
 
 passStick.addEventListener('click', () => {
   holder = (holder + 1) % seats.length;
+  updateFocusPitch();
   markSpeaker();
   render();
   if (!pointers.size) returnToSpeaker();
@@ -353,8 +364,12 @@ function setGroupSize(count) {
   });
   ring.replaceChildren(...seats);
   ring.toggleAttribute('data-dense', count >= 11);
-  seatPoints = ringPoints(count);
+  seatingLayout.closest('label').hidden = count !== 18;
+  const twoRings = count === 18 && seatingLayout.value === 'double';
+  seatPoints = twoRings ? [...ringPoints(6, .5), ...ringPoints(12, 1, Math.PI / 12)] : ringPoints(count);
+  guidePaths = twoRings ? [outerGuide, innerGuide] : [outerGuide];
   worldDiameter = count <= 7 ? .52 + .045 * (7 - count) : .52 * (7 / count) ** .77;
+  if (twoRings) worldDiameter = .33;
   maxZoom = Math.max(baseMaxZoom, baseMaxZoom * .52 / worldDiameter);
   if (holder >= count) holder = 0;
   orientation = speakerView();
@@ -363,7 +378,10 @@ function setGroupSize(count) {
 }
 
 groupSize.addEventListener('change', () => setGroupSize(Number(groupSize.value)));
-const initialSize = Number(new URLSearchParams(location.search).get('people'));
+seatingLayout.addEventListener('change', () => setGroupSize(Number(groupSize.value)));
+const options = new URLSearchParams(location.search);
+if (options.get('layout') === 'double') seatingLayout.value = 'double';
+const initialSize = Number(options.get('people'));
 measure();
 setGroupSize(Number.isInteger(initialSize) && initialSize >= 3 && initialSize <= names.length ? initialSize : 7);
 new ResizeObserver(measure).observe(camera);

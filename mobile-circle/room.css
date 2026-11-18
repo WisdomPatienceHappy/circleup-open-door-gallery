@@ -123,3 +123,60 @@
 .sample-turn { margin: 14px 8px 0; }
 
 .orbit-hint { margin: 0 0 5px; text-align: center; font-size: 11px; }
+
+.table-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding-inline: 10px;
+}
+.table-top .table-heading {
+  margin: 0;
+  align-self: center;
+  flex: none;
+}
+.seating-choice {
+  font-size: 11px;
+  flex: none;
+}
+.seating-choice select {
+  min-height: 44px;
+  max-width: 135px;
+  padding-inline: 7px 3px;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+.seating-choice .paper-stroke { --inside: 2.35px; }
+.call-tools { border: 0; }
+.call-tools > h2, .call-tools > .paper-stroke { display: none; }
+
+@media (min-width: 900px) {
+  .room { width: min(1160px, calc(100% - 64px)); padding-block: 24px; }
+  .room .masthead { min-height: 54px; }
+  .room .wordmark { font-size: 39px; }
+  .room main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(244px, 26%);
+    column-gap: 20px;
+    align-items: start;
+  }
+  .room h1, .room-name { grid-column: 1 / -1; }
+  .room h1 { font-size: clamp(40px, 4vw, 56px); margin-top: 22px; }
+  .room-name { margin-bottom: 20px; }
+  .table { padding: 14px 0 15px; }
+  .ring { height: clamp(405px, calc(100vh - 375px), 610px); }
+  .table-top { padding-inline: 18px; }
+  .seat .name { font-size: 13px; }
+  .call-tools { padding: 18px 16px 13px; border: 1.7px solid var(--line-ink); }
+  .call-tools > h2 { display: block; font-size: 27px; }
+  .call-tools > .paper-stroke { display: block; }
+  .call-tools .call-bar { gap: 5px; }
+  .call-tools .call-bar > span { font-size: 11px; }
+  .call-tools .sample-turn { margin-inline: 2px; }
+  @supports (clip-path: shape(evenodd from 10px 0, line to 100% 100%, close)) {
+    .call-tools { border-color: transparent; }
+  }
+}
