@@ -155,10 +155,12 @@ function layOut(board) {
 }
 
 const resize = new ResizeObserver(entries => {
-  for (const {target} of entries) {
-    const board = pinnedRows.get(target);
-    if (board) layOut(board);
-  }
+  requestAnimationFrame(() => {
+    for (const {target} of entries) {
+      const board = pinnedRows.get(target);
+      if (board) layOut(board);
+    }
+  });
 });
 
 function createBoard(group) {
