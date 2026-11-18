@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Listening Together · CircleUp</title>
   <link rel="stylesheet" href="cut-paper-topics/topics.css">
-  <link rel="stylesheet" href="room.css?v=level-orbit">
-  <script defer src="room.js?v=level-orbit"></script>
+  <link rel="stylesheet" href="room.css?v=layout-tuning">
+  <script defer src="room.js?v=layout-tuning"></script>
 </head>
 <body>
   <div class="paper-circles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="preview-shell">
   <div class="room">
     <header class="masthead">
       <span class="wordmark">CircleUp</span>
@@ -92,5 +93,30 @@
       </section>
     </main>
   </div>
+  </div>
+  <details class="layout-tuning" open>
+    <summary>Adjust layout</summary>
+    <div class="tuning-grid">
+      <label class="tuning-control" for="face-size">
+        <span>Face size <output id="face-size-value" for="face-size">110%</output></span>
+        <input id="face-size" type="range" min="80" max="150" step="1" value="110">
+      </label>
+      <label class="tuning-control" for="circle-spacing">
+        <span>Circle spacing <output id="circle-spacing-value" for="circle-spacing">100%</output></span>
+        <input id="circle-spacing" type="range" min="75" max="125" step="1" value="100">
+      </label>
+      <label class="tuning-control" for="preview-width">
+        <span>Preview width</span>
+        <select id="preview-width">
+          <option value="auto">Window width</option>
+          <option value="320">320 px phone</option>
+          <option value="375">375 px phone</option>
+          <option value="390">390 px phone</option>
+          <option value="430">430 px phone</option>
+        </select>
+      </label>
+      <button type="button" id="reset-layout" class="text-action">Reset layout</button>
+    </div>
+  </details>
 </body>
 </html>

@@ -12,7 +12,7 @@
   cursor: pointer;
 }
 .people-count .paper-stroke { --inside: 2.35px; }
-.room h1 { font-size: clamp(27px, 8.65vw, 36px); margin: 12px 7px 4px; letter-spacing: -.02em; }
+.room h1 { font-size: clamp(27px, 8.65cqw, 36px); margin: 12px 7px 4px; letter-spacing: -.02em; }
 .room-name { margin: 0 7px 11px; font-size: 13px; }
 .table { display: grid; padding: 11px 0 10px; }
 .table > .paper-stroke { --inside: 2.55px; }
@@ -27,7 +27,7 @@
 }
 .speaking-dot { width: 8px; height: 8px; border-radius: 50% 46% 52% 51%; background: #093c2d; }
 .ring {
-  height: clamp(248px, 75vw, 318px);
+  height: clamp(248px, 75cqw, 318px);
   transform-origin: center;
   margin: 0;
   padding: 0;
@@ -153,7 +153,7 @@
 .call-tools { border: 0; }
 .call-tools > h2, .call-tools > .paper-stroke { display: none; }
 
-@media (min-width: 900px) {
+@container room-preview (min-width: 900px) {
   .room { width: min(1160px, calc(100% - 64px)); padding-block: 24px; }
   .room .masthead { min-height: 54px; }
   .room .wordmark { font-size: 39px; }
@@ -164,7 +164,7 @@
     align-items: start;
   }
   .room h1, .room-name { grid-column: 1 / -1; }
-  .room h1 { font-size: clamp(40px, 4vw, 56px); margin-top: 22px; }
+  .room h1 { font-size: clamp(40px, 4cqw, 56px); margin-top: 22px; }
   .room-name { margin-bottom: 20px; }
   .table { padding: 14px 0 15px; }
   .ring { height: clamp(405px, calc(100vh - 375px), 610px); }
@@ -179,4 +179,31 @@
   @supports (clip-path: shape(evenodd from 10px 0, line to 100% 100%, close)) {
     .call-tools { border-color: transparent; }
   }
+}
+
+.preview-shell {
+  container: room-preview / inline-size;
+  width: min(100%, var(--preview-width, 100%));
+  margin-inline: auto;
+}
+.preview-shell[data-phone] .room { width: 100%; }
+.layout-tuning {
+  width: min(720px, calc(100% - 32px));
+  margin: 18px auto 30px;
+  padding: 15px;
+  border: 1px solid var(--line-ink);
+  border-radius: 15px;
+  background: var(--grain) repeat, var(--paper);
+  font-size: 14px;
+}
+.layout-tuning summary { cursor: pointer; min-height: 30px; }
+.tuning-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; padding-top: 10px; }
+.tuning-control { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.tuning-control > span { display: flex; justify-content: space-between; gap: 8px; }
+.tuning-control output { font-variant-numeric: tabular-nums; }
+.tuning-control input { width: 100%; min-height: 38px; margin: 0; accent-color: var(--ink); }
+.tuning-control select { min-height: 44px; width: 100%; padding: 6px; border: 1px solid var(--line-ink); border-radius: 9px; background: var(--paper); }
+.layout-tuning .text-action { justify-self: start; align-self: end; min-height: 44px; font-size: 14px; }
+@media (max-width: 480px) {
+  .tuning-grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
 }

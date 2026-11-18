@@ -17,6 +17,12 @@ const zoomIn = document.querySelector('#zoom-in');
 const zoomOut = document.querySelector('#zoom-out');
 const zoomLevel = document.querySelector('#zoom-level');
 const resetView = document.querySelector('#reset-view');
+const faceSize = document.querySelector('#face-size');
+const circleSpacing = document.querySelector('#circle-spacing');
+const previewWidth = document.querySelector('#preview-width');
+const previewShell = document.querySelector('.preview-shell');
+const faceSizeValue = document.querySelector('#face-size-value');
+const circleSpacingValue = document.querySelector('#circle-spacing-value');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
 const minZoom = .72;
@@ -29,7 +35,9 @@ const framePadding = { x: 7, y: 12 };
 let seats = [];
 let seatPoints = [];
 let guidePaths;
+let baseDiameter = .52;
 let worldDiameter = .52;
+let spacing = 1;
 let maxZoom = baseMaxZoom;
 let holder = 0;
 let orientation = { pitch: 0, yaw: 0 };
@@ -65,6 +73,9 @@ function shortestArc(angle) {
 // The same yaw-then-pitch projection as Uni. The final X-axis rotation
 // keeps the ring level on screen even through a full vertical flip.
 function project([bx, by, bz], angles) {
+  bx *= spacing;
+  by *= spacing;
+  bz *= spacing;
   const x = bx * angles.cosYaw + bz * angles.sinYaw;
   const turnedZ = -bx * angles.sinYaw + bz * angles.cosYaw;
   const y = by * angles.cosPitch - turnedZ * angles.sinPitch;
@@ -352,14 +363,39 @@ function setGroupSize(count) {
   const twoRings = count === 18 && seatingLayout.value === 'double';
   seatPoints = twoRings ? [...ringPoints(6, .5), ...ringPoints(12, 1, Math.PI / 12)] : ringPoints(count);
   guidePaths = twoRings ? [outerGuide, innerGuide] : [outerGuide];
-  worldDiameter = count <= 7 ? .52 + .045 * (7 - count) : .52 * (7 / count) ** .77;
-  if (twoRings) worldDiameter = .33;
+  baseDiameter = count <= 7 ? .52 + .045 * (7 - count) : .52 * (7 / count) ** .77;
+  if (twoRings) baseDiameter = .33;
+  worldDiameter = baseDiameter * Number(faceSize.value) / 100;
   maxZoom = Math.max(baseMaxZoom, baseMaxZoom * .52 / worldDiameter);
   if (holder >= count) holder = 0;
   orientation = speakerView();
   markSpeaker();
   zoomTo(zoom);
 }
+
+function updateLayout() {
+  spacing = Number(circleSpacing.value) / 100;
+  worldDiameter = baseDiameter * Number(faceSize.value) / 100;
+  maxZoom = Math.max(baseMaxZoom, baseMaxZoom * .52 / worldDiameter);
+  faceSizeValue.value = faceSize.value + '%';
+  circleSpacingValue.value = circleSpacing.value + '%';
+  zoomTo(zoom);
+}
+
+faceSize.addEventListener('input', updateLayout);
+circleSpacing.addEventListener('input', updateLayout);
+previewWidth.addEventListener('change', () => {
+  previewShell.toggleAttribute('data-phone', previewWidth.value !== 'auto');
+  previewShell.style.setProperty('--preview-width', previewWidth.value === 'auto' ? '100%' : previewWidth.value + 'px');
+});
+document.querySelector('#reset-layout').addEventListener('click', () => {
+  faceSize.value = '110';
+  circleSpacing.value = '100';
+  previewWidth.value = 'auto';
+  previewShell.style.removeProperty('--preview-width');
+  previewShell.removeAttribute('data-phone');
+  updateLayout();
+});
 
 groupSize.addEventListener('change', () => setGroupSize(Number(groupSize.value)));
 seatingLayout.addEventListener('change', () => setGroupSize(Number(groupSize.value)));
