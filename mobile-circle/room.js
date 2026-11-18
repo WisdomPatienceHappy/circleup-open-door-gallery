@@ -42,6 +42,7 @@ let guidePaths;
 let baseDiameter = .52;
 let worldDiameter = .52;
 let spacing = 1;
+let horizontalStretch = 1;
 let verticalStretch = 1;
 let chosenRestAngle = null;
 let maxZoom = baseMaxZoom;
@@ -88,7 +89,12 @@ function project([bx, by, bz], angles) {
   const z = by * angles.sinPitch + turnedZ * angles.cosPitch;
   const perspective = 1 / (1 - .24 * z);
   const pixelScale = stage.radius * zoom * perspective;
-  return { x: x * pixelScale, y: -y * pixelScale * verticalStretch, diameter: worldDiameter * pixelScale, depth: z };
+  return {
+    x: x * pixelScale * horizontalStretch,
+    y: -y * pixelScale * verticalStretch,
+    diameter: worldDiameter * pixelScale,
+    depth: z
+  };
 }
 
 function rotationAngles() {
@@ -100,32 +106,37 @@ function rotationAngles() {
 }
 
 function updateOvality() {
-  // Calibrate at full-table view. Orbit and zoom leave this ratio fixed.
+  // Shape is a layout choice. Keep it independent of the current orbit,
+  // zoom, manual rest angle, face-size slider, and circle-spacing slider.
+  const amount = Number(ovality.value) / 100;
   const normal = (38 + Math.max(0, seats.length - 7) * 2.2) * radians;
   const projectedScale = stage.radius / (1 - .24 * Math.cos(normal));
-  const portraitRadius = worldDiameter * projectedScale / 2;
-  const headroom = stage.height / 2 - portraitRadius - framePadding.y;
+  const nominalPortraitRadius = baseDiameter * 1.1 * projectedScale / 2;
+  const headroom = stage.height / 2 - nominalPortraitRadius - framePadding.y;
   const radiusY = Math.sin(normal) * projectedScale;
-  const fitHeight = Math.max(1, headroom / radiusY);
-  verticalStretch = 1 + (fitHeight - 1) * Number(ovality.value) / 100;
+  const fitHeight = radiusY > 0 ? headroom / radiusY : 1;
+
+  // A minimum visible expansion keeps the control useful on wide screens.
+  // Narrowing the seat positions also makes the change visible at low angles,
+  // where a Y-only expansion can appear to do nothing.
+  horizontalStretch = 1 - .28 * amount;
+  verticalStretch = 1 + (Math.max(1.55, fitHeight) - 1) * amount;
   ovalityValue.value = ovality.value + '%';
 }
 
 function updateFocusPitch() {
+  if (chosenRestAngle !== null) {
+    focusPitch = chosenRestAngle * radians;
+    return;
+  }
   const density = Math.max(0, seats.length - 7);
   const normal = Number(restAngle.value) * radians;
-  const overview = chosenRestAngle === null
-    ? (66 + density * .85) * radians
-    : Math.min(85, Number(restAngle.value) + 28) * radians;
+  const overview = (66 + density * .85) * radians;
   const out = (1 - zoom) / (1 - minZoom);
   const inside = (zoom - 1) / (maxZoom - 1);
   const desired = zoom <= 1
     ? normal + (overview - normal) * out
     : normal + (Math.min(closePitch, normal) - normal) * inside;
-  if (chosenRestAngle !== null && zoom <= 1) {
-    focusPitch = desired;
-    return;
-  }
   const [speakerX, , speakerZ] = seatPoints[holder];
   const focusRadius = zoom <= 1 ? 1 : Math.hypot(speakerX, speakerZ);
   const bottomAt = pitch => {
@@ -135,7 +146,9 @@ function updateFocusPitch() {
     return pose.y + pose.diameter / 2;
   };
   const padding = 9 + (framePadding.y - 9) * Math.min(1, Math.max(0, (zoom - 1) * 4));
-  const limit = stage.height / 2 - padding;
+  const bounds = camera.getBoundingClientRect();
+  const controlsTop = document.querySelector('.camera-controls').getBoundingClientRect().top;
+  const limit = Math.min(stage.height / 2, controlsTop - bounds.top - stage.height / 2) - padding;
   let low = 0;
   let high = desired;
   if (bottomAt(high) <= limit) {

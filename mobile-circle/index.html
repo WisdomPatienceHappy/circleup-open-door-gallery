@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Listening Together · CircleUp</title>
   <link rel="stylesheet" href="cut-paper-topics/topics.css">
-  <link rel="stylesheet" href="room.css?v=oval-rest-angle">
-  <script defer src="room.js?v=oval-rest-angle"></script>
+  <link rel="stylesheet" href="room.css?v=fullscreen-orbit">
+  <script defer src="room.js?v=fullscreen-orbit"></script>
 </head>
 <body>
   <div class="paper-circles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -76,7 +76,7 @@
           </div>
           <button type="button" class="text-action" id="reset-view">Reset view</button>
         </div>
-        <p class="sr-only" id="view-instructions">Drag sideways to turn and vertically to tilt. Pinch to zoom. The angle lowers as you zoom in to frame the speaker. The arrow keys turn and tilt. The circle returns to the speaker on release. Press zero to reset.</p>
+        <p class="sr-only" id="view-instructions">Drag sideways to turn and vertically to tilt. Pinch to zoom. Use Adjust layout to change face size, spacing, ovality and resting angle. The arrow keys turn and tilt. The circle returns to the speaker on release. Press zero to reset.</p>
       </section>
       <section class="call-tools paper-outline" aria-label="Call controls">
         <span class="paper-stroke" aria-hidden="true"></span>
@@ -93,8 +93,7 @@
       </section>
     </main>
   </div>
-  </div>
-  <details class="layout-tuning" open>
+  <details class="layout-tuning">
     <summary>Adjust layout</summary>
     <div class="tuning-grid">
       <label class="tuning-control" for="face-size">
@@ -112,8 +111,8 @@
       </label>
       <label class="tuning-control" for="rest-angle">
         <span>Rest angle <output id="rest-angle-value" for="rest-angle">38°</output></span>
-        <input id="rest-angle" type="range" min="5" max="85" step="1" value="38" aria-describedby="rest-angle-help">
-        <span id="rest-angle-help" class="range-ends"><span>Low</span><span>Overhead</span></span>
+        <input id="rest-angle" type="range" min="-45" max="135" step="1" value="38" aria-describedby="rest-angle-help">
+        <span id="rest-angle-help" class="range-ends"><span>Below table</span><span>Past overhead</span></span>
       </label>
       <label class="tuning-control" for="preview-width">
         <span>Preview width</span>
@@ -128,5 +127,6 @@
       <button type="button" id="reset-layout" class="text-action">Reset layout</button>
     </div>
   </details>
+  </div>
 </body>
 </html>
