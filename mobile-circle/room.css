@@ -27,7 +27,7 @@
 }
 .speaking-dot { width: 8px; height: 8px; border-radius: 50% 46% 52% 51%; background: #093c2d; }
 .ring {
-  height: clamp(248px, 75cqw, 318px);
+  height: clamp(320px, calc(100svh - 340px), 720px);
   transform-origin: center;
   margin: 0;
   padding: 0;
@@ -167,7 +167,7 @@
   .room h1 { font-size: clamp(40px, 4cqw, 56px); margin-top: 22px; }
   .room-name { margin-bottom: 20px; }
   .table { padding: 14px 0 15px; }
-  .ring { height: clamp(405px, calc(100vh - 375px), 610px); }
+  .ring { height: clamp(460px, calc(100svh - 300px), 840px); }
   .table-top { padding-inline: 18px; }
   .seat .name { font-size: 13px; }
   .call-tools { padding: 18px 16px 13px; border: 1.7px solid var(--line-ink); }
@@ -207,3 +207,5 @@
 @media (max-width: 480px) {
   .tuning-grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
 }
+
+.range-ends { font-size: 11px; opacity: .8; }

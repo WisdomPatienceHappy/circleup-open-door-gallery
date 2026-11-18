@@ -20,6 +20,10 @@ const resetView = document.querySelector('#reset-view');
 const faceSize = document.querySelector('#face-size');
 const circleSpacing = document.querySelector('#circle-spacing');
 const previewWidth = document.querySelector('#preview-width');
+const ovality = document.querySelector('#ovality');
+const ovalityValue = document.querySelector('#ovality-value');
+const restAngle = document.querySelector('#rest-angle');
+const restAngleValue = document.querySelector('#rest-angle-value');
 const previewShell = document.querySelector('.preview-shell');
 const faceSizeValue = document.querySelector('#face-size-value');
 const circleSpacingValue = document.querySelector('#circle-spacing-value');
@@ -38,6 +42,8 @@ let guidePaths;
 let baseDiameter = .52;
 let worldDiameter = .52;
 let spacing = 1;
+let verticalStretch = 1;
+let chosenRestAngle = null;
 let maxZoom = baseMaxZoom;
 let holder = 0;
 let orientation = { pitch: 0, yaw: 0 };
@@ -82,7 +88,7 @@ function project([bx, by, bz], angles) {
   const z = by * angles.sinPitch + turnedZ * angles.cosPitch;
   const perspective = 1 / (1 - .24 * z);
   const pixelScale = stage.radius * zoom * perspective;
-  return { x: x * pixelScale, y: -y * pixelScale, diameter: worldDiameter * pixelScale, depth: z };
+  return { x: x * pixelScale, y: -y * pixelScale * verticalStretch, diameter: worldDiameter * pixelScale, depth: z };
 }
 
 function rotationAngles() {
@@ -93,15 +99,33 @@ function rotationAngles() {
   };
 }
 
+function updateOvality() {
+  // Calibrate at full-table view. Orbit and zoom leave this ratio fixed.
+  const normal = (38 + Math.max(0, seats.length - 7) * 2.2) * radians;
+  const projectedScale = stage.radius / (1 - .24 * Math.cos(normal));
+  const portraitRadius = worldDiameter * projectedScale / 2;
+  const headroom = stage.height / 2 - portraitRadius - framePadding.y;
+  const radiusY = Math.sin(normal) * projectedScale;
+  const fitHeight = Math.max(1, headroom / radiusY);
+  verticalStretch = 1 + (fitHeight - 1) * Number(ovality.value) / 100;
+  ovalityValue.value = ovality.value + '%';
+}
+
 function updateFocusPitch() {
   const density = Math.max(0, seats.length - 7);
-  const normal = (38 + density * 2.2) * radians;
-  const overview = (66 + density * .85) * radians;
+  const normal = Number(restAngle.value) * radians;
+  const overview = chosenRestAngle === null
+    ? (66 + density * .85) * radians
+    : Math.min(85, Number(restAngle.value) + 28) * radians;
   const out = (1 - zoom) / (1 - minZoom);
   const inside = (zoom - 1) / (maxZoom - 1);
   const desired = zoom <= 1
     ? normal + (overview - normal) * out
-    : normal + (closePitch - normal) * inside;
+    : normal + (Math.min(closePitch, normal) - normal) * inside;
+  if (chosenRestAngle !== null && zoom <= 1) {
+    focusPitch = desired;
+    return;
+  }
   const [speakerX, , speakerZ] = seatPoints[holder];
   const focusRadius = zoom <= 1 ? 1 : Math.hypot(speakerX, speakerZ);
   const bottomAt = pitch => {
@@ -169,6 +193,7 @@ function measure() {
   rim.width = Math.round(width * pixelRatio);
   rim.height = Math.round(height * pixelRatio);
   if (!seats.length) return;
+  updateOvality();
   updateFocusPitch();
   render();
 }
@@ -369,6 +394,11 @@ function setGroupSize(count) {
   maxZoom = Math.max(baseMaxZoom, baseMaxZoom * .52 / worldDiameter);
   if (holder >= count) holder = 0;
   orientation = speakerView();
+  if (chosenRestAngle === null) {
+    restAngle.value = String(Math.round(38 + Math.max(0, count - 7) * 2.2));
+  }
+  restAngleValue.value = restAngle.value + '°';
+  updateOvality();
   markSpeaker();
   zoomTo(zoom);
 }
@@ -379,11 +409,20 @@ function updateLayout() {
   maxZoom = Math.max(baseMaxZoom, baseMaxZoom * .52 / worldDiameter);
   faceSizeValue.value = faceSize.value + '%';
   circleSpacingValue.value = circleSpacing.value + '%';
+  updateOvality();
   zoomTo(zoom);
 }
 
 faceSize.addEventListener('input', updateLayout);
 circleSpacing.addEventListener('input', updateLayout);
+ovality.addEventListener('input', updateLayout);
+restAngle.addEventListener('input', () => {
+  chosenRestAngle = Number(restAngle.value);
+  restAngleValue.value = restAngle.value + '°';
+  updateFocusPitch();
+  render();
+  if (!pointers.size) returnToSpeaker();
+});
 previewWidth.addEventListener('change', () => {
   previewShell.toggleAttribute('data-phone', previewWidth.value !== 'auto');
   previewShell.style.setProperty('--preview-width', previewWidth.value === 'auto' ? '100%' : previewWidth.value + 'px');
@@ -391,6 +430,10 @@ previewWidth.addEventListener('change', () => {
 document.querySelector('#reset-layout').addEventListener('click', () => {
   faceSize.value = '110';
   circleSpacing.value = '100';
+  ovality.value = '100';
+  chosenRestAngle = null;
+  restAngle.value = String(Math.round(38 + Math.max(0, seats.length - 7) * 2.2));
+  restAngleValue.value = restAngle.value + '°';
   previewWidth.value = 'auto';
   previewShell.style.removeProperty('--preview-width');
   previewShell.removeAttribute('data-phone');
