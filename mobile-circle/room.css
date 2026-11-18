@@ -329,7 +329,7 @@ body { min-height: 0; }
 }
 
 .tuning-note { margin: 0; font-size: 11px; line-height: 1.45; }
-.version-link { min-height: 44px; display: flex; align-items: center; color: var(--ink); font-size: 12px; }
+.version-link, .inside-link { min-height: 44px; display: flex; align-items: center; color: var(--ink); font-size: 12px; }
 .seating-choice[hidden] { display: none; }
 @media (max-height: 600px) { .room { --header-height: calc(68px + env(safe-area-inset-top)); } }
 

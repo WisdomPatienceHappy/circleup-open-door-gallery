@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>From your seat · CircleUp</title><link rel="stylesheet" href="cut-paper-topics/topics.css"><link rel="stylesheet" href="inside.css"><script defer src="inside.js"></script><meta name="robots" content="noindex">
+<link rel="stylesheet" href="../listing-action.css">
+<style>
+  @media (min-width: 700px) and (min-height: 601px) {
+    .room header a.listing-flyer--room { position: absolute; right: 0; top: calc(100% + 4px); }
+  }
+  @media (max-height: 600px) and (max-width: 620px) {
+    .room { --header: 136px; }
+    .room header a.listing-flyer--room { position: absolute; top: 72px; right: 0; }
+    .gesture-hint { justify-content: flex-start; top: 66px; right: 131px; }
+  }
+</style>
+</head>
+<body>
+<div class="paper-circles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="room">
+<header><span class="wordmark">CircleUp</span><a class="listing-flyer listing-flyer--room" href="../flyer-wall/add-listing.html"><span class="listing-flyer-plus" aria-hidden="true">+</span><span>Add your listing!</span></a><label class="paper-outline"><span class="paper-stroke" aria-hidden="true"></span><span class="sr-only">Demo group size</span><select id="people"></select></label></header>
+<div class="room-heading"><h1>From your seat</h1><a id="overview" href="../mobile-circle/?people=7">Compare overhead ↗</a></div>
+<div class="status-line"><span class="speaking-chip torn" id="speaker-status" role="status"></span><details id="options"><summary>Adjust view</summary><div class="options-body"><label>Face size <output id="face-value">110%</output><input id="face-size" type="range" min="75" max="160" value="110"></label><label>View angle <output id="angle-value">72°</output><input id="view-angle" type="range" min="42" max="110" value="72"></label><button type="button" id="next-speaker" class="plain">Demo · Next speaker</button><p>Simulated photos. Camera stays at your seat; faces keep facing you.</p></div></details></div>
+<p class="gesture-hint"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18M3 8l3-3M3 8l3 3M21 8l-3-3M21 8l-3 3M8 21v-7c0-2 3-2 3 0v-4c0-2 3-2 3 0v7c4-3 5-1 2 4"/></svg><span>Drag to look around · Pinch to zoom</span></p>
+<main class="scene" tabindex="0" aria-label="Look around from your seat" aria-describedby="instructions"><canvas class="seat-guide" aria-hidden="true"></canvas><ul id="participants" aria-label="People around you"></ul><div class="edge-note" aria-hidden="true">Photo preview</div></main>
+<aside class="view-controls" aria-label="View controls"><div class="zoom paper-outline"><i class="paper-stroke" aria-hidden="true"></i><button id="zoom-in" type="button" aria-label="Zoom in">+</button><output id="zoom">100%</output><button id="zoom-out" type="button" aria-label="Zoom out">−</button></div><button type="button" id="reset" class="plain">Face speaker</button><button type="button" id="help" class="paper-outline" aria-label="How to look around">?</button></aside>
+<aside class="self-view" aria-label="Your preview"><img src="portraits/you.webp" alt="Your simulated camera preview"><span class="torn">You</span></aside>
+<footer class="call-bar" aria-label="Demo call controls"><button id="request" type="button" class="raised" aria-pressed="false"><span class="face">Request a turn</span></button><button id="mic" type="button" class="paper-outline" aria-pressed="false"><i class="paper-stroke" aria-hidden="true"></i><span>Mic off</span></button><button id="camera-toggle" type="button" class="paper-outline" aria-pressed="true"><i class="paper-stroke" aria-hidden="true"></i><span>Camera on</span></button><button id="leave" type="button" class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Leave</button></footer>
+<p id="instructions" class="sr-only">Drag sideways or vertically to change your gaze. Pinch or use plus and minus to zoom. Release to face the current speaker. Arrow keys look left and right. Zero faces the speaker. Photos and call controls are simulated.</p>
+</div>
+<dialog id="help-dialog"><h2>From your seat</h2><p>You stay in one place on the circle, looking inward at eye level. People nearer your seat look larger; people across the circle look smaller.</p><p>Drag left or right to look around, or up and down to change your gaze. Pinch or use + and − to zoom. Release to face the speaker.</p><p>Keyboard: focus the scene, use left/right arrows, + / − to zoom, and 0 to face the speaker.</p><button type="button" class="plain">Got it</button></dialog>
+<dialog id="leave-dialog"><h2>Leave this preview?</h2><p>This is a photo prototype; no call is connected.</p><button id="stay" type="button" class="plain">Stay here</button><a href="../mobile-circle/">Back to overhead demo</a></dialog>
+</body></html>

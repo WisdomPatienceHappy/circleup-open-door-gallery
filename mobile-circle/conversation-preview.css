@@ -1,0 +1,5 @@
+.conversation-preview { display: grid; gap: 10px; padding-top: 14px; border-top: 1px solid var(--line-ink); }
+.conversation-preview h2 { margin: 0; font-family: 'DM Serif Text', Georgia, serif; font-size: 22px; line-height: 1.15; }
+.conversation-play { min-height: 44px; padding: 9px 12px; color: var(--ink); background: var(--grain) repeat, var(--paper); font: inherit; font-size: 13px; cursor: pointer; }
+.conversation-play[aria-pressed="true"] { background-color: var(--sage); }
+.conversation-play:active { transform: translateY(1px); }

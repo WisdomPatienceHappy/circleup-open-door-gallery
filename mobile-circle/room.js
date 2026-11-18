@@ -414,7 +414,8 @@ function setGroupSize(count) {
   restAngleValue.value = restAngle.value + '°';
   updateOvality();
   markSpeaker();
-  document.querySelector('.version-link').href = '../mobile-circle-classic/?people=' + count + (twoRings ? '&layout=double' : '');
+  document.querySelector('.classic-link').href = '../mobile-circle-classic/?people=' + count + (twoRings ? '&layout=double' : '');
+  document.querySelector('.inside-link').href = '../inside-circle/?people=' + count;
   zoomTo(zoom);
 }
 
