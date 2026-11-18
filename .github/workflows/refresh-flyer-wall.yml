@@ -1,0 +1,36 @@
+name: Refresh CircleUp event flyers
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '37 15 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: flyer-wall-feed
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: main
+          fetch-depth: 1
+          sparse-checkout: |
+            .github/scripts
+            flyer-wall
+      - name: Read the public event feed
+        run: node .github/scripts/refresh-flyer-wall.mjs
+      - name: Publish updated event JSON
+        run: |
+          git add -- flyer-wall/live-gatherings.json
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Refresh public flyer wall events'
+          git push origin HEAD:main

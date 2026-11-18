@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Flyer wall · CircleUp</title>
+  <title>Community board · CircleUp</title>
   <link rel="stylesheet" href="../cut-paper-topics/paper.css">
-  <link rel="stylesheet" href="wall.css">
-  <script defer src="gatherings.js"></script>
-  <script defer src="wall.js"></script>
+  <link rel="stylesheet" href="../cut-paper-topics/raised-action.css">
+  <link rel="stylesheet" href="wall.css?v=cork">
+  <script defer src="gatherings.js?v=cork"></script>
+  <script defer src="wall.js?v=cork"></script>
 </head>
 <body>
   <header class="masthead page">
@@ -23,8 +24,8 @@
   <main class="page">
     <div class="intro">
       <div>
-        <h1>Find a gathering</h1>
-        <p>See what’s on the flyer wall.</p>
+        <h1>The community board</h1>
+        <p>Find a gathering, meet a facilitator, or discover a community.</p>
       </div>
       <label class="search">
         <span class="sr-only">Search flyers</span>
@@ -35,26 +36,50 @@
 
     <div class="browse">
       <div id="topics" class="topics" role="group" aria-label="Filter by topic"></div>
-      <label class="grouping">Group by
-        <select id="grouping">
-          <option value="wall">One wall</option>
-          <option value="topic">Topic boards</option>
-          <option value="date">Date boards</option>
-        </select>
-      </label>
+      <div class="board-controls">
+        <label class="grouping"><span>Show</span>
+          <select id="kind">
+            <option value="">All flyers</option>
+            <option value="event">Gatherings</option>
+            <option value="facilitator">Facilitators</option>
+            <option value="community">Communities</option>
+          </select>
+        </label>
+        <label class="grouping"><span>Location</span>
+          <select id="location"><option value="">All locations</option></select>
+        </label>
+        <label class="grouping"><span>Group by</span>
+          <select id="grouping">
+            <option value="wall">One wall</option>
+            <option value="topic">Topic boards</option>
+            <option value="date">Date boards</option>
+            <option value="kind">Type boards</option>
+          </select>
+        </label>
+      </div>
     </div>
     <p class="sr-only" role="status" id="results-count"></p>
     <nav id="board-links" class="board-links" aria-label="Jump to a board" hidden></nav>
     <div id="boards"></div>
     <section id="empty" class="empty" hidden>
       <h2>No flyers match</h2>
-      <p>Try a different search or look at all topics.</p>
+      <p>Try a different search or clear your filters.</p>
       <button id="reset" type="button">Show all flyers</button>
     </section>
     <noscript><p>Enable JavaScript to browse the flyer wall.</p></noscript>
 
+    <details class="image-trial" id="image-trial">
+      <summary>Try your own images</summary>
+      <p>Choose several images to see how their sizes fit together on a board. The images stay in this tab.</p>
+      <label for="trial-files">Choose images</label>
+      <input id="trial-files" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" multiple>
+      <button type="button" id="clear-trial" hidden>Clear images</button>
+      <p id="trial-status" role="status"></p>
+      <div id="trial-board"></div>
+    </details>
+
     <footer class="foot">
-      <p>Design preview with sample and archived listings.</p>
+      <div><p>Public listings and clearly labeled design samples.</p><p id="feed-status" hidden></p></div>
       <nav><a href="../">Back to the directory</a><a href="rail/">Scrolling boards</a><a href="studies.html">Layout studies</a></nav>
     </footer>
   </main>
@@ -66,10 +91,13 @@
       <div class="event-copy">
         <span id="event-topic" class="event-topic"></span>
         <h2 id="event-title"></h2>
-        <p id="event-meta" class="event-meta"></p>
         <p id="event-description"></p>
+        <aside class="detail-ticket" aria-label="Listing information">
+          <ul id="event-meta" class="event-meta"></ul>
+          <a id="event-source" class="raised detail-action" target="_blank" rel="noopener" hidden><span id="event-source-label" class="face"></span></a>
+          <a id="event-editor" class="raised detail-action" hidden><span class="face">Try the flyer editor <span aria-hidden="true">→</span></span></a>
+        </aside>
         <p id="event-credit" class="event-meta" hidden></p>
-        <a id="event-source" class="source" target="_blank" rel="noopener" hidden>View original listing <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </dialog>
