@@ -51,7 +51,7 @@ function renderFlyer() {
   if(value.artwork)image.src=value.artwork;else image.removeAttribute('src');
   document.querySelector('#flyer-motif').hidden=Boolean(value.artwork);
   document.querySelector('#remove-artwork').hidden=!value.artwork;
-  document.querySelector('#preview-status').textContent=opened.has(profileId)?(saved.has(profileId)?'Your saved device draft':'Your live draft preview'):'CircleUp-made example';
+  document.querySelector('#preview-status').textContent=saved.has(profileId)?'Your saved device draft':(opened.has(profileId)?'Your live draft preview':'CircleUp-made example');
   document.querySelector('#profile-kind').textContent=PROFILES[profileId].kind.toUpperCase();
 }
 function selectProfile(id,updateUrl=true) {
