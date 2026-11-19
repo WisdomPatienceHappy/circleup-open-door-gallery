@@ -45,9 +45,8 @@
   const cameraStyle = section.querySelector('#camera-style');
   const styleHelp = section.querySelector('#camera-style-help');
   const status = section.querySelector('#conversation-status');
-  // Stable seat choices and durations make both camera policies comparable.
-  const pattern = [0, 1, 0, 1, 2, 0, 2, 1, 0, 3, 1, 3, 0, 1];
-  const durations = [1800, 700, 1200, 550, 2400, 850, 1350, 600, 1750, 900, 650, 1450, 700, 2100];
+  // Fresh runs are randomized; explicit seeds support matched test replay.
+  let sequence = null, sequenceSeed = null;
   let running = false, paused = false;
   let calm = null;
   let step = 0;
@@ -60,7 +59,8 @@
 
   function createCalmController() {
     const api = window.CalmConversationCamera;
-    if (!api) throw Error('Calm camera policy unavailable');
+    if (!api || !window.SmoothConversationMotion) throw Error('Calm camera motion unavailable');
+    const motion = window.SmoothConversationMotion.create({stepFrame: api.stepFrame});
     let policy, proposal, fit, alive = true, suspended = false, manual = pointers.size > 0;
     let frameRequest, manualTimer, lastTick = null, nextProposal = 0, dirty = true;
     let needsRebuild = false, context = null;
@@ -151,7 +151,7 @@
       beginManual() {
         if (!alive) return;
         clearTimeout(manualTimer);
-        if (!manual) { manual = true; context = policy.beginManual(performance.now()); remember('beginManual'); }
+        if (!manual) { manual = true; motion.reset(); context = policy.beginManual(performance.now()); remember('beginManual'); }
         lastTick = null;
       },
       manualChange() {
@@ -162,11 +162,12 @@
         if (!alive || pointers.size) return;
         clearTimeout(manualTimer);
         manual = false;
+        motion.reset();
         context = policy.endManual(performance.now());
         remember('endManual');
         dirty = true; lastTick = null;
       },
-      layoutChanged() { if (alive) { needsRebuild = true; dirty = true; } }
+      layoutChanged() { if (alive) { motion.reset(); needsRebuild = true; dirty = true; } }
     };
     const initialNow = performance.now();
     const initial = configure(initialNow);
@@ -175,7 +176,8 @@
     // pitch in fixed mode. Geometry is never translated or rearranged.
     const overview = {...cameraFrame(), pitch: initial.overviewPitch, zoom: 1};
     evaluate(initialNow, manual ? cameraFrame() : overview);
-    if (!manual && !proposal.fitFailed) { applyCameraFrame(proposal.target); metrics.frames++; }
+    // Keep the current pose on ordinary Play; the one motion owner eases
+    // toward this overview rather than snapping to it.
     function tick() {
       if (!alive || suspended) return;
       // RAF timestamps can precede a timer/event observed in the same frame.
@@ -192,8 +194,8 @@
         if (dirty || now >= nextProposal) evaluate(now, cameraFrame());
         if (proposal) {
           const current = cameraFrame();
-          const next = api.stepFrame(current, proposal.target, dt, proposal.motion, reducedMotion.matches,
-            {fit, context: proposal.context, minZoom, overviewZoom: 1});
+          const next = motion.step(current, proposal.target, dt, proposal.motion, reducedMotion.matches,
+            {fit, context: proposal.context, minZoom, maxZoom, overviewZoom: 1, fixedPitch: restMode.value === 'fixed' ? Number(restAngle.value) * radians : undefined});
           if (Math.abs(shortestArc(next.yaw - current.yaw)) + Math.abs(next.pitch - current.pitch) + Math.abs(Math.log(next.zoom / current.zoom)) > 1e-10) {
             applyCameraFrame(next);
             metrics.frames++;
@@ -207,8 +209,8 @@
     frameRequest = requestAnimationFrame(tick);
     return {
       observe(id) { if (alive) { context = policy.observeSpeakers([id], performance.now()); remember('speaker', id); dirty = true; } },
-      setStyle() { if (alive) { configure(performance.now(), true); lastTick = null; } },
-      pause() { if (!alive) return; suspended = true; clearTimeout(manualTimer); cancelAnimationFrame(frameRequest); context = policy.pause(performance.now()); lastTick = null; },
+      setStyle() { if (alive) configure(performance.now(), true); },
+      pause() { if (!alive) return; suspended = true; motion.reset(); clearTimeout(manualTimer); cancelAnimationFrame(frameRequest); context = policy.pause(performance.now()); lastTick = null; },
       resume() {
         if (!alive) return;
         suspended = false;
@@ -219,8 +221,8 @@
         remember('resume');
         dirty = true; lastTick = null; frameRequest = requestAnimationFrame(tick);
       },
-      destroy() { if (!alive) return; alive = false; clearTimeout(manualTimer); cancelAnimationFrame(frameRequest); releaseOwner(); },
-      snapshot() { return {alive, suspended, manual, context, style: cameraStyle.value, config: {...policy.config}, historyEvents: history.length, target: proposal?.target ?? null, metrics: {...metrics, proposalMs: [...metrics.proposalMs], tickMs: [...metrics.tickMs]}}; }
+      destroy() { if (!alive) return; alive = false; motion.reset(); clearTimeout(manualTimer); cancelAnimationFrame(frameRequest); releaseOwner(); },
+      snapshot() { return {motion: motion.snapshot(), alive, suspended, manual, context, style: cameraStyle.value, config: {...policy.config}, historyEvents: history.length, target: proposal?.target ?? null, metrics: {...metrics, proposalMs: [...metrics.proposalMs], tickMs: [...metrics.tickMs]}}; }
     };
   }
 
@@ -237,14 +239,6 @@
     remainingTurn = duration;
     turnDeadline = performance.now() + duration;
     turnTimer = setTimeout(advance, duration);
-  }
-  function speakerFor(index) {
-    // Four seats distributed around the current roster, rather than four
-    // tiny neighboring steps in a large group.
-    const count = Math.min(4, seats.length);
-    const currentPattern = trace.value === 'backforth' ? pattern : trace.value === 'sustained' ? [0, 1, 0, 2, 1, 0] : [0, 1, 0, 1, 2, 0, 2, 1];
-    const ordinal = currentPattern[index % currentPattern.length] % count;
-    return Math.floor(ordinal * seats.length / count);
   }
   function focusNow(expectedHolder) {
     if (!running || holder !== expectedHolder || pointers.size) return;
@@ -272,7 +266,8 @@
   function advance() {
     if (!running) return;
     if (seats.length !== rosterSize || seats.length < 2) { stopPreview('Preview stopped because the group changed.'); return; }
-    holder = speakerFor(step);
+    const turn = sequence.next();
+    holder = turn.speaker;
     markSpeaker();
     holderText.textContent = names[holder] + ' is speaking · preview';
     // Keep the user's held view stable, including the adaptive pitch. The
@@ -281,8 +276,7 @@
     render();
     requestFocus();
     const factor = {slow: 1.7, natural: 1, quick: .5}[speed.value] ?? 1;
-    const currentDurations = trace.value === 'backforth' ? durations : trace.value === 'sustained' ? [45000, 700, 1000, 800, 1200, 18000] : [12000, 900, 1200, 650, 42000, 1100, 2100, 900];
-    const duration = Math.round(currentDurations[step % currentDurations.length] * factor);
+    const duration = Math.round(turn.durationMs * factor);
     status.textContent = 'Simulated: ' + names[holder] + ' is speaking · next change in ' + (duration / 1000).toFixed(1) + 's.';
     step++;
     scheduleTurn(duration);
@@ -301,6 +295,9 @@
   function startPreview() {
     clearTimeout(turnTimer); clearTimeout(focusTimer); clearTimeout(releaseTimer);
     calm?.destroy(); calm = null;
+    if (!window.CircleUpConversationPatterns) throw Error('Conversation examples unavailable');
+    sequence = window.CircleUpConversationPatterns.create({ids: seats.map((_, index) => index), kind: trace.value});
+    sequenceSeed = sequence.seed;
     rosterSize = seats.length;
     step = 0;
     lastFocusAt = -Infinity;
@@ -346,7 +343,7 @@
   speed.addEventListener('change', () => {
     if (!running) return;
     clearTimeout(turnTimer);
-    // Restart the same deterministic sequence for a fair pace comparison.
+    // Pace/trace changes explicitly start a fresh randomized example.
     startPreview();
   });
   const stopForChange = () => stopPreview('Preview stopped because the layout changed.');
@@ -363,5 +360,5 @@
   camera.addEventListener('pointerup', released);
   camera.addEventListener('pointercancel', released);
   window.addEventListener('pagehide', () => stopPreview());
-  window.CircleUpConversationPreview = Object.freeze({snapshot: () => ({running, paused, response: response.value, trace: trace.value, step, remainingTurn: paused ? remainingTurn : Math.max(0, turnDeadline - performance.now()), calm: calm?.snapshot() ?? null})});
+  window.CircleUpConversationPreview = Object.freeze({snapshot: () => ({running, paused, response: response.value, trace: trace.value, sequenceSeed, step, remainingTurn: paused ? remainingTurn : Math.max(0, turnDeadline - performance.now()), calm: calm?.snapshot() ?? null})});
 })();
