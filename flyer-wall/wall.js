@@ -49,6 +49,15 @@ function daysFor(item) {
 const categoryFor = id => categories.find(category => category.id === id) || categories[0];
 const byTime = (a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt);
 const params = new URLSearchParams(location.search);
+const sizeControl = document.querySelector('#flyer-size');
+const infoChoices = [...document.querySelectorAll('input[name="flyer-info"]')];
+const requestedSize = Number(params.get('size') || 100);
+let flyerScale = (Number.isFinite(requestedSize) ? Math.round(Math.min(150, Math.max(65, requestedSize)) / 5) * 5 : 100) / 100;
+let infoMode = params.get('info') === 'below' ? 'below' : 'hover';
+const infoBubble = document.querySelector('#flyer-info-bubble');
+let infoAnchor;
+let infoHideTimer;
+
 let activeTopic = categoryFor(params.get('topic')).id;
 let awaitingLocation = params.get('place');
 let activeBoards = [];
@@ -119,6 +128,7 @@ function previewFormat(width, height) {
 }
 
 function openEvent(item) {
+  hideFlyerInfo();
   const artwork = makeArtwork(item, 'detail-art');
   dialog.dataset.format = previewFormat(item.width, item.height);
   const previewImage = artwork.querySelector('img');
@@ -150,10 +160,78 @@ function openEvent(item) {
   if (previewImage?.complete) useNaturalFormat();
 }
 
+function hideFlyerInfo() {
+  clearTimeout(infoHideTimer);
+  if (infoAnchor) infoAnchor.removeAttribute('aria-describedby');
+  infoAnchor = undefined;
+  infoBubble.hidden = true;
+}
+
+function positionFlyerInfo() {
+  if (!infoAnchor?.isConnected || infoBubble.hidden) return;
+  const anchor = infoAnchor.getBoundingClientRect();
+  if (anchor.bottom < 0 || anchor.top > innerHeight || anchor.right < 0 || anchor.left > innerWidth) { hideFlyerInfo(); return; }
+  const box = infoBubble.getBoundingClientRect();
+  const inset = 12, gap = 12;
+  const clamp = (value, maximum) => Math.max(inset, Math.min(maximum - inset, value));
+  let side = 'below';
+  let left = clamp(anchor.left + anchor.width / 2 - box.width / 2, innerWidth - box.width);
+  let top;
+  if (anchor.bottom + gap + box.height <= innerHeight - inset) top = anchor.bottom + gap;
+  else if (anchor.top - gap - box.height >= inset) { side = 'above'; top = anchor.top - gap - box.height; }
+  else if (anchor.right + gap + box.width <= innerWidth - inset) { side = 'right'; left = anchor.right + gap; top = clamp(anchor.top + anchor.height / 2 - box.height / 2, innerHeight - box.height); }
+  else if (anchor.left - gap - box.width >= inset) { side = 'left'; left = anchor.left - gap - box.width; top = clamp(anchor.top + anchor.height / 2 - box.height / 2, innerHeight - box.height); }
+  else top = clamp(anchor.bottom + gap, innerHeight - box.height);
+  const overlaps = left < anchor.right && left + box.width > anchor.left && top < anchor.bottom && top + box.height > anchor.top;
+  infoBubble.style.pointerEvents = overlaps ? 'none' : 'auto';
+  infoBubble.dataset.side = side;
+  infoBubble.style.left = left + 'px';
+  infoBubble.style.top = top + 'px';
+  infoBubble.style.visibility = 'visible';
+}
+
+function showFlyerInfo(button, item) {
+  if (infoMode !== 'hover' || dialog.open) return;
+  hideFlyerInfo();
+  infoAnchor = button;
+  button.setAttribute('aria-describedby', infoBubble.id);
+  document.querySelector('#bubble-kind').textContent = kindLabels[kindOf(item)]?.[0] || 'Image preview';
+  document.querySelector('#bubble-title').textContent = item.name;
+  document.querySelector('#bubble-facts').textContent = factsFor(item).join(' · ');
+  const description = document.querySelector('#bubble-description');
+  description.textContent = item.description || '';
+  description.hidden = !item.description;
+  infoBubble.hidden = false;
+  infoBubble.style.visibility = 'hidden';
+  positionFlyerInfo();
+}
+
+function deferHideFlyerInfo(button) {
+  clearTimeout(infoHideTimer);
+  infoHideTimer = setTimeout(() => {
+    if (infoAnchor === button && document.activeElement !== button && !infoBubble.matches(':hover')) hideFlyerInfo();
+  }, 120);
+}
+infoBubble.addEventListener('pointerenter', () => clearTimeout(infoHideTimer));
+infoBubble.addEventListener('pointerleave', () => deferHideFlyerInfo(infoAnchor));
+let lastPointerType = 'mouse';
+document.addEventListener('pointerdown', event => { lastPointerType = event.pointerType; if (lastPointerType === 'touch') hideFlyerInfo(); }, true);
+document.addEventListener('keydown', event => {
+  lastPointerType = 'keyboard';
+  if (event.key === 'Escape' && !infoBubble.hidden) hideFlyerInfo();
+});
+window.addEventListener('scroll', () => { if (infoAnchor === document.activeElement) positionFlyerInfo(); else hideFlyerInfo(); }, {passive: true});
+window.addEventListener('resize', () => { if (infoAnchor === document.activeElement) positionFlyerInfo(); else hideFlyerInfo(); }, {passive: true});
+
 function createFlyer(item, lazy) {
   const button = element('button', 'flyer');
   button.type = 'button';
   button.dataset.flyerId = item.id;
+  button.setAttribute('aria-label', [item.name, ...factsFor(item), 'Open details'].join('. '));
+  button.addEventListener('pointerenter', event => { if (event.pointerType !== 'touch') showFlyerInfo(button, item); });
+  button.addEventListener('pointerleave', () => deferHideFlyerInfo(button));
+  button.addEventListener('focus', () => { if (lastPointerType !== 'touch') showFlyerInfo(button, item); });
+  button.addEventListener('blur', () => deferHideFlyerInfo(button));
   const hash = [...item.id].reduce((total, character) => total * 31 + character.charCodeAt(0) >>> 0, 0);
   button.style.setProperty('--tilt', ((hash % 35) / 10 - 1.7) + 'deg');
   button.style.setProperty('--pin', categoryFor(item.topic).color);
@@ -171,9 +249,9 @@ function createFlyer(item, lazy) {
 // Keep source order. Only the row width changes as the board gets narrower.
 function packRows(entries, width) {
   const compact = width < 570;
-  const target = compact ? Math.max(105, width * .43) : Math.min(240, width * .21);
+  const target = (compact ? Math.max(105, width * .43) : Math.min(240, width * .21)) * flyerScale;
   const gap = compact ? 14 : 26;
-  const capacity = compact ? 2 : 5;
+  const capacity = Math.max(compact ? 1 : 2, Math.round((compact ? 2 : 5) / flyerScale));
   const rows = [];
   let row = [];
   let ratios = 0;
@@ -202,8 +280,9 @@ function packRows(entries, width) {
 
 function layOut(board) {
   const width = board.wall.clientWidth;
-  if (!width || width === board.width) return;
+  if (!width || (width === board.width && flyerScale === board.scale)) return;
   board.width = width;
+  board.scale = flyerScale;
   const focused = document.activeElement;
   const rows = packRows(board.entries, width).map(row => {
     const line = element('div', 'flyer-row');
@@ -279,6 +358,7 @@ function groupFlyers(items) {
 }
 
 function render() {
+  hideFlyerInfo();
   const term = search.value.toLowerCase().trim();
   const matches = listings.filter(item => {
     const text = [item.name, categoryFor(item.topic).label, item.place, item.format].join(' ').toLowerCase();
@@ -337,6 +417,10 @@ function populateLocations(wanted = locationSelect.value) {
 
 function refresh() {
   render();
+  updateAddress();
+}
+
+function updateAddress() {
   if (location.protocol === 'file:') return;
   const state = new URLSearchParams();
   if (activeTopic !== 'all') state.set('topic', activeTopic);
@@ -344,6 +428,8 @@ function refresh() {
   if (locationSelect.value) state.set('place', locationSelect.value);
   if (grouping.value !== 'wall') state.set('by', grouping.value);
   if (search.value.trim()) state.set('q', search.value.trim());
+  if (flyerScale !== 1) state.set('size', Math.round(flyerScale * 100));
+  if (infoMode !== 'hover') state.set('info', infoMode);
   history.replaceState(null, '', location.pathname + (state.size ? '?' + state : '') + location.hash);
 }
 
@@ -366,6 +452,43 @@ locationSelect.addEventListener('change', () => {
   refresh();
 });
 search.addEventListener('input', refresh);
+function syncAppearanceControls() {
+  sizeControl.value = Math.round(flyerScale * 100);
+  sizeControl.style.setProperty('--range-progress', ((sizeControl.value - 65) / 85 * 100) + '%');
+  document.querySelector('#flyer-size-value').value = sizeControl.value + '%';
+  document.body.dataset.info = infoMode;
+  for (const choice of infoChoices) choice.checked = choice.value === infoMode;
+  document.querySelector('#flyer-hint').textContent = infoMode === 'hover'
+    ? 'Hover or focus a flyer for a little more. Tap to open it.'
+    : 'Titles and details stay under each flyer. Tap or click to open.';
+}
+sizeControl.addEventListener('input', () => {
+  flyerScale = Number(sizeControl.value) / 100;
+  syncAppearanceControls();
+  hideFlyerInfo();
+  activeBoards.forEach(layOut);
+  if (trialBoard) layOut(trialBoard);
+  updateAddress();
+});
+for (const choice of infoChoices) choice.addEventListener('change', () => {
+  if (!choice.checked) return;
+  infoMode = choice.value;
+  syncAppearanceControls();
+  hideFlyerInfo();
+  activeBoards.forEach(layOut);
+  if (trialBoard) layOut(trialBoard);
+  updateAddress();
+});
+document.querySelector('#reset-view').addEventListener('click', () => {
+  flyerScale = 1;
+  infoMode = 'hover';
+  syncAppearanceControls();
+  hideFlyerInfo();
+  activeBoards.forEach(layOut);
+  if (trialBoard) layOut(trialBoard);
+  updateAddress();
+});
+syncAppearanceControls();
 render();
 
 const trialFiles = document.querySelector('#trial-files');
@@ -377,6 +500,7 @@ let trialBoard;
 let previewUrls = [];
 
 function removeTrial() {
+  hideFlyerInfo();
   if (trialBoard) resize.unobserve(trialBoard.wall);
   trialMount.replaceChildren();
   previewUrls.forEach(url => URL.revokeObjectURL(url));

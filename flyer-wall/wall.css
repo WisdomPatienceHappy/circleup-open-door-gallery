@@ -581,6 +581,57 @@ h1 { font-size: clamp(45px,4.02vw,60px); line-height: .98; letter-spacing: .005e
 /* Narrow portrait flyers keep their full titles within the paper width. */
 .flyer-note { overflow-wrap: anywhere; }
 
+/* A small comparison bar: scale the artwork, or choose where its words live. */
+.board-tuning { display: flex; align-items: center; gap: 22px; padding: 15px 18px; margin: 0 0 8px; border-block: 1px solid #9ba88a70; background: #faf0e34f; }
+.size-control { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.size-control > label { font: 400 20px/1 var(--title-face); white-space: nowrap; margin-right: 8px; }
+.size-end { font-size: 11px; color: var(--muted); }
+#flyer-size { min-width: 70px; width: 100%; max-width: 230px; height: 24px; appearance: none; background: transparent; cursor: ew-resize; }
+#flyer-size::-webkit-slider-runnable-track { height: 5px; border-radius: 4px; background: linear-gradient(to right,var(--ink) var(--range-progress,41%),#b8bea5 var(--range-progress,41%)); }
+#flyer-size::-webkit-slider-thumb { appearance: none; width: 19px; height: 19px; margin-top: -7px; border: 2px solid var(--ink); border-radius: 46% 53% 48% 52%; background: var(--grain) repeat,var(--gold); box-shadow: 0 2px 0 #916c3d; }
+#flyer-size::-moz-range-track { height: 5px; border-radius: 4px; background: #b8bea5; }
+#flyer-size::-moz-range-progress { height: 5px; background: var(--ink); }
+#flyer-size::-moz-range-thumb { width: 16px; height: 16px; border: 2px solid var(--ink); border-radius: 50%; background: var(--gold); }
+#flyer-size-value { min-width: 40px; font-size: 12px; font-variant-numeric: tabular-nums; }
+.info-control { display: flex; gap: 3px; align-items: center; margin: 0; padding: 0; min-width: 0; border: 0; }
+.info-control legend { float: left; padding: 0; font-size: 11px; margin-right: 10px; color: var(--muted); }
+.info-control label { position: relative; cursor: pointer; }
+.info-control input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.info-control label > span { display: block; min-height: 36px; padding: 8px 12px; font-size: 12px; position: relative; isolation: isolate; white-space: nowrap; }
+.info-control label > span::before { content: ""; position: absolute; inset: 1px; z-index: -1; clip-path: var(--torn-pill); }
+.info-control :checked + span::before { background: var(--grain) repeat,var(--sage); }
+.info-control :focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 18px; }
+.view-reset { border: 0; background: transparent; text-decoration: underline; text-underline-offset: 4px; min-height: 36px; padding: 5px 0; font-size: 11px; color: var(--muted); white-space: nowrap; }
+.interaction-hint { margin: 0 2px 18px; font-size: 11px; color: var(--muted); }
+body[data-info="hover"] .flyer-note { display: none; }
+body[data-info="hover"] .flyers { gap: 28px; padding-bottom: 18px; }
+
+.flyer-info-bubble { position: fixed; z-index: 50; isolation: isolate; width: min(310px,calc(100vw - 24px)); max-height: min(360px,calc(100dvh - 24px)); overflow: auto; padding: 19px 21px 14px; border: 1.4px solid var(--line-ink); border-radius: 15px 19px 17px 14px; background: var(--grain) repeat,#fff3dc; box-shadow: 3px 5px 0 #b2b99b,5px 13px 22px #172f252e; color: var(--ink); }
+.flyer-info-bubble::before { content: ""; display: block; height: 5px; margin: -7px 0 10px; background: var(--grain) repeat,var(--gold); clip-path: var(--rule-shape); }
+.bubble-kind { display: block; font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+.bubble-title { display: block; font: 400 25px/1.06 var(--title-face); letter-spacing: -.01em; overflow-wrap: anywhere; }
+.bubble-facts { display: block; margin-top: 10px; font-size: 12px; line-height: 1.45; }
+.bubble-description { margin: 10px 0 0; padding-top: 10px; border-top: 1px solid #aab3989c; font-size: 12px; line-height: 1.5; }
+.bubble-open { display: flex; justify-content: space-between; align-items: center; margin-top: 13px; font-size: 10px; color: var(--muted); }
+.bubble-open > span { font-size: 17px; line-height: 1; }
+@media (max-width: 1023px) {
+  .board-tuning { flex-wrap: wrap; gap: 10px 22px; }
+  .size-control { flex-basis: 100%; }
+  #flyer-size { max-width: none; }
+  .view-reset { margin-left: auto; }
+}
+@media (max-width: 480px) {
+  .board-tuning { padding: 13px 4px; gap: 8px 10px; }
+  .size-control { gap: 7px; }
+  .size-control > label { font-size: 18px; margin-right: 3px; }
+  .size-end { font-size: 9px; }
+  #flyer-size { min-width: 50px; }
+  #flyer-size-value { min-width: 34px; font-size: 11px; }
+  .info-control legend { font-size: 10px; margin-right: 5px; }
+  .info-control label > span { font-size: 11px; padding-inline: 9px; }
+  .view-reset { font-size: 10px; }
+}
+
 /* Preview composition follows the artwork; the board layout stays independent. */
 #details {
   width: min(940px, calc(100% - 28px));
