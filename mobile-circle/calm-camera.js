@@ -197,7 +197,7 @@
   }
 
   /** Bounds are centered pixel coordinates; include real header/dock clearances. */
-  function createProjectionFit({ids, verticalIds = [], project, bounds, padding = 0, pairSeparationRatio = 0}) {
+  function createProjectionFit({ids, verticalIds = [], project, bounds, padding = 0, verticalMarginRatio = 0, pairSeparationRatio = 0}) {
     return (frame, context) => {
       const box = typeof bounds === 'function' ? bounds() : bounds;
       if (!box || ![box.left, box.right, box.top, box.bottom].every(Number.isFinite) || box.right <= box.left || box.bottom <= box.top) throw new TypeError('Finite fit bounds required');
@@ -206,11 +206,12 @@
         const q = project(id, frame), required = context.requiredIds.includes(id);
         const valid = q && [q.x, q.y, q.diameter].every(Number.isFinite) && q.diameter >= 0 && q.visible !== false;
         if (valid) projected.set(id, q);
-        const overflow = !valid ? 1e6 : Math.max(0, box.left + padding - (q.x - q.diameter / 2)) + Math.max(0, q.x + q.diameter / 2 - box.right + padding) + Math.max(0, box.top + padding - (q.y - q.diameter / 2)) + Math.max(0, q.y + q.diameter / 2 - box.bottom + padding);
+        const yRadius = valid ? q.diameter * (.5 + verticalMarginRatio) : 0;
+        const verticalOverflow = !valid ? 1e6 : Math.max(0, box.top + padding - (q.y - yRadius)) + Math.max(0, q.y + yRadius - box.bottom + padding);
+        const overflow = !valid ? 1e6 : Math.max(0, box.left + padding - (q.x - q.diameter / 2)) + Math.max(0, q.x + q.diameter / 2 - box.right + padding) + verticalOverflow;
         // A newly speaking person inherits this pose. Keep everyone's vertical
         // portrait/name envelope safe while allowing intentional side peeks.
         if (verticalIds.includes(id)) {
-          const verticalOverflow = !valid ? 1e6 : Math.max(0, box.top + padding - (q.y - q.diameter / 2)) + Math.max(0, q.y + q.diameter / 2 - box.bottom + padding);
           if (verticalOverflow >= 1e-6) verticalClippedIds.push(id);
           if (!required) overflowPenalty += verticalOverflow;
         }

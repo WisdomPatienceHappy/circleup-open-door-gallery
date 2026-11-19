@@ -48,6 +48,7 @@
   // Fresh runs are randomized; explicit seeds support matched test replay.
   let sequence = null, sequenceSeed = null;
   let running = false, paused = false;
+  let previewSpeaker = null;
   let calm = null;
   let step = 0;
   let turnTimer;
@@ -140,7 +141,10 @@
     }
     function evaluate(now, current) {
       const geometry = captureCameraProjection();
-      fit = api.createProjectionFit({ids: geometry.ids, verticalIds: geometry.ids, project: geometry.project, bounds: geometry.bounds, padding: 9});
+      fit = api.createProjectionFit({
+        ids: geometry.ids, verticalIds: geometry.ids, project: geometry.project,
+        bounds: geometry.bounds, padding: 9, verticalMarginRatio: portraitPaintMarginRatio
+      });
       const began = performance.now();
       proposal = policy.proposeFrame(current, fit, now);
       metrics.proposalMs.push(performance.now() - began);
@@ -236,6 +240,7 @@
     quick.setAttribute('aria-label', label);
     quick.setAttribute('title', label + ' (simulated)');
     quick.querySelector('.conversation-quick-icon').textContent = running ? 'Ⅱ' : '▶';
+    ring.dispatchEvent(new Event('circleup:portrait-state'));
   }
   function scheduleTurn(duration) {
     remainingTurn = duration;
@@ -269,7 +274,8 @@
     if (!running) return;
     if (seats.length !== rosterSize || seats.length < 2) { stopPreview('Preview stopped because the group changed.'); return; }
     const turn = sequence.next();
-    holder = turn.speaker;
+    previewSpeaker = turn.speaker;
+    holder = previewSpeaker;
     markSpeaker();
     holderText.textContent = names[holder] + ' is speaking · preview';
     // Keep the user's held view stable, including the adaptive pitch. The
@@ -364,6 +370,7 @@
   camera.addEventListener('pointercancel', released);
   window.addEventListener('pagehide', () => stopPreview());
   window.CircleUpConversationPreview = Object.freeze({
+    speakingId: () => running ? previewSpeaker : null,
     pauseForHandoff: () => pausePreview(),
     stopForHandoff: () => stopPreview('Preview stopped for a manual handoff.'),
     snapshot: () => ({running, paused, response: response.value, trace: trace.value, sequenceSeed, step, coverage: sequence?.snapshot() ?? null, remainingTurn: paused ? remainingTurn : Math.max(0, turnDeadline - performance.now()), calm: calm?.snapshot() ?? null})

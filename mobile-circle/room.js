@@ -45,17 +45,20 @@ const radians = Math.PI / 180;
 
 const closePitch = 7 * radians;
 const framePadding = { x: 7, y: 12 };
+const portraitPaintMarginRatio = .12;
 let seats = [];
 let seatPoints = [];
 let guidePaths;
 let baseDiameter = .52;
 let worldDiameter = .52;
-let spacing = 1;
+let spacing = Number(circleSpacing.value) / 100;
 let horizontalStretch = 1;
 let verticalStretch = 1;
 let chosenRestAngle = null;
 let maxZoom = baseMaxZoom;
+// The camera follows conversation turns; only a deliberate pass owns the stick.
 let holder = 0;
+let demoStickHolder = 0;
 let orientation = { pitch: 0, yaw: 0 };
 let zoom = 1;
 let focusPitch = 38 * radians;
@@ -65,6 +68,7 @@ let momentum;
 let animation;
 let keyTimer;
 let cameraAutomation = null;
+let cachedRestZoomLimit = null;
 
 // Adapted from Uni's glyph-sphere.tsx ringPoints: equal, fixed positions on a
 // unit great circle. A different starting axis keeps the speaker in front.
@@ -148,9 +152,7 @@ function applyCameraFrame(frame) {
   zoom = Math.max(minZoom, Math.min(maxZoom, frame.zoom));
   orientation = {yaw: shortestArc(frame.yaw), pitch: 0};
   focusPitch = frame.pitch;
-  zoomLevel.textContent = Math.round(zoom * 100) + '%';
-  zoomOut.disabled = zoom === minZoom;
-  zoomIn.disabled = zoom === maxZoom;
+  syncZoomControls();
   updateOvality();
   render();
 }
@@ -192,6 +194,20 @@ function updateOvality() {
   ovalityValue.value = ovality.value + '%';
 }
 
+function syncZoomControls() {
+  zoomLevel.textContent = Math.round(zoom * 100) + '%';
+  zoomOut.disabled = zoom <= minZoom + 1e-7;
+  // The global gesture range stays free; + stops at the settled framing limit.
+  const point = seatPoints[holder];
+  const signature = [stage.width, stage.height, stage.radius, spacing, worldDiameter,
+    seats.length, maxZoom, restMode.value, restAngle.value, ovality.value,
+    shapeMode.value, Math.hypot(point[0], point[2])].join('|');
+  if (cachedRestZoomLimit?.signature !== signature) {
+    cachedRestZoomLimit = {signature, zoom: restingCameraPose(maxZoom).zoom};
+  }
+  zoomIn.disabled = zoom >= cachedRestZoomLimit.zoom - 1e-6;
+}
+
 // Pure framing shared by ordinary returns and the conversation camera. It only
 // changes the pose, never the participant geometry or centered orbit pivot.
 function fitRestCameraPose(frame, {fixed = restMode.value === 'fixed'} = {}) {
@@ -202,9 +218,9 @@ function fitRestCameraPose(frame, {fixed = restMode.value === 'fixed'} = {}) {
     const pose = projectWith([0, 0, focusRadius], {
       cosYaw: 1, sinYaw: 0, cosPitch: Math.cos(pitch), sinPitch: Math.sin(pitch)
     }, {zoom: candidateZoom, ...shape});
-    // The existing gap contains the speaker's 4px ring and 5px name overhang.
+    // Leave room for the existing name tag and the portrait's external ink marks.
     const padding = 9 + (framePadding.y - 9) * Math.min(1, Math.max(0, (candidateZoom - 1) * 4));
-    return Math.abs(pose.y) + pose.diameter / 2 <= stage.height / 2 - padding;
+    return Math.abs(pose.y) + pose.diameter * (.5 + portraitPaintMarginRatio) <= stage.height / 2 - padding;
   };
   if (fits(frame.pitch, frame.zoom)) return {pitch: frame.pitch, zoom: frame.zoom, fits: true};
   if (fixed) {
@@ -218,6 +234,18 @@ function fitRestCameraPose(frame, {fixed = restMode.value === 'fixed'} = {}) {
       else high = middle;
     }
     return {pitch: frame.pitch, zoom: low, fits: fits(frame.pitch, low)};
+  }
+  // A large portrait can exceed the stage even when the orbit is flat.
+  // Widen only as far as needed; held gestures are never fitted by this helper.
+  if (!fits(0, frame.zoom)) {
+    let low = minZoom;
+    let high = frame.zoom;
+    for (let iteration = 0; iteration < 24; iteration++) {
+      const middle = (low + high) / 2;
+      if (fits(0, middle)) low = middle;
+      else high = middle;
+    }
+    return {pitch: 0, zoom: low, fits: fits(0, low)};
   }
   // Solve the FINAL tuned Adaptive request, retaining the user's zoom.
   let low = 0;
@@ -251,9 +279,7 @@ function updateFocusPitch() {
   const pose = restingCameraPose();
   focusPitch = pose.pitch;
   zoom = pose.zoom;
-  zoomLevel.textContent = Math.round(zoom * 100) + '%';
-  zoomOut.disabled = zoom === minZoom;
-  zoomIn.disabled = zoom === maxZoom;
+  syncZoomControls();
   updateOvality();
 }
 
@@ -311,11 +337,16 @@ function measure() {
 function zoomTo(next) {
   if (cameraAutomation && !pointers.size) cameraAutomation.manualChange('zoom');
   zoom = Math.min(maxZoom, Math.max(minZoom, next));
-  zoomLevel.textContent = Math.round(zoom * 100) + '%';
-  zoomOut.disabled = zoom === minZoom;
-  zoomIn.disabled = zoom === maxZoom;
+  if (!pointers.size) {
+    // Explicit controls own this instant; the background controller has yielded.
+    // Apply one complete safe pose before rendering, including total pitch.
+    const pose = restingCameraPose();
+    zoom = pose.zoom;
+    focusPitch = pose.pitch;
+    orientation = {...orientation, pitch: 0};
+  }
+  syncZoomControls();
   updateOvality();
-  if (!cameraAutomation) updateFocusPitch();
   render();
   const target = speakerView();
   if (!cameraAutomation && !pointers.size && animation === undefined && (Math.abs(orientation.pitch) > .001 ||
@@ -467,12 +498,14 @@ resetView.addEventListener('click', reset);
 
 function markSpeaker() {
   seats.forEach((seat, index) => seat.toggleAttribute('data-speaker', index === holder));
-  holderText.textContent = names[holder] + ' has the stick';
-  passStick.textContent = 'Demo · Pass the stick to ' + names[(holder + 1) % seats.length];
+  holderText.textContent = names[demoStickHolder] + ' has the stick';
+  passStick.textContent = 'Demo · Pass the stick to ' + names[(demoStickHolder + 1) % seats.length];
+  ring.dispatchEvent(new Event('circleup:portrait-state'));
 }
 
 function setDemoHolder(target) {
   if (!Number.isInteger(target) || target < 0 || target >= seats.length) return false;
+  demoStickHolder = target;
   holder = target;
   markSpeaker();
   render();
@@ -480,7 +513,7 @@ function setDemoHolder(target) {
   return true;
 }
 
-passStick.addEventListener('click', () => setDemoHolder((holder + 1) % seats.length));
+passStick.addEventListener('click', () => setDemoHolder((demoStickHolder + 1) % seats.length));
 
 request.addEventListener('click', () => {
   const pressed = request.getAttribute('aria-pressed') !== 'true';
@@ -509,6 +542,7 @@ function setGroupSize(count) {
   worldDiameter = baseDiameter * Number(faceSize.value) / 100;
   maxZoom = Math.max(baseMaxZoom, baseMaxZoom * .52 / worldDiameter);
   if (holder >= count) holder = 0;
+  if (demoStickHolder >= count) demoStickHolder = 0;
   orientation = speakerView();
   if (chosenRestAngle === null) {
     restAngle.value = String(Math.round(38 + Math.max(0, count - 7) * 2.2));
@@ -555,8 +589,8 @@ previewWidth.addEventListener('change', () => {
   previewShell.style.setProperty('--preview-width', previewWidth.value === 'auto' ? '100%' : previewWidth.value + 'px');
 });
 document.querySelector('#reset-layout').addEventListener('click', () => {
-  faceSize.value = '110';
-  circleSpacing.value = '100';
+  faceSize.value = faceSize.defaultValue;
+  circleSpacing.value = circleSpacing.defaultValue;
   ovality.value = '100';
   shapeMode.value = 'adaptive';
   restMode.value = 'adaptive';

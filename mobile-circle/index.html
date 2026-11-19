@@ -10,14 +10,17 @@
   <link rel="stylesheet" href="conversation-preview.css?v=visible-play-2">
   <link rel="stylesheet" href="talking-stick-demo.css?v=handoff-19">
   <link rel="stylesheet" href="talking-stick-integration.css?v=handoff-19">
+  <link rel="stylesheet" href="portrait-paint.css?v=feather-ink-1">
   <script defer src="gesture-help.js?v=1"></script>
-  <script defer src="room.js?v=frame-19"></script>
-  <script defer src="calm-camera.js?v=vertical-frame-19"></script>
+  <script defer src="room.js?v=portrait-layout-1"></script>
+  <script defer src="calm-camera.js?v=portrait-margin-1"></script>
   <script defer src="smooth-camera-motion.js?v=braking-19"></script>
   <script defer src="conversation-patterns.js?v=whole-roster-19"></script>
-  <script defer src="conversation-preview.js?v=whole-room-19"></script>
+  <script defer src="conversation-preview.js?v=portrait-state-1"></script>
   <script defer src="talking-stick-demo.js?v=handoff-19"></script>
-  <script defer src="talking-stick-integration.js?v=handoff-19"></script>
+  <script defer src="talking-stick-integration.js?v=portrait-state-1"></script>
+  <script defer src="portrait-paint.js?v=feather-ink-1"></script>
+  <script defer src="portrait-paint-integration.js?v=feather-ink-1"></script>
   <link rel="stylesheet" href="../shared-sample-video.css?v=1">
   <script defer src="../shared-sample-video.js?v=1"></script>
   <link rel="stylesheet" href="../listing-action.css">
@@ -137,12 +140,19 @@
           </label>
 
       <label class="tuning-control" for="face-size">
-        <span>Face size <output id="face-size-value" for="face-size">110%</output></span>
-        <input id="face-size" type="range" min="80" max="150" step="1" value="110">
+        <span>Face size <output id="face-size-value" for="face-size">150%</output></span>
+        <input id="face-size" type="range" min="80" max="150" step="1" value="150">
       </label>
       <label class="tuning-control" for="circle-spacing">
-        <span>Circle spacing <output id="circle-spacing-value" for="circle-spacing">100%</output></span>
-        <input id="circle-spacing" type="range" min="75" max="125" step="1" value="100">
+        <span>Circle spacing <output id="circle-spacing-value" for="circle-spacing">75%</output></span>
+        <input id="circle-spacing" type="range" min="75" max="125" step="1" value="75">
+      </label>
+      <label class="tuning-control" for="portrait-style">
+        <span>Portrait style</span>
+        <select id="portrait-style">
+          <option value="feather">Feather + ink</option>
+          <option value="original">Original</option>
+        </select>
       </label>
       <label class="tuning-control" for="shape-mode">
         <span>Oval direction</span>

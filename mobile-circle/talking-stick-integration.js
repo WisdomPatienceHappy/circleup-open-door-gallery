@@ -24,10 +24,10 @@
     if (!passingLabel) return;
     passingLabel = false;
     holderText.removeAttribute('title');
-    if (!window.CircleUpConversationPreview?.snapshot().running) holderText.textContent = `${names[holder]} has the stick`;
+    if (!window.CircleUpConversationPreview?.snapshot().running) holderText.textContent = `${names[demoStickHolder]} has the stick`;
   }
   const demo = window.TalkingStickDemo.create({
-    mount: grid, quickMount: header, roster: roster(), getHolder: () => holder,
+    mount: grid, quickMount: header, roster: roster(), getHolder: () => demoStickHolder,
     getAnchorRect: id => seats[id]?.querySelector('.photo').getBoundingClientRect(),
     getTravelBounds: safeBounds,
     onBegin(target, {from}) {
