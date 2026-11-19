@@ -726,3 +726,66 @@ body[data-info="hover"] .flyers { gap: 28px; padding-bottom: 18px; }
   #details .event-copy h2 { font-size: clamp(27px, 6.8vw, 38px); }
   #details .detail-ticket, #details[data-format="landscape"] .detail-ticket { margin-top: 20px; }
 }
+
+/* A quieter paper wall, outlined with the same drawn contour as the demo. */
+.board {
+  --frame: 3px;
+  --board-text: var(--ink);
+  border: var(--frame) solid transparent;
+  border-radius: 24px 22px 25px 23px;
+  background: var(--grain) repeat, #fff8eb;
+  color: var(--ink);
+  box-shadow: none;
+}
+.board::before {
+  inset: -3px;
+  z-index: -1;
+  border: 2px solid #252622;
+  border-radius: 24px 22px 25px 23px / 23px 25px 22px 24px;
+  background: none;
+  opacity: 1;
+}
+.board-sill { display: none; }
+.board-head::after { height: 3px; background: #25262299; }
+.board-head p, .flyer-note small { color: var(--muted); }
+.poster { box-shadow: 1px 2px 0 #25262224, 2px 5px 7px #25262226; }
+.flyer:hover .poster { box-shadow: 1px 2px 0 #25262224, 3px 9px 11px #2526222b; }
+.paper-circles i:nth-child(n) {
+  background: var(--grain) repeat, var(--circle-paper, #f5e7ca);
+  opacity: .75;
+}
+.paper-circles i:nth-child(1) { --circle-paper: #eee5cf; }
+.paper-circles i:nth-child(2) { --circle-paper: #f8e9c9; }
+.paper-circles i:nth-child(3) { --circle-paper: #f1e2c6; }
+.paper-circles i:nth-child(4) { --circle-paper: #eee5cf; }
+@supports (clip-path: shape(evenodd from 10px 0, line to 100% 100%, close)) {
+  .board::before {
+    --inside: 3px;
+    --paper-contour: shape(evenodd from 24px 1.2px,
+      curve to 53% 1.3px with 17% .2px / 36% 2.5px,
+      curve to calc(100% - 22px) .8px with 66% .3px / 83% 2.1px,
+      curve to calc(100% - .7px) 24px with calc(100% - 7px) .8px / calc(100% - .7px) 8px,
+      curve to calc(100% - 1.2px) calc(100% - 23px) with calc(100% - 1.9px) 39% / calc(100% - .3px) 66%,
+      curve to calc(100% - 24px) calc(100% - .8px) with calc(100% - 1.2px) calc(100% - 8px) / calc(100% - 9px) calc(100% - .1px),
+      curve to 47% calc(100% - 1.3px) with 83% calc(100% - 2.2px) / 65% calc(100% - .4px),
+      curve to 23px calc(100% - .8px) with 32% calc(100% - 2.6px) / 16% calc(100% - .2px),
+      curve to .9px calc(100% - 24px) with 9px calc(100% - .9px) / .9px calc(100% - 8px),
+      curve to 1.1px 24px with 2px 63% / .3px 34%,
+      curve to 24px 1.2px with .8px 9px / 9px 1.4px, close,
+      move to 24px calc(var(--inside) + .2px),
+      curve to 53% calc(var(--inside) + .1px) with 17% calc(var(--inside) - .7px) / 36% calc(var(--inside) + 1.6px),
+      curve to calc(100% - 22px) calc(var(--inside) - .3px) with 66% calc(var(--inside) - .8px) / 83% calc(var(--inside) + 1px),
+      curve to calc(100% - var(--inside) + .4px) 24px with calc(100% - 8px) calc(var(--inside) - .1px) / calc(100% - var(--inside) + .4px) 9px,
+      curve to calc(100% - var(--inside)) calc(100% - 23px) with calc(100% - var(--inside) - .8px) 39% / calc(100% - var(--inside) + .9px) 66%,
+      curve to calc(100% - 24px) calc(100% - var(--inside) + .2px) with calc(100% - var(--inside)) calc(100% - 9px) / calc(100% - 9px) calc(100% - var(--inside) + .8px),
+      curve to 47% calc(100% - var(--inside) - .2px) with 83% calc(100% - var(--inside) - 1.1px) / 65% calc(100% - var(--inside) + .6px),
+      curve to 23px calc(100% - var(--inside) + .3px) with 32% calc(100% - var(--inside) - 1.5px) / 16% calc(100% - var(--inside) + .6px),
+      curve to calc(var(--inside) - .2px) calc(100% - 24px) with 9px calc(100% - var(--inside) + .2px) / calc(var(--inside) - .2px) calc(100% - 9px),
+      curve to calc(var(--inside) + .1px) 24px with calc(var(--inside) + .8px) 63% / calc(var(--inside) - .7px) 34%,
+      curve to 24px calc(var(--inside) + .2px) with var(--inside) 9px / 9px calc(var(--inside) + .3px), close);
+    border: 0;
+    border-radius: 0;
+    background: #252622;
+    clip-path: var(--paper-contour);
+  }
+}
