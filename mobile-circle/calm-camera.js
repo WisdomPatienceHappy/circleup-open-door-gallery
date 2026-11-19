@@ -197,16 +197,23 @@
   }
 
   /** Bounds are centered pixel coordinates; include real header/dock clearances. */
-  function createProjectionFit({ids, project, bounds, padding = 0, pairSeparationRatio = 0}) {
+  function createProjectionFit({ids, verticalIds = [], project, bounds, padding = 0, pairSeparationRatio = 0}) {
     return (frame, context) => {
       const box = typeof bounds === 'function' ? bounds() : bounds;
       if (!box || ![box.left, box.right, box.top, box.bottom].every(Number.isFinite) || box.right <= box.left || box.bottom <= box.top) throw new TypeError('Finite fit bounds required');
-      const visibleIds = [], clippedIds = [], projected = new Map(), overlappingPairs = []; let overflowPenalty = 0, centeringPenalty = 0, centeringWeight = 0;
+      const visibleIds = [], clippedIds = [], verticalClippedIds = [], projected = new Map(), overlappingPairs = []; let overflowPenalty = 0, centeringPenalty = 0, centeringWeight = 0;
       for (const id of ids) {
         const q = project(id, frame), required = context.requiredIds.includes(id);
         const valid = q && [q.x, q.y, q.diameter].every(Number.isFinite) && q.diameter >= 0 && q.visible !== false;
         if (valid) projected.set(id, q);
         const overflow = !valid ? 1e6 : Math.max(0, box.left + padding - (q.x - q.diameter / 2)) + Math.max(0, q.x + q.diameter / 2 - box.right + padding) + Math.max(0, box.top + padding - (q.y - q.diameter / 2)) + Math.max(0, q.y + q.diameter / 2 - box.bottom + padding);
+        // A newly speaking person inherits this pose. Keep everyone's vertical
+        // portrait/name envelope safe while allowing intentional side peeks.
+        if (verticalIds.includes(id)) {
+          const verticalOverflow = !valid ? 1e6 : Math.max(0, box.top + padding - (q.y - q.diameter / 2)) + Math.max(0, q.y + q.diameter / 2 - box.bottom + padding);
+          if (verticalOverflow >= 1e-6) verticalClippedIds.push(id);
+          if (!required) overflowPenalty += verticalOverflow;
+        }
         if (valid && overflow < 1e-6) visibleIds.push(id); else clippedIds.push(id);
         if (required) {
           overflowPenalty += overflow;
@@ -224,7 +231,7 @@
         const deficit = pairSeparationRatio * (a.diameter + b.diameter) / 2 - Math.hypot(a.x - b.x, a.y - b.y);
         if (deficit > 1e-6) {overlappingPairs.push([aId, bId]); overflowPenalty += deficit;}
       }
-      return {fits: context.requiredIds.every(id => visibleIds.includes(id)) && !overlappingPairs.length, visibleIds, clippedIds, overlappingPairs, overflowPenalty, centeringPenalty: centeringPenalty / Math.max(.01, centeringWeight)};
+      return {fits: context.requiredIds.every(id => visibleIds.includes(id)) && !verticalClippedIds.length && !overlappingPairs.length, visibleIds, clippedIds, verticalClippedIds, overlappingPairs, overflowPenalty, centeringPenalty: centeringPenalty / Math.max(.01, centeringWeight)};
     };
   }
   const api = Object.freeze({createCalmCamera, createProjectionFit, stepFrame, DEFAULTS, wrap, rad});

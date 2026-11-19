@@ -45,6 +45,29 @@
     const integer = (low, high) => low + Math.floor(random() * (high - low + 1));
     let last, beforeLast, first = true, cluster = [], clusterRemaining = 0;
     let lead, repliesRemaining = 0;
+    let roomBag = [];
+    const heard = new Set();
+
+    function shuffled(pool) {
+      const result = pool.slice();
+      for (let i = result.length - 1; i > 0; i--) {
+        const j = integer(0, i);
+        [result[i], result[j]] = [result[j], result[i]];
+      }
+      return result;
+    }
+
+    function wholeRoomSpeaker() {
+      if (!roomBag.length) {
+        roomBag = shuffled(ids);
+        // Each round visits everybody; avoid repeating across round boundaries.
+        if (roomBag.length > 1 && roomBag[0] === last) {
+          const swap = integer(1, roomBag.length - 1);
+          [roomBag[0], roomBag[swap]] = [roomBag[swap], roomBag[0]];
+        }
+      }
+      return roomBag.shift();
+    }
 
     function choose(pool, preferReply = false) {
       const available = pool.filter(id => id !== last);
@@ -67,7 +90,7 @@
     function next() {
       let speaker, durationMs;
       if (kind === 'mixed') {
-        speaker = choose(ids, !first);
+        speaker = wholeRoomSpeaker();
         // Initial room to settle; subsequent turns mix replies, turns and leads.
         const category = first ? -1 : random();
         durationMs = first ? integer(8000, 18000) : category < .44 ? integer(450, 2800)
@@ -90,11 +113,12 @@
       }
       beforeLast = last;
       last = speaker;
+      heard.add(speaker);
       first = false;
       return { speaker, durationMs };
     }
 
-    return Object.freeze({ seed, next });
+    return Object.freeze({ seed, next, snapshot: () => ({heardCount: heard.size, totalCount: ids.length}) });
   }
 
   return Object.freeze({ create });

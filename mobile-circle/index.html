@@ -5,15 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Listening Together · CircleUp</title>
   <link rel="stylesheet" href="cut-paper-topics/topics.css">
-  <link rel="stylesheet" href="room.css?v=speaker-front-2">
+  <link rel="stylesheet" href="room.css?v=natural-depth-19">
   <link rel="stylesheet" href="gesture-help.css?v=1">
   <link rel="stylesheet" href="conversation-preview.css?v=visible-play-2">
+  <link rel="stylesheet" href="talking-stick-demo.css?v=handoff-19">
+  <link rel="stylesheet" href="talking-stick-integration.css?v=handoff-19">
   <script defer src="gesture-help.js?v=1"></script>
-  <script defer src="room.js?v=calm-room-1"></script>
-  <script defer src="calm-camera.js?v=calm-camera-1"></script>
-  <script defer src="smooth-camera-motion.js?v=smooth-random-1"></script>
-  <script defer src="conversation-patterns.js?v=smooth-random-1"></script>
-  <script defer src="conversation-preview.js?v=smooth-random-1"></script>
+  <script defer src="room.js?v=frame-19"></script>
+  <script defer src="calm-camera.js?v=vertical-frame-19"></script>
+  <script defer src="smooth-camera-motion.js?v=braking-19"></script>
+  <script defer src="conversation-patterns.js?v=whole-roster-19"></script>
+  <script defer src="conversation-preview.js?v=whole-room-19"></script>
+  <script defer src="talking-stick-demo.js?v=handoff-19"></script>
+  <script defer src="talking-stick-integration.js?v=handoff-19"></script>
   <link rel="stylesheet" href="../shared-sample-video.css?v=1">
   <script defer src="../shared-sample-video.js?v=1"></script>
   <link rel="stylesheet" href="../listing-action.css">
@@ -26,16 +30,18 @@
     }
     @media (max-height: 600px) {
       .room a.listing-flyer--room { position: absolute; top: 0; right: auto; left: 50%; translate: -50% 0; }
-      @container room-preview (max-width: 480px) {
-        .layout-tuning:not([open]) summary { padding-inline: 4px; font-size: 11px; }
-        .table-top.conversation-quick-header { left: 106px; }
+      @container room-preview (max-width: 570px) {
+        .talking-stick-ready .room { --header-height: max(116px, calc(env(safe-area-inset-top) + 104px)); }
+        .room .orbit-hint { right: 92px; min-height: 44px; align-items: center; gap: 8px; }
         .room .listing-flyer-plus { display: none; }
         .room a.listing-flyer--room {
-          left: 139px;
-          width: 56px;
+          top: 52px;
+          left: auto;
+          right: 0;
           translate: none;
-          padding-inline: 4px;
-          font-size: 10px;
+          width: 64px;
+          padding-inline: 6px;
+          font-size: 11px;
           white-space: normal;
         }
       }

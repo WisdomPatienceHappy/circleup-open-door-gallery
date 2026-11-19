@@ -45,7 +45,10 @@
         // The acceleration's slew bound also removes the first-frame kick.
         const desired = clamp((goal[axis] - from[axis]) / (4 * responseSeconds), -rate, rate);
         const wantedAcceleration = (desired - velocity[axis]) * -Math.expm1(-dt / responseSeconds) / dt;
-        const jerkLimit = 2 * rate / (responseSeconds * responseSeconds);
+        // Slow inward speed must not also remove the braking authority needed
+        // after a fast outward fit correction changes direction.
+        const brakingRate = axis === 'logZoom' ? Math.max(profile.zoomOutLogRate ?? .9, profile.zoomInLogRate ?? .035) : rate;
+        const jerkLimit = 2 * brakingRate / (responseSeconds * responseSeconds);
         const nextAcceleration = acceleration[axis] + clamp(wantedAcceleration - acceleration[axis], -jerkLimit * dt, jerkLimit * dt);
         const nextVelocity = velocity[axis] + nextAcceleration * dt;
         next[axis] += (velocity[axis] + nextVelocity) * dt / 2;

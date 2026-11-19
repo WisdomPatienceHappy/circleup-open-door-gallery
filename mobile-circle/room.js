@@ -30,6 +30,13 @@ const previewShell = document.querySelector('.preview-shell');
 const faceSizeValue = document.querySelector('#face-size-value');
 const circleSpacingValue = document.querySelector('#circle-spacing-value');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const restFitNote = document.createElement('p');
+restFitNote.id = 'rest-fit-note';
+restFitNote.className = 'tuning-note';
+restFitNote.textContent = 'This angle and face size do not fit at minimum zoom. Reduce face size or choose Adaptive.';
+restFitNote.hidden = true;
+restAngle.closest('label').after(restFitNote);
+restAngle.setAttribute('aria-describedby', restAngle.getAttribute('aria-describedby') + ' rest-fit-note');
 
 const minZoom = .72;
 const baseMaxZoom = 2.15;
@@ -185,47 +192,73 @@ function updateOvality() {
   ovalityValue.value = ovality.value + '%';
 }
 
-function updateFocusPitch() {
-  if (restMode.value === 'fixed') {
-    focusPitch = Number(restAngle.value) * radians;
-    return;
-  }
-  const density = Math.max(0, seats.length - 7);
-  const normal = (38 + density * 2.2) * radians;
-  // Apply user tuning after automatic framing so it remains effective at full zoom.
-  const tuning = (Number(restAngle.value) * radians) - normal;
-  const overview = (66 + density * .85) * radians;
-  const out = (1 - zoom) / (1 - minZoom);
-  const inside = (zoom - 1) / (maxZoom - 1);
-  const desired = zoom <= 1
-    ? normal + (overview - normal) * out
-    : normal + (Math.min(closePitch, normal) - normal) * inside;
+// Pure framing shared by ordinary returns and the conversation camera. It only
+// changes the pose, never the participant geometry or centered orbit pivot.
+function fitRestCameraPose(frame, {fixed = restMode.value === 'fixed'} = {}) {
   const [speakerX, , speakerZ] = seatPoints[holder];
-  const focusRadius = zoom <= 1 ? 1 : Math.hypot(speakerX, speakerZ);
-  const bottomAt = pitch => {
-    const pose = project([0, 0, focusRadius], {
+  const focusRadius = frame.zoom <= 1 ? 1 : Math.hypot(speakerX, speakerZ);
+  const fits = (pitch, candidateZoom) => {
+    const shape = ovalityAtZoom(candidateZoom);
+    const pose = projectWith([0, 0, focusRadius], {
       cosYaw: 1, sinYaw: 0, cosPitch: Math.cos(pitch), sinPitch: Math.sin(pitch)
-    });
-    return pose.y + pose.diameter / 2;
+    }, {zoom: candidateZoom, ...shape});
+    // The existing gap contains the speaker's 4px ring and 5px name overhang.
+    const padding = 9 + (framePadding.y - 9) * Math.min(1, Math.max(0, (candidateZoom - 1) * 4));
+    return Math.abs(pose.y) + pose.diameter / 2 <= stage.height / 2 - padding;
   };
-  const padding = 9 + (framePadding.y - 9) * Math.min(1, Math.max(0, (zoom - 1) * 4));
-  const limit = stage.height / 2 - padding;
-  let low = 0;
-  let high = desired;
-  if (bottomAt(high) <= limit) {
-    focusPitch = high + tuning;
-    return;
+  if (fits(frame.pitch, frame.zoom)) return {pitch: frame.pitch, zoom: frame.zoom, fits: true};
+  if (fixed) {
+    // An exact Fixed angle can require a wider camera. Keep the nearest zoom
+    // that fits, and report that real zoom through the ordinary zoom readout.
+    let low = minZoom;
+    let high = frame.zoom;
+    for (let iteration = 0; iteration < 24; iteration++) {
+      const middle = (low + high) / 2;
+      if (fits(frame.pitch, middle)) low = middle;
+      else high = middle;
+    }
+    return {pitch: frame.pitch, zoom: low, fits: fits(frame.pitch, low)};
   }
-  // Find the steepest safe angle before applying any manual orbit offset.
-  for (let iteration = 0; iteration < 15; iteration++) {
+  // Solve the FINAL tuned Adaptive request, retaining the user's zoom.
+  let low = 0;
+  let high = frame.pitch;
+  for (let iteration = 0; iteration < 24; iteration++) {
     const middle = (low + high) / 2;
-    if (bottomAt(middle) <= limit) low = middle;
+    if (fits(middle, frame.zoom)) low = middle;
     else high = middle;
   }
-  focusPitch = low + tuning;
+  return {pitch: low, zoom: frame.zoom, fits: fits(low, frame.zoom)};
+}
+
+function restingCameraPose(candidateZoom = zoom) {
+  const selected = Number(restAngle.value) * radians;
+  if (restMode.value === 'fixed') return fitRestCameraPose({pitch: selected, zoom: candidateZoom});
+  const density = Math.max(0, seats.length - 7);
+  const normal = (38 + density * 2.2) * radians;
+  const tuning = selected - normal;
+  const overview = (66 + density * .85) * radians;
+  const out = (1 - candidateZoom) / (1 - minZoom);
+  const inside = (candidateZoom - 1) / (maxZoom - 1);
+  const desired = (candidateZoom <= 1
+    ? normal + (overview - normal) * out
+    : normal + (Math.min(closePitch, normal) - normal) * inside) + tuning;
+  return fitRestCameraPose({pitch: desired, zoom: candidateZoom});
+}
+
+function updateFocusPitch() {
+  // The controller owns its complete pose; a held gesture keeps its own angle.
+  if (cameraAutomation || pointers.size) return;
+  const pose = restingCameraPose();
+  focusPitch = pose.pitch;
+  zoom = pose.zoom;
+  zoomLevel.textContent = Math.round(zoom * 100) + '%';
+  zoomOut.disabled = zoom === minZoom;
+  zoomIn.disabled = zoom === maxZoom;
+  updateOvality();
 }
 
 function render() {
+  restFitNote.hidden = restMode.value !== 'fixed' || fitRestCameraPose({pitch: Number(restAngle.value) * radians, zoom: minZoom}, {fixed: true}).fits;
   const { width, height, pixelRatio } = stage;
   document.querySelector('#effective-angle').value = Math.round(focusPitch / radians) + '°';
   document.querySelector('#rest-angle-label').textContent = restMode.value === 'adaptive' ? 'Base rest angle' : 'Rest angle';
@@ -300,15 +333,14 @@ function stop() {
 function returnToSpeaker(withGlide = false) {
   if (cameraAutomation) { cameraAutomation.requestReturn(); return; }
   stop();
-  const target = speakerView();
+  const target = {...speakerView(), ...restingCameraPose()};
   if (reducedMotion.matches) {
-    orientation = target;
-    render();
+    applyCameraFrame(target);
     return;
   }
 
   const start = performance.now();
-  const from = orientation;
+  const from = cameraFrame();
   const pitchArc = shortestArc(target.pitch - from.pitch);
   const yawArc = shortestArc(target.yaw - from.yaw);
   const release = withGlide && momentum && start - momentum.at < 115 ? momentum : null;
@@ -317,8 +349,7 @@ function returnToSpeaker(withGlide = false) {
     const time = Math.max(0, (now - start) / 1000);
     if (time >= 1.15) {
       animation = undefined;
-      orientation = target;
-      render();
+      applyCameraFrame(target);
       return;
     }
 
@@ -328,11 +359,11 @@ function returnToSpeaker(withGlide = false) {
     const spring = 1 - Math.exp(-falloff * time) *
       (Math.cos(frequency * time) + falloff / frequency * Math.sin(frequency * time));
     const glide = release ? time * Math.exp(-time / .12) : 0;
-    orientation = {
+    applyCameraFrame({
       pitch: from.pitch + pitchArc * spring + (release?.pitch ?? 0) * glide,
-      yaw: from.yaw + yawArc * spring + (release?.yaw ?? 0) * glide
-    };
-    render();
+      yaw: from.yaw + yawArc * spring + (release?.yaw ?? 0) * glide,
+      zoom: from.zoom + (target.zoom - from.zoom) * Math.min(1, spring)
+    });
     animation = requestAnimationFrame(tick);
   }
 
@@ -440,13 +471,16 @@ function markSpeaker() {
   passStick.textContent = 'Demo · Pass the stick to ' + names[(holder + 1) % seats.length];
 }
 
-passStick.addEventListener('click', () => {
-  holder = (holder + 1) % seats.length;
-  updateFocusPitch();
+function setDemoHolder(target) {
+  if (!Number.isInteger(target) || target < 0 || target >= seats.length) return false;
+  holder = target;
   markSpeaker();
   render();
   if (!pointers.size) returnToSpeaker();
-});
+  return true;
+}
+
+passStick.addEventListener('click', () => setDemoHolder((holder + 1) % seats.length));
 
 request.addEventListener('click', () => {
   const pressed = request.getAttribute('aria-pressed') !== 'true';

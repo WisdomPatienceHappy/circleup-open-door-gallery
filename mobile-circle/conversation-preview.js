@@ -10,7 +10,7 @@
     <h2 id="conversation-preview-title">Open conversation</h2>
     <p class="tuning-note">Simulated speaker changes. Compare quick back-and-forth with a calmer camera response.</p>
     <label class="tuning-control" for="conversation-trace"><span>Example conversation</span>
-      <select id="conversation-trace"><option value="mixed" selected>Mixed open conversation</option><option value="backforth">Short back-and-forth</option><option value="sustained">Long turn, then replies</option></select>
+      <select id="conversation-trace"><option value="mixed" selected>Whole-circle conversation</option><option value="backforth">Small-group exchange (2–4)</option><option value="sustained">Long turn, then replies</option></select>
     </label>
     <label class="tuning-control" for="conversation-speed"><span>Conversation pace</span>
       <select id="conversation-speed"><option value="slow">Slower turns</option><option value="natural" selected>Natural exchange</option><option value="quick">Quick back-and-forth</option></select>
@@ -97,11 +97,13 @@
       const density = Math.max(0, seats.length - 7);
       const tuning = Number(restAngle.value) * radians - (38 + density * 2.2) * radians;
       const fixed = restMode.value === 'fixed';
-      const overviewPitch = fixed ? Number(restAngle.value) * radians : (66 + density * .85) * radians + tuning;
+      const requestedOverviewPitch = fixed ? Number(restAngle.value) * radians : (66 + density * .85) * radians + tuning;
+      const overview = fitRestCameraPose({pitch: requestedOverviewPitch, zoom: 1}, {fixed});
+      const overviewPitch = overview.pitch;
       const close = fixed ? overviewPitch : closePitch + tuning;
       policy = api.createCalmCamera({
         roster: seats.map((_, index) => index),
-        config: {...styles[cameraStyle.value], minZoom, maxZoom, overviewZoom: 1, overviewPitch, closePitch: close},
+        config: {...styles[cameraStyle.value], minZoom, maxZoom, overviewZoom: overview.zoom, overviewPitch, closePitch: close},
         speakerYaw: id => -Math.atan2(seatPoints[id][0], seatPoints[id][2]),
         pitchCandidates: (observed, current) => fixed ? [Number(restAngle.value) * radians] : [current.pitch, observed.desiredPitch, overviewPitch, close,
           Math.max(Math.min(close, overviewPitch), Math.min(Math.max(close, overviewPitch), current.pitch - 5 * radians)),
@@ -134,11 +136,11 @@
         if (manual) { context = policy.beginManual(now); remember('beginManual'); }
       }
       proposal = null; nextProposal = 0; dirty = true; needsRebuild = false;
-      return {overviewPitch};
+      return {overviewPitch, overviewZoom: overview.zoom};
     }
     function evaluate(now, current) {
       const geometry = captureCameraProjection();
-      fit = api.createProjectionFit({ids: geometry.ids, project: geometry.project, bounds: geometry.bounds, padding: 9});
+      fit = api.createProjectionFit({ids: geometry.ids, verticalIds: geometry.ids, project: geometry.project, bounds: geometry.bounds, padding: 9});
       const began = performance.now();
       proposal = policy.proposeFrame(current, fit, now);
       metrics.proposalMs.push(performance.now() - began);
@@ -174,7 +176,7 @@
     const releaseOwner = takeCameraAutomation(owner);
     // Explicit Play starts with a group overview, using the selected exact
     // pitch in fixed mode. Geometry is never translated or rearranged.
-    const overview = {...cameraFrame(), pitch: initial.overviewPitch, zoom: 1};
+    const overview = {...cameraFrame(), pitch: initial.overviewPitch, zoom: initial.overviewZoom};
     evaluate(initialNow, manual ? cameraFrame() : overview);
     // Keep the current pose on ordinary Play; the one motion owner eases
     // toward this overview rather than snapping to it.
@@ -195,7 +197,7 @@
         if (proposal) {
           const current = cameraFrame();
           const next = motion.step(current, proposal.target, dt, proposal.motion, reducedMotion.matches,
-            {fit, context: proposal.context, minZoom, maxZoom, overviewZoom: 1, fixedPitch: restMode.value === 'fixed' ? Number(restAngle.value) * radians : undefined});
+            {fit, context: proposal.context, minZoom, maxZoom, overviewZoom: policy.config.overviewZoom, fixedPitch: restMode.value === 'fixed' ? Number(restAngle.value) * radians : undefined});
           if (Math.abs(shortestArc(next.yaw - current.yaw)) + Math.abs(next.pitch - current.pitch) + Math.abs(Math.log(next.zoom / current.zoom)) > 1e-10) {
             applyCameraFrame(next);
             metrics.frames++;
@@ -277,7 +279,8 @@
     requestFocus();
     const factor = {slow: 1.7, natural: 1, quick: .5}[speed.value] ?? 1;
     const duration = Math.round(turn.durationMs * factor);
-    status.textContent = 'Simulated: ' + names[holder] + ' is speaking · next change in ' + (duration / 1000).toFixed(1) + 's.';
+    const coverage = sequence.snapshot();
+    status.textContent = 'Simulated: ' + names[holder] + ' is speaking · next change in ' + (duration / 1000).toFixed(1) + 's · ' + coverage.heardCount + ' of ' + coverage.totalCount + ' voices heard.';
     step++;
     scheduleTurn(duration);
   }
@@ -360,5 +363,9 @@
   camera.addEventListener('pointerup', released);
   camera.addEventListener('pointercancel', released);
   window.addEventListener('pagehide', () => stopPreview());
-  window.CircleUpConversationPreview = Object.freeze({snapshot: () => ({running, paused, response: response.value, trace: trace.value, sequenceSeed, step, remainingTurn: paused ? remainingTurn : Math.max(0, turnDeadline - performance.now()), calm: calm?.snapshot() ?? null})});
+  window.CircleUpConversationPreview = Object.freeze({
+    pauseForHandoff: () => pausePreview(),
+    stopForHandoff: () => stopPreview('Preview stopped for a manual handoff.'),
+    snapshot: () => ({running, paused, response: response.value, trace: trace.value, sequenceSeed, step, coverage: sequence?.snapshot() ?? null, remainingTurn: paused ? remainingTurn : Math.max(0, turnDeadline - performance.now()), calm: calm?.snapshot() ?? null})
+  });
 })();
