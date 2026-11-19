@@ -57,6 +57,7 @@ let previous;
 let momentum;
 let animation;
 let keyTimer;
+let cameraAutomation = null;
 
 // Adapted from Uni's glyph-sphere.tsx ringPoints: equal, fixed positions on a
 // unit great circle. A different starting axis keeps the speaker in front.
@@ -81,22 +82,77 @@ function shortestArc(angle) {
 
 // The same yaw-then-pitch projection as Uni. The final X-axis rotation
 // keeps the ring level on screen even through a full vertical flip.
-function project([bx, by, bz], angles) {
-  bx *= spacing;
-  by *= spacing;
-  bz *= spacing;
+function projectWith([bx, by, bz], angles, view, geometry = {spacing, radius: stage.radius, diameter: worldDiameter}) {
+  bx *= geometry.spacing;
+  by *= geometry.spacing;
+  bz *= geometry.spacing;
   const x = bx * angles.cosYaw + bz * angles.sinYaw;
   const turnedZ = -bx * angles.sinYaw + bz * angles.cosYaw;
   const y = by * angles.cosPitch - turnedZ * angles.sinPitch;
   const z = by * angles.sinPitch + turnedZ * angles.cosPitch;
   const perspective = 1 / (1 - .24 * z);
-  const pixelScale = stage.radius * zoom * perspective;
+  const pixelScale = geometry.radius * view.zoom * perspective;
   return {
-    x: x * pixelScale * horizontalStretch,
-    y: -y * pixelScale * verticalStretch,
-    diameter: worldDiameter * pixelScale,
+    x: x * pixelScale * view.horizontal,
+    y: -y * pixelScale * view.vertical,
+    diameter: geometry.diameter * pixelScale,
     depth: z
   };
+}
+
+function project(point, angles) {
+  return projectWith(point, angles, {zoom, horizontal: horizontalStretch, vertical: verticalStretch});
+}
+
+// Policy candidates use total pitch and their OWN zoom-dependent shape. This
+// evaluates a camera pose without touching the displayed view or seat geometry.
+function projectCameraCandidate(point, frame) {
+  const shape = ovalityAtZoom(frame.zoom);
+  return projectWith(point, {
+    cosYaw: Math.cos(frame.yaw), sinYaw: Math.sin(frame.yaw),
+    cosPitch: Math.cos(frame.pitch), sinPitch: Math.sin(frame.pitch)
+  }, {zoom: frame.zoom, ...shape});
+}
+
+function captureCameraProjection() {
+  const geometry = {spacing, radius: stage.radius, diameter: worldDiameter};
+  const points = seatPoints.map(point => [...point]);
+  const parameters = {amount: Number(ovality.value) / 100, mode: shapeMode.value, width: stage.width, height: stage.height, count: seats.length, maxZoom};
+  let lastFrame, angles, view;
+  return {
+    ids: points.map((_, index) => index),
+    bounds: {left: -stage.width / 2, right: stage.width / 2, top: -stage.height / 2, bottom: stage.height / 2},
+    project(id, frame) {
+      if (lastFrame !== frame) {
+        lastFrame = frame;
+        angles = {cosYaw: Math.cos(frame.yaw), sinYaw: Math.sin(frame.yaw), cosPitch: Math.cos(frame.pitch), sinPitch: Math.sin(frame.pitch)};
+        view = {zoom: frame.zoom, ...ovalityAtZoom(frame.zoom, parameters)};
+      }
+      return projectWith(points[id], angles, view, geometry);
+    }
+  };
+}
+
+function cameraFrame() {
+  return {yaw: orientation.yaw, pitch: focusPitch + orientation.pitch, zoom};
+}
+
+function applyCameraFrame(frame) {
+  zoom = Math.max(minZoom, Math.min(maxZoom, frame.zoom));
+  orientation = {yaw: shortestArc(frame.yaw), pitch: 0};
+  focusPitch = frame.pitch;
+  zoomLevel.textContent = Math.round(zoom * 100) + '%';
+  zoomOut.disabled = zoom === minZoom;
+  zoomIn.disabled = zoom === maxZoom;
+  updateOvality();
+  render();
+}
+
+function takeCameraAutomation(owner) {
+  if (cameraAutomation) throw Error('Camera already has an automatic owner');
+  stop();
+  cameraAutomation = owner;
+  return () => { if (cameraAutomation === owner) cameraAutomation = null; };
 }
 
 function rotationAngles() {
@@ -107,18 +163,25 @@ function rotationAngles() {
   };
 }
 
-function updateOvality() {
+function ovalityAtZoom(candidateZoom, parameters = {amount: Number(ovality.value) / 100, mode: shapeMode.value, width: stage.width, height: stage.height, count: seats.length, maxZoom}) {
   // Adapt only at layout/zoom changes, never while orbiting. Photos stay round.
-  const amount = Number(ovality.value) / 100;
-  const adaptive = shapeMode.value === 'adaptive';
-  const tall = shapeMode.value === 'tall' || (adaptive && stage.height >= stage.width);
-  const aspect = tall ? stage.height / stage.width : stage.width / stage.height;
-  const density = Math.min(1, .75 + seats.length / 72);
-  const closeness = Math.max(0, Math.min(1, (zoom - 1) / (maxZoom - 1)));
-  const strength = shapeMode.value === 'round' ? 0 : amount * (adaptive ? density * (1 - .4 * closeness) : 1);
+  const amount = parameters.amount;
+  const adaptive = parameters.mode === 'adaptive';
+  const tall = parameters.mode === 'tall' || (adaptive && parameters.height >= parameters.width);
+  const aspect = tall ? parameters.height / parameters.width : parameters.width / parameters.height;
+  const density = Math.min(1, .75 + parameters.count / 72);
+  const closeness = Math.max(0, Math.min(1, (candidateZoom - 1) / (parameters.maxZoom - 1)));
+  const strength = parameters.mode === 'round' ? 0 : amount * (adaptive ? density * (1 - .4 * closeness) : 1);
   const extension = Math.max(1.4, Math.min(1.85, Math.sqrt(Math.max(1, aspect)) * 1.15));
-  horizontalStretch = tall ? 1 - .16 * strength : 1 + (extension - 1) * strength;
-  verticalStretch = tall ? 1 + (extension - 1) * strength : 1 - .16 * strength;
+  const horizontal = tall ? 1 - .16 * strength : 1 + (extension - 1) * strength;
+  const vertical = tall ? 1 + (extension - 1) * strength : 1 - .16 * strength;
+  return {horizontal, vertical};
+}
+
+function updateOvality() {
+  const shape = ovalityAtZoom(zoom);
+  horizontalStretch = shape.horizontal;
+  verticalStretch = shape.vertical;
   ovalityValue.value = ovality.value + '%';
 }
 
@@ -207,20 +270,22 @@ function measure() {
   rim.height = Math.round(height * pixelRatio);
   if (!seats.length) return;
   updateOvality();
-  updateFocusPitch();
+  if (!cameraAutomation) updateFocusPitch();
   render();
+  cameraAutomation?.layoutChanged();
 }
 
 function zoomTo(next) {
+  if (cameraAutomation && !pointers.size) cameraAutomation.manualChange('zoom');
   zoom = Math.min(maxZoom, Math.max(minZoom, next));
   zoomLevel.textContent = Math.round(zoom * 100) + '%';
   zoomOut.disabled = zoom === minZoom;
   zoomIn.disabled = zoom === maxZoom;
   updateOvality();
-  updateFocusPitch();
+  if (!cameraAutomation) updateFocusPitch();
   render();
   const target = speakerView();
-  if (!pointers.size && animation === undefined && (Math.abs(orientation.pitch) > .001 ||
+  if (!cameraAutomation && !pointers.size && animation === undefined && (Math.abs(orientation.pitch) > .001 ||
       Math.abs(shortestArc(orientation.yaw - target.yaw)) > .001)) {
     returnToSpeaker();
   }
@@ -233,6 +298,7 @@ function stop() {
 }
 
 function returnToSpeaker(withGlide = false) {
+  if (cameraAutomation) { cameraAutomation.requestReturn(); return; }
   stop();
   const target = speakerView();
   if (reducedMotion.matches) {
@@ -299,6 +365,7 @@ camera.addEventListener('pointerdown', event => {
   if (event.button !== 0 || pointers.size >= 2) return;
   stop();
   pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+  if (pointers.size === 1) cameraAutomation?.beginManual('pointer');
   previous = gesture();
   momentum = null;
   camera.setPointerCapture(event.pointerId);
@@ -356,6 +423,7 @@ camera.addEventListener('keydown', event => {
   else if (key === '0') reset();
   else if (keyTurns.has(key)) {
     stop();
+    cameraAutomation?.beginManual('keyboard');
     turn(...keyTurns.get(key));
     keyTimer = setTimeout(returnToSpeaker, 480);
   } else return;
@@ -427,6 +495,7 @@ function updateLayout() {
   circleSpacingValue.value = circleSpacing.value + '%';
   updateOvality();
   zoomTo(zoom);
+  cameraAutomation?.layoutChanged();
 }
 
 faceSize.addEventListener('input', updateLayout);
@@ -436,6 +505,7 @@ shapeMode.addEventListener('change', updateLayout);
 restMode.addEventListener('change', () => {
   updateFocusPitch();
   render();
+  cameraAutomation?.layoutChanged();
   if (!pointers.size) returnToSpeaker();
 });
 restAngle.addEventListener('input', () => {
@@ -443,6 +513,7 @@ restAngle.addEventListener('input', () => {
   restAngleValue.value = restAngle.value + '°';
   updateFocusPitch();
   render();
+  cameraAutomation?.layoutChanged();
   if (!pointers.size) returnToSpeaker();
 });
 previewWidth.addEventListener('change', () => {
