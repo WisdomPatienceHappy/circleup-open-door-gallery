@@ -51,7 +51,7 @@ render = function() {
 };
 photoBoardPrev.addEventListener('click', () => photoBoardGo(photoBoardIndex - 1));
 photoBoardNext.addEventListener('click', () => photoBoardGo(photoBoardIndex + 1));
-boards.addEventListener('scroll', photoBoardSchedule, {passive:true});
+boards.addEventListener('scroll', () => {hideFlyerInfo(); photoBoardSchedule();}, {passive:true});
 boards.addEventListener('keydown', e => {
   if (e.target !== boards) return;
   if (e.key === 'ArrowRight') {e.preventDefault(); photoBoardGo(photoBoardIndex + 1);}
