@@ -26,6 +26,7 @@ const search = document.querySelector('#search');
 const count = document.querySelector('#results-count');
 const empty = document.querySelector('#empty');
 const listingAction = empty.querySelector('.listing-flyer');
+prepareListingFlyer(listingAction);
 const dialog = document.querySelector('#details');
 const pacific = 'America/Los_Angeles';
 const dateFormats = new Map();
@@ -69,6 +70,25 @@ function element(tag, className, value) {
   if (className) node.className = className;
   if (value) node.textContent = value;
   return node;
+}
+
+// The creation action is paper in the artwork flow, not a board-heading button.
+function prepareListingFlyer(link) {
+  link.classList.add('listing-card');
+  link.setAttribute('aria-label', 'Add your listing: share a gathering, community or facilitator');
+  const paper = element('span', 'poster listing-paper');
+  paper.style.setProperty('--ratio', '4 / 5');
+  const plus = element('span', 'listing-flyer-plus', '+');
+  plus.setAttribute('aria-hidden', 'true');
+  paper.append(plus, element('strong', 'listing-paper-title', 'Add your listing'),
+    element('span', 'listing-paper-copy', 'Share a gathering, community or facilitator'));
+  link.replaceChildren(paper);
+  return link;
+}
+
+function listingEntry() {
+  const link = listingAction.cloneNode(true);
+  return {item: {width: 4, height: 5}, button: link};
 }
 
 function makeArtwork(item, className, lazy = false) {
@@ -294,7 +314,7 @@ function layOut(board) {
     return line;
   });
   board.wall.replaceChildren(...rows);
-  if (focused?.classList.contains('flyer') && board.wall.contains(focused)) focused.focus({preventScroll: true});
+  if (focused?.matches('.flyer, .listing-card') && board.wall.contains(focused)) focused.focus({preventScroll: true});
 }
 
 const resize = new ResizeObserver(entries => {
@@ -320,7 +340,9 @@ function createBoard(group) {
   const sill = element('div', 'board-sill');
   sill.setAttribute('aria-hidden', 'true');
   section.append(header, wall, sill);
-  const board = {section, wall, entries: group.items.map((item, index) => ({item, button: createFlyer(item, index >= 5)}))};
+  const entries = group.items.map((item, index) => ({item, button: createFlyer(item, index >= 5)}));
+  if (group.id !== 'trial') entries.splice(Math.min(4, entries.length), 0, listingEntry());
+  const board = {section, wall, entries};
   wall.addEventListener('flyer-dimensions', () => {
     board.width = undefined;
     requestAnimationFrame(() => {
@@ -370,10 +392,9 @@ function render() {
   const groups = groupFlyers(matches).filter(group => group.items.length);
   for (const board of activeBoards) resize.unobserve(board.wall);
   activeBoards = groups.map(createBoard);
-  const actionWasFocused = document.activeElement === listingAction;
+  const focusedActionBoard = document.activeElement?.closest('.board')?.id;
+  const actionWasFocused = document.activeElement?.classList.contains('listing-card');
   boards.replaceChildren(...activeBoards.map(board => board.section));
-  const actionTarget = activeBoards[0]?.section.querySelector('.board-head') || empty;
-  actionTarget.append(listingAction);
 
   activeBoards.forEach(board => {
     layOut(board);
@@ -386,7 +407,10 @@ function render() {
     return link;
   }));
   empty.hidden = Boolean(matches.length);
-  if (actionWasFocused) listingAction.focus({preventScroll: true});
+  if (actionWasFocused) {
+    const boardAction = document.getElementById(focusedActionBoard)?.querySelector('.listing-card');
+    (matches.length ? boardAction || boards.querySelector('.listing-card') : listingAction)?.focus({preventScroll: true});
+  }
   count.textContent = matches.length + (matches.length === 1 ? ' flyer' : ' flyers');
   for (const button of topics.children) {
     button.setAttribute('aria-pressed', String(button.dataset.topic === activeTopic));

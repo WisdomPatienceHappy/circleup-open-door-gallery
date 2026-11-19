@@ -789,3 +789,51 @@ body[data-info="hover"] .flyers { gap: 28px; padding-bottom: 18px; }
     clip-path: var(--paper-contour);
   }
 }
+
+/* The invitation to post belongs among the pinned artwork. */
+.board a.listing-flyer.listing-card {
+  display: block;
+  flex: 0 0 auto;
+  width: var(--width, 210px);
+  min-height: 0;
+  padding: 0;
+  white-space: normal;
+  color: var(--ink);
+  container-type: inline-size;
+  transform: none;
+}
+.board a.listing-flyer.listing-card::before,
+.board a.listing-flyer.listing-card::after { display: none; }
+.listing-card .listing-paper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9cqw;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  padding: 12cqw 9cqw;
+  background: var(--grain) repeat, #fff0d5;
+  border-radius: 2px 3px 3px 1px;
+  text-align: center;
+  transform: rotate(-1.2deg);
+  transition: transform .18s ease-out;
+}
+.listing-card .listing-paper::after { --pin: #eb946c; }
+.listing-card .listing-flyer-plus {
+  flex-basis: auto;
+  width: 24cqw;
+  height: 24cqw;
+  font: 400 20cqw/1 Inter, sans-serif;
+  border-width: 1.5px;
+}
+.listing-paper-title { font: 400 clamp(13px, 13cqw, 34px)/1.06 var(--title-face); }
+.listing-paper-copy { font: 400 clamp(8px, 5.5cqw, 14px)/1.4 Inter, sans-serif; }
+.board a.listing-flyer.listing-card:hover { transform: none; }
+.listing-card:hover .listing-paper { transform: translateY(-3px) rotate(0); }
+.listing-card:active .listing-paper { transform: translateY(2px) rotate(-1.2deg); }
+.listing-empty a.listing-flyer.listing-card { width: min(210px, 80%); }
+@media (prefers-reduced-motion: reduce) { .listing-card .listing-paper { transition: none; } }
+
+.listing-card .listing-paper::before { content: ""; position: absolute; inset: 9px; border: 1px solid #6c644642; border-radius: 5px 3px 6px 4px / 3px 6px 3px 5px; pointer-events: none; }
+.listing-paper-title::after { content: ""; display: block; width: 42%; height: 3px; margin: 10cqw auto 0; background: #bb7452a6; clip-path: var(--rule-shape); }
