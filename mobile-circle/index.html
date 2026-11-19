@@ -4,6 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Listening Together · CircleUp</title>
+  <script>
+    // Keep inherited paper URLs stable across consuming stylesheets and hosts.
+    document.documentElement.style.setProperty('--grain', 'url("' + new URL('../media/paper-grain.png', document.baseURI).href + '")');
+  </script>
   <link rel="stylesheet" href="cut-paper-topics/topics.css">
   <link rel="stylesheet" href="room.css?v=natural-depth-19">
   <link rel="stylesheet" href="gesture-help.css?v=1">
