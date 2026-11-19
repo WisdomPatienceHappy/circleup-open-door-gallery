@@ -112,8 +112,22 @@ function factsFor(item, detail = false) {
   return [dates.label.format(start), detail ? dates.time.format(start) : '', place, detail ? item.venue : '', status].filter(Boolean);
 }
 
+function previewFormat(width, height) {
+  const ratio = Number(width) / Number(height);
+  const safeRatio = Number.isFinite(ratio) && ratio > 0 ? ratio : 1;
+  return safeRatio > 1.22 ? 'landscape' : safeRatio < .88 ? 'portrait' : 'square';
+}
+
 function openEvent(item) {
   const artwork = makeArtwork(item, 'detail-art');
+  dialog.dataset.format = previewFormat(item.width, item.height);
+  const previewImage = artwork.querySelector('img');
+  const useNaturalFormat = () => {
+    if (document.querySelector('#event-art') !== artwork || !previewImage.naturalWidth || !previewImage.naturalHeight) return;
+    dialog.dataset.format = previewFormat(previewImage.naturalWidth, previewImage.naturalHeight);
+    artwork.style.setProperty('--ratio', previewImage.naturalWidth + ' / ' + previewImage.naturalHeight);
+  };
+  if (previewImage) previewImage.addEventListener('load', useNaturalFormat, {once: true});
   artwork.id = 'event-art';
   document.querySelector('#event-art').replaceWith(artwork);
   document.querySelector('#event-topic').textContent = categoryFor(item.topic).label;
@@ -131,6 +145,9 @@ function openEvent(item) {
   credit.textContent = item.credit ? 'Artwork · ' + item.credit : '';
   credit.hidden = !item.credit;
   dialog.showModal();
+  artwork.scrollTop = 0;
+  dialog.scrollTop = 0;
+  if (previewImage?.complete) useNaturalFormat();
 }
 
 function createFlyer(item, lazy) {
