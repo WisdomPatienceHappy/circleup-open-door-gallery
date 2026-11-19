@@ -137,7 +137,6 @@ body { min-height: 0; }
 .seat .photo { width: 100%; height: 100%; margin: 0; }
 .seat .photo img { width: 100%; height: 100%; display: block; object-fit: cover; border-radius: 50%; }
 .seat .photo::after { inset: -4px; border-width: 3px; }
-.seat[data-speaker] { z-index: 10001; }
 .seat[data-speaker] .photo::after { opacity: 1; }
 .seat .name {
   position: absolute;

@@ -11,9 +11,43 @@ const cameraPosition={x:0,y:0,z:1.04};
 function facing(i){const p=position(i);return Math.atan2(p.x,cameraPosition.z-p.z)}
 function project(i){const p=position(i),dx=p.x-cameraPosition.x,dz=cameraPosition.z-p.z;const x=dx*Math.cos(yaw)-dz*Math.sin(yaw),forward=dx*Math.sin(yaw)+dz*Math.cos(yaw),depth=forward*Math.cos(pitch);const focal=width/(2*Math.tan(fieldOfView*Math.PI/360))*zoom;const diameter=(.67*Math.min(1.12,(7/count)**.63))*faceScale*focal/depth;return{x:x*focal/depth,y:Math.tan(pitch)*focal,depth,diameter}}
 
+function fitPortraitDiameters(projections) {
+ const radii=projections.map(p=>p.depth>.035&&Number.isFinite(p.diameter)?p.diameter/2:0);
+ const fitted=[...radii];
+ for(let i=0;i<projections.length;i++) {
+  if(!radii[i])continue;
+  const a=projections[i];
+  for(let j=i+1;j<projections.length;j++) {
+   if(!radii[j])continue;
+   const b=projections[j];
+   const distance=Math.hypot(a.x-b.x,a.y-b.y);
+   const clearance=distance-Math.min(8,distance*.12);
+   if(radii[i]+radii[j]<=clearance)continue;
+   // Keep a smaller portrait at its requested size if it already fits its half.
+   const half=clearance/2;
+   fitted[i]=Math.min(fitted[i],Math.max(half,clearance-radii[j]));
+   fitted[j]=Math.min(fitted[j],Math.max(half,clearance-radii[i]));
+  }
+ }
+ return fitted.map(radius=>radius*2);
+}
+
 function render(){
  const projections=seats.map(s=>project(s.index));
- seats.forEach((s,n)=>{const p=projections[n];const visible=p.depth>.035&&Number.isFinite(p.diameter);s.element.hidden=!visible;if(!visible)return;s.element.style.setProperty('--x',p.x+'px');s.element.style.setProperty('--y',p.y+'px');s.element.querySelector('.name').hidden=Math.abs(p.x)>width/2;s.element.style.setProperty('--size',p.diameter+'px');s.element.style.setProperty('--z',String(Math.round(10000-p.depth*1000)));s.element.toggleAttribute('data-speaker',s.index===speaker)});
+ const diameters=fitPortraitDiameters(projections);
+ seats.forEach((s,n)=>{
+  const p=projections[n],diameter=diameters[n];
+  const visible=p.depth>.035&&Number.isFinite(p.diameter);
+  s.element.hidden=!visible;
+  if(!visible)return;
+  s.element.style.setProperty('--x',p.x+'px');
+  s.element.style.setProperty('--y',p.y+'px');
+  s.element.querySelector('.name').hidden=Math.abs(p.x)>width/2;
+  s.element.style.setProperty('--size',diameter+'px');
+  s.element.style.setProperty('--z',String(Math.round(10000-p.depth*1000)));
+  s.element.toggleAttribute('data-compact-portrait',diameter<38);
+  s.element.toggleAttribute('data-speaker',s.index===speaker);
+ });
  const dpr=devicePixelRatio||1;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,width,height);
  // A faint ground-level perimeter locates the group without moving anyone's face.
  const focal=width/(2*Math.tan(fieldOfView*Math.PI/360))*zoom;ctx.beginPath();let open=false;
