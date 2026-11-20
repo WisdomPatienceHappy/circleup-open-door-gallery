@@ -7,7 +7,7 @@ const plane=depth=>Math.round(depth*1000)/1000;
 const RAD=Math.PI/180,BASE=1/.24,clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),wrap=a=>Math.atan2(Math.sin(a),Math.cos(a));
 export function createScene({element,getState,roomMembers,onInspect,onPerson,onView}){
  const layer=element.querySelector('#world-layer'),list=element.querySelector('.ring'),neighbors=element.querySelector('#neighbors'),centers=element.querySelector('#centers'),canvas=element.querySelector('canvas'),ctx=canvas.getContext('2d');
- const layout={arrangement:'arc',spacing:.93,roomScale:.6,rotation:0},tuning={faceSize:1.5,circleSpacing:.75,basePitch:38*RAD,centerMode:'world',centerSize:1,baseZoom:1,viewMode:'recency',pattern:'mixed',turnSpeed:1};
+ const layout={arrangement:'arc',spacing:1.14,roomScale:.25,rotation:0},tuning={faceSize:1.75,circleSpacing:1.4,basePitch:38*RAD,centerMode:'world',centerSize:1,baseZoom:1,viewMode:'recency',pattern:'mixed',turnSpeed:1};
  let camera={yaw:0,pitch:tuning.basePitch,distance:BASE,target:{x:0,y:0,z:0}},width=1,height=1,focal=1,browsing=false,editing=false,selection=false,dirty=true,rosterKey='',speaker=null,holder=null,running=false,logical=0,deadline=0,sequence,cinematic,priorTime=0,usefulBase=1,initialView=true,records=new Map(),centerNodes=new Map(),centerDimensions=new Map(),selectedIds=[],planMetrics=null;
  const seats=new Map(),labelNodes=new Map();let renderedLabels=[],popupPlacement=null,popupNatural=null;
  const paint=CircleUpPortraitPaint.create({getSeats:()=>[...seats.values()].map(v=>v.element),getId:s=>s.dataset.person,getSpeaker:()=>speaker,getHolder:()=>holder});
