@@ -9,6 +9,12 @@
     if (!mount || typeof getHolder !== 'function' || typeof getAnchorRect !== 'function' || typeof onCommit !== 'function') {
       throw new TypeError('TalkingStickDemo needs mount, getHolder, getAnchorRect and onCommit');
     }
+    // Bound explicit timing profiles before creating any DOM or listeners.
+    const durationMs = options.durationMs === undefined ? 1100 : options.durationMs;
+    const easing = options.easing === undefined ? 'smoothstep' : options.easing;
+    if (typeof durationMs !== 'number' || !Number.isFinite(durationMs)) throw new TypeError('Talking stick durationMs must be a finite number');
+    if (durationMs < 250 || durationMs > 10000) throw new RangeError('Talking stick durationMs must be between 250 and 10000');
+    if (!['smoothstep', 'smootherstep'].includes(easing)) throw new TypeError('Talking stick easing must be smoothstep or smootherstep');
     const doc = mount.ownerDocument, win = doc.defaultView;
     const prefix = `talking-stick-${++instance}`;
     const reduced = win.matchMedia('(prefers-reduced-motion: reduce)');
@@ -159,8 +165,8 @@
         if (!from || !to || !bounds) { cancel('The circle changed. Handoff cancelled.'); return; }
         const a = constrainedPoint(from, -12, bounds), b = constrainedPoint(to, 12, bounds);
         if (pending.started === null) pending.started = now;
-        const progress = Math.min(1, (now - pending.started) / 1100);
-        const t = progress * progress * (3 - 2 * progress);
+        const progress = Math.min(1, (now - pending.started) / durationMs);
+        const t = easing === 'smootherstep' ? progress * progress * progress * (progress * (progress * 6 - 15) + 10) : progress * progress * (3 - 2 * progress);
         // Bend toward the open circle interior, away from a direct eye-line.
         const x = (1 - t) ** 2 * a.x + 2 * (1 - t) * t * bounds.x + t ** 2 * b.x;
         const y = (1 - t) ** 2 * a.y + 2 * (1 - t) * t * bounds.y + t ** 2 * b.y;

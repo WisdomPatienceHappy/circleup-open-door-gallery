@@ -1,0 +1,198 @@
+/** Callback-only adapter. Ranking, projection and motion remain their existing owners'. */
+const finite=Number.isFinite;
+const copy=value=>typeof structuredClone==='function'?structuredClone(value):JSON.parse(JSON.stringify(value));
+const wrap=a=>Math.atan2(Math.sin(a),Math.cos(a));
+const sameIds=(a,b)=>a.length===b.length&&a.every((id,i)=>id===b[i]);
+const sameFrame=(a,b)=>Math.abs(wrap(a.yaw-b.yaw))<1e-10&&Math.abs(a.pitch-b.pitch)<1e-10&&Math.abs(Math.log(a.zoom/b.zoom))<1e-10;
+const MODES={cinematic:'recency',equal:'equal',current:'current'};
+class InvalidProjection extends Error{}
+function frame(value){
+ if(!value||![value.yaw,value.pitch,value.zoom].every(finite)||value.zoom<=0)throw new TypeError('getFrame must return finite yaw/pitch and positive zoom');
+ return {yaw:value.yaw,pitch:value.pitch,zoom:value.zoom};
+}
+
+export function createAttentionController(options={}){
+ const required=['getRoster','getProjection','getBounds','getSpeakerYaw','getFrame','applyFrame'];
+ for(const name of required)if(typeof options[name]!=='function')throw new TypeError(`${name} callback required`);
+ const libraries=options.libraries??{policy:globalThis.AttentionConversationCamera,calm:globalThis.CalmConversationCamera,motion:globalThis.SmoothConversationMotion};
+ if(typeof libraries.policy?.create!=='function'||typeof libraries.calm?.stepFrame!=='function'||typeof libraries.motion?.create!=='function')throw new TypeError('Load the pinned Attention, Calm and Smooth libraries before creating the controller');
+ const config={minZoom:.72,maxZoom:2.15,memorySeconds:8,paceSeconds:14,planIntervalMs:500,restPitch:38*Math.PI/180,...options.config};
+ const profile={yawRate:.45,pitchRate:.3,zoomOutLogRate:.8,zoomInLogRate:.1,...options.config?.profile};
+ if(![config.minZoom,config.maxZoom,config.memorySeconds,config.paceSeconds,config.planIntervalMs].every(v=>finite(v)&&v>0)||config.maxZoom<config.minZoom||!finite(config.restPitch))throw new RangeError('Positive zoom/time configuration and finite rest pitch required');
+ if(!Object.values(profile).every(v=>finite(v)&&v>0))throw new RangeError('Motion rates must be finite and positive');
+ for(const name of ['getBlockers','getBaseZoom','getRestPitch','getHolder','getFixedPitch'])if(options[name]!==undefined&&typeof options[name]!=='function')throw new TypeError(`${name} must be a callback`);
+ const routeStats={jointRecoveryIntents:0};
+ function routeStep(current,target,dt,rates,reduced,safety){
+  // A feasible Fixed endpoint can need coupled angular progress while a
+  // recipient is cropped. Prefer the existing rate-bounded joint trial only
+  // when its unchanged guards permit recovery; keep Calm for all other intent.
+  if(finite(safety?.fixedPitch)&&Math.abs(current.pitch-safety.fixedPitch)>1e-8&&typeof safety.fit==='function'){
+   const before=safety.fit(current);
+   if(!before.fits){
+    const joint=libraries.calm.stepFrame(current,target,dt,rates,reduced),next=safety.fit(joint);
+    if(!next.hardRefusal&&(next.fits||next.overflowPenalty<before.overflowPenalty-1e-8)){routeStats.jointRecoveryIntents++;return joint;}
+   }
+  }
+  return libraries.calm.stepFrame(current,target,dt,rates,reduced,safety);
+ }
+ const motion=libraries.motion.create({stepFrame:routeStep});
+ const stats={calls:0,steps:0,applies:0,plans:0,rebuilds:0,resets:0,pausedSteps:0,blockedSteps:0,planMs:[]};
+ let ids=[],bounds=null,planner=null,history=[],active=null,clock=null,target=null,lastProposal=null,lastPlan=-Infinity;
+ let intentId=null,pitchConstraint=null,pitchConfigured=false;
+ let ready=false,reason='not-built',dirty=true,mode='cinematic',suspendReason=null,wasPaused=false,lastResult=null;
+
+ function roster(){
+  const value=options.getRoster();
+  if(!Array.isArray(value))throw new TypeError('getRoster must return an array of IDs or people with .id');
+  const result=value.map(p=>p&&typeof p==='object'?p.id:p);
+  if(result.some(id=>!(typeof id==='string'&&id.length||typeof id==='number'&&Number.isSafeInteger(id)))||new Set(result).size!==result.length)throw new TypeError('Roster IDs must be distinct nonempty strings or safe integers');
+  return result;
+ }
+ function readBounds(){
+  const b=options.getBounds();
+  return b&&[b.left,b.right,b.top,b.bottom].every(finite)&&b.right>b.left&&b.bottom>b.top?{left:b.left,right:b.right,top:b.top,bottom:b.bottom}:null;
+ }
+ function sameBounds(a,b){return a===null&&b===null||a&&b&&['left','right','top','bottom'].every(k=>a[k]===b[k]);}
+ function readFixedPitch(){
+  const value=options.getFixedPitch?.()??null;
+  if(value!==null&&(!finite(value)||value< -45*Math.PI/180||value>135*Math.PI/180))throw new RangeError('Explicit fixed pitch must be finite radians within -45..135 degrees');
+  return value;
+ }
+ function samePitch(a,b){return a===null?b===null:b!==null&&Math.abs(a-b)<1e-12;}
+ function validateTime(now){if(!finite(now)||clock!==null&&now<clock)throw new RangeError('observe and step require one finite monotonic millisecond clock; reset before restarting it');}
+ function invalidate(){dirty=true;target=null;lastProposal=null;lastResult=null;lastPlan=-Infinity;motion.reset();}
+ function rebuild(){
+  const nextIds=roster(),nextBounds=readBounds();ids=nextIds;bounds=nextBounds;planner=null;ready=false;stats.rebuilds++;invalidate();
+  if(active!==null&&!ids.includes(active)){
+   active=null;history.push({id:null,at:clock??0});if(history.length>4096)history=history.slice(-4096);
+  }
+  if(intentId!==null&&!ids.includes(intentId))intentId=null;
+  if(!ids.length){reason='empty-roster';return {ready,reason,roster:[...ids]};}
+  if(!bounds){reason='unmeasured-bounds';return {ready,reason,roster:[...ids]};}
+  const projection=options.getProjection(),project=typeof projection==='function'?projection:typeof projection?.project==='function'?projection.project.bind(projection):null;
+  if(!project)throw new TypeError('getProjection must return a project function or {project(id,frame)}');
+  if(projection.ids&&!sameIds(projection.ids,ids)){reason='projection-roster-mismatch';return {ready,reason,roster:[...ids]};}
+  const capturedBounds={...bounds};
+  planner=libraries.policy.create({ids:[...ids],minZoom:config.minZoom,maxZoom:config.maxZoom,activeMinVisibleFraction:.60,
+   project(id,f){const p=project(id,f);if(!p||p.visible===false||![p.x,p.y,p.diameter,p.depth].every(finite)||p.diameter<=0)throw new InvalidProjection('Selected-room projection is behind the near plane or invalid');return p;},
+   getBounds:()=>({...capturedBounds}),speakerYaw:options.getSpeakerYaw,getBlockers:options.getBlockers??(()=>[]),getHolder:options.getHolder??(()=>null)});
+  // Removed people become silence boundaries, rather than extending another
+  // person's old speaking span across time that belonged to the removed voice.
+  for(const event of history)planner.observe(event.id===null||ids.includes(event.id)?event.id:null,event.at);
+  ready=true;reason='ready';return {ready,reason,roster:[...ids]};
+ }
+ function observe(id,now){
+  const currentIds=roster();
+  if(id!==null&&!currentIds.includes(id))throw new RangeError('Observed speaker is outside the current roster');
+  validateTime(now);clock=now;
+  if(!history.length||active!==id){history.push({id,at:now});if(history.length>4096)history=history.slice(-4096);dirty=true;target=null;lastProposal=null;lastResult=null;lastPlan=-Infinity;}
+  active=id;
+  if(planner&&sameIds(currentIds,ids))planner.observe(id,now);else {ready=false;planner=null;invalidate();}
+ }
+ function verticalDebt(a){return a.portraits.reduce((sum,p)=>{const r=p.diameter/2+Math.max(0,p.paintPadding??0);return sum+Math.max(0,a.bounds.top-(p.y-r),p.y+r-a.bounds.bottom);},0);}
+ function safetyFor(current,before,base){
+  const beforeVertical=verticalDebt(before),beforeHorizontal=Math.max(0,before.overflowPx-beforeVertical);
+  const beforeDebt=beforeVertical>.25?beforeVertical:beforeHorizontal;
+  return {minZoom:config.minZoom,maxZoom:config.maxZoom,fixedPitch:pitchConstraint??undefined,overviewZoom:Math.max(current.zoom,target?.zoom??current.zoom,base),context:{requiredIds:active===null?[]:[active]},fit:f=>{
+   const a=planner.assess(f,{activeId:active,focusId:intentId}),vertical=verticalDebt(a),horizontal=Math.max(0,a.overflowPx-vertical);
+   const roles=['active','holder','intent'];
+   const zoomWorsens=f.zoom>current.zoom+1e-8&&roles.some(role=>!before[role+'VisibilityFits']&&(a[role+'VisibleAreaLowerPx']<before[role+'VisibleAreaLowerPx']-1||a[role+'VisibleFractionLower']<before[role+'VisibleFractionLower']-.002));
+   const verticalWorsens=before.verticalFits?!a.verticalFits:vertical>beforeVertical+.25;
+   const visibilityWorsens=roles.some(role=>before[role+'VisibilityFits']&&!a[role+'VisibilityFits']||before[role+'FrameFits']&&!a[role+'FrameFits']);
+   const aboveBefore=current.pitch>=18*Math.PI/180-1e-8&&current.pitch<=85*Math.PI/180+1e-8;
+   const leavesAbove=pitchConstraint===null&&aboveBefore&&(f.pitch<18*Math.PI/180-1e-8||f.pitch>85*Math.PI/180+1e-8);
+   const fixedDistance=pitchConstraint===null?null:Math.abs(current.pitch-pitchConstraint);
+   const leavesFixed=fixedDistance!==null&&(fixedDistance<=1e-8?Math.abs(f.pitch-pitchConstraint)>1e-8:Math.abs(f.pitch-pitchConstraint)>fixedDistance+1e-8);
+   // Internal STEP permission is distinct from actual visible-speaker truth.
+   // Deficient yaw/pitch may cross a plateau; zoom-in cannot make it worse.
+   const hardRefusal=zoomWorsens||verticalWorsens||visibilityWorsens||leavesAbove||leavesFixed;
+   const allowed=a.frameFits&&!hardRefusal;
+   let debt=beforeVertical>.25?vertical:horizontal;
+   if(hardRefusal)debt=Math.max(debt,beforeDebt+1);
+   return {fits:allowed,visibleIds:allowed&&active!==null?[active]:[],overflowPenalty:debt,hardRefusal};
+  }};
+ }
+ function result(current,{applied=false,paused=false,blocked=false,why=reason,actual=null}={}){
+  lastResult={frame:{...current},target:target?{...target}:null,applied,paused,blocked,reason:why,mode,metrics:{actual,proposal:lastProposal?.metrics??null,weights:lastProposal?.weights??[],motion:motion.snapshot(),plans:stats.plans}};
+  return copy(lastResult);
+ }
+ function step(now,dt,{paused=false,mode:requestedMode=mode,reducedMotion}={}){
+  if(!Object.hasOwn(MODES,requestedMode))throw new RangeError('Camera mode must be cinematic, equal or current');
+  if(typeof paused!=='boolean'||!finite(dt)||dt<0)throw new RangeError('paused must be boolean; dt is finite nonnegative seconds');
+  validateTime(now);const requestedPitch=readFixedPitch(),current=frame(options.getFrame());clock=now;stats.calls++;
+  if(requestedMode!==mode){mode=requestedMode;invalidate();}
+  if(paused||suspendReason!==null){if(!wasPaused)invalidate();wasPaused=true;stats.pausedSteps++;return result(current,{paused:true,why:suspendReason??'external-pause'});}
+  if(pitchConfigured&&!samePitch(requestedPitch,pitchConstraint)){
+   if(intentId!==null){stats.blockedSteps++;return result(current,{blocked:true,why:'configuration-change-requires-handoff-cancel'});}
+   invalidate();
+  }
+  pitchConstraint=requestedPitch;pitchConfigured=true;
+  if(wasPaused){invalidate();wasPaused=false;}
+  const currentIds=roster(),currentBounds=readBounds();
+  if(!ready||!sameIds(currentIds,ids)||!sameBounds(currentBounds,bounds))rebuild();
+  if(!ready)return result(current,{blocked:true});
+  if(current.zoom<config.minZoom-1e-9||current.zoom>config.maxZoom+1e-9){stats.blockedSteps++;return result(current,{blocked:true,why:'outside-auto-zoom-range'});}
+  if(active===null&&intentId===null&&(options.getHolder?.()??null)===null)return result(current,{why:'no-active-speaker'});
+  const base=options.getBaseZoom?.()??1,rest=options.getRestPitch?.()??config.restPitch;
+  if(!finite(base)||base<=0||!finite(rest))throw new RangeError('Base zoom must be positive and rest pitch finite radians');
+  let before;
+  try{
+   before=planner.assess(current,{activeId:active,focusId:intentId});
+   if(dirty||now-lastPlan>=config.planIntervalMs){
+    const started=globalThis.performance?.now?.()??Date.now();
+    lastProposal=planner.plan({now,current,baselineZoom:base,restPitch:rest,memorySeconds:config.memorySeconds,paceSeconds:config.paceSeconds,mode:MODES[mode],focusId:intentId,fixedPitch:pitchConstraint,motionRates:{yaw:profile.yawRate,pitch:profile.pitchRate,zoomIn:profile.zoomInLogRate,zoomOut:profile.zoomOutLogRate}});
+    stats.planMs.push((globalThis.performance?.now?.()??Date.now())-started);if(stats.planMs.length>128)stats.planMs.shift();stats.plans++;target={...lastProposal.frame};lastPlan=now;dirty=false;
+   }
+   if(!dt)return result(current,{why:'zero-dt',actual:before});
+   const safety=safetyFor(current,before,base),reduce=reducedMotion??globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches??false;
+   const next=motion.step(current,target,dt,profile,Boolean(reduce),safety);stats.steps++;
+   // The frozen smoother's reduced-motion path returns a static target before
+   // consulting fit. Apply the same explicit postcondition in both paths.
+   const from=safety.fit(current),to=safety.fit(next),allowed=!to.hardRefusal&&(to.fits||!from.fits&&to.overflowPenalty<=from.overflowPenalty+1e-8);
+   if(!allowed){motion.reset();stats.blockedSteps++;return result(current,{blocked:true,why:'actual-step-refused',actual:before});}
+   const actual=planner.assess(next,{activeId:active,focusId:intentId});
+   if(!sameFrame(current,next)){options.applyFrame({...next});stats.applies++;}
+   return result(next,{applied:!sameFrame(current,next),why:'ready',actual});
+  }catch(error){
+   if(!(error instanceof InvalidProjection))throw error;
+   invalidate();ready=false;reason='invalid-selected-projection';stats.blockedSteps++;return result(current,{blocked:true,actual:before??null});
+  }
+ }
+ function suspend(why='manual-browse'){suspendReason=String(why);invalidate();}
+ function resume(){suspendReason=null;wasPaused=false;rebuild();}
+ function retargetIntent(id,now){
+  validateTime(now);clock=now;intentId=id;dirty=true;target=null;lastProposal=null;lastResult=null;lastPlan=-Infinity;
+  // Keep one motion instance and its velocity/acceleration across pass intent,
+  // arrival and cancellation. Permission and actual speech remain caller-owned.
+ }
+ function beginHandoff(id,now){
+  if(!roster().includes(id))throw new RangeError('Handoff recipient is outside the current roster');
+  retargetIntent(id,now);return {intendedId:intentId,holderId:options.getHolder?.()??null};
+ }
+ function commitHandoff(now){retargetIntent(null,now);}
+ function cancelHandoff(now){retargetIntent(null,now);}
+ function handoffReady(){
+  if(intentId===null||!ready||suspendReason!==null||wasPaused)return {ready:false,reason:'no-active-handoff-or-paused'};
+  let requestedPitch;
+  try{requestedPitch=readFixedPitch();if(!samePitch(requestedPitch,pitchConstraint))return {ready:false,reason:'configuration-change-requires-handoff-cancel'};}catch(error){return {ready:false,reason:'invalid-fixed-pitch'};}
+  if(!sameIds(roster(),ids)||!sameBounds(readBounds(),bounds))return {ready:false,reason:'geometry-changed-rebuild-needed'};
+  try{
+   const current=frame(options.getFrame()),actual=planner.assess(current,{activeId:active,focusId:intentId});
+   if(requestedPitch!==null){
+    // A readable manual pose cannot authorize a different, unachieved Fixed
+    // setting. Query both actual truth and the exact selected-pitch envelope.
+    const attained=Math.abs(current.pitch-requestedPitch)<=1e-8;
+    const selected=planner.assess({...current,pitch:requestedPitch},{activeId:active,focusId:intentId});
+    const fixed={pitch:requestedPitch,attained,actual:copy(selected)};
+    if(!attained||!selected.fits)return {ready:false,reason:!attained?'fixed-pitch-not-attained':'fixed-pitch-roles-not-readable',actual:copy(actual),fixed};
+    return {ready:actual.fits,reason:actual.fits?'recipient-and-current-roles-readable':'framing-current-roles-and-recipient',actual:copy(actual),fixed};
+   }
+   return {ready:actual.fits,reason:actual.fits?'recipient-and-current-roles-readable':'framing-current-roles-and-recipient',actual:copy(actual)};
+  }catch(error){if(!(error instanceof InvalidProjection))throw error;return {ready:false,reason:'invalid-selected-projection'};}
+ }
+ function reset(){clock=null;history=[];active=null;intentId=null;lastProposal=null;stats.resets++;rebuild();}
+ function snapshot(){return copy({frame:frame(options.getFrame()),ready,reason,mode,suspended:suspendReason,activeId:active,intendedId:intentId,fixedPitch:pitchConstraint,configuration:{minZoom:config.minZoom,maxZoom:config.maxZoom,memorySeconds:config.memorySeconds,paceSeconds:config.paceSeconds,planIntervalMs:config.planIntervalMs,restPitch:config.restPitch,profile:{...profile}},clock,roster:ids,history,policy:planner?.snapshot()??null,target,lastResult,stats,route:{...routeStats},motion:motion.snapshot()});}
+ return Object.freeze({observe,step,rebuild,reset,suspend,resume,snapshot,beginHandoff,commitHandoff,cancelHandoff,handoffReady});
+}
+
+export default createAttentionController;

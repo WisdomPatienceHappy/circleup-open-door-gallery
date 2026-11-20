@@ -1,0 +1,76 @@
+.raised {
+  --face: #c0442d;
+  --edge: #812718;
+  --depth: 8px;
+  --travel: 0px;
+  position: relative;
+  isolation: isolate;
+  display: inline-block;
+  vertical-align: top;
+  max-inline-size: 100%;
+  padding: 0 0 var(--depth);
+  border: 0;
+  border-radius: 999px;
+  color: #fffaf1;
+  background-color: transparent;
+  font: 500 clamp(19px, 2vw, 29px)/1.15 Inter, sans-serif;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button.raised { cursor: pointer; }
+
+.raised::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: var(--depth) 0 0;
+  border-radius: inherit;
+  background: var(--edge);
+}
+
+.face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
+  min-block-size: 56px;
+  padding: .63em clamp(20px, 3vw, 46px);
+  border-radius: inherit;
+  background: var(--grain) repeat, var(--face);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .2);
+  pointer-events: none;
+  transform: translateY(var(--travel));
+  transition: transform 115ms cubic-bezier(.2, .8, .2, 1), background-color 130ms ease;
+}
+
+.arrow { font-size: 1.18em; line-height: 1; }
+
+@media (hover: hover) {
+  .raised:not(:disabled):hover { --face: #b93b26; --travel: -1px; }
+}
+
+.raised.is-hovered { --face: #b93b26; --travel: -1px; }
+
+.raised:focus-visible, .raised.is-focused {
+  outline: 3px solid var(--ink);
+  outline-offset: 5px;
+}
+
+.raised:not(:disabled):active, .raised.is-pressed {
+  --travel: var(--depth);
+  --face: #a83421;
+}
+
+.raised:active .face { transition-duration: 65ms; }
+
+.raised:disabled {
+  --face: #d5b4a8;
+  --edge: #b59386;
+  color: #523c33;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .face { transition: none; }
+}

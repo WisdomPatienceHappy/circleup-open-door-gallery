@@ -1,0 +1,4 @@
+/* Approved Attention speaking strokes; inherited portrait/name geometry stays. */
+.seat[data-conversation-paint][data-paint-speaking] .paint-contour { stroke-width:2.2; opacity:.98!important; }
+.seat[data-conversation-paint][data-paint-speaking] .paint-echo { stroke-width:1; opacity:.65; }
+.seat[data-conversation-paint][data-paint-speaking] .paint-voice path { stroke-width:2.7; }

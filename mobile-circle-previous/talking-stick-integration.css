@@ -1,0 +1,14 @@
+/* Two visible demo actions share the room's reserved header, outside portraits. */
+.talking-stick-header .talking-stick-quick { flex: 0 0 44px; width: 44px; min-width: 44px; height: 44px; padding: 4px; font-size: 10px; line-height: 1.05; white-space: normal; }
+.talking-stick-header .talking-stick-quick svg { display: none; }
+.talking-stick-header .table-heading { min-width: 0; }
+@container room-preview (min-width: 700px) {
+  .talking-stick-header .talking-stick-quick { flex-basis: 94px; width: 94px; min-width: 94px; padding: 3px 9px 3px 5px; gap: 3px; font-size: 11px; white-space: nowrap; }
+  .talking-stick-header .talking-stick-quick svg { display: block; }
+}
+@media (max-height: 600px) {
+  .table-top.conversation-quick-header.talking-stick-header { left: 114px; width: 94px; max-width: 94px; gap: 6px; }
+  .talking-stick-header .talking-stick-quick { flex-basis: 44px; width: 44px; min-width: 44px; padding: 4px; font-size: 10px; white-space: normal; }
+  .talking-stick-header .talking-stick-quick svg { display: none; }
+  .talking-stick-ready .layout-tuning summary { font-size: 11px; padding-inline: 6px; }
+}

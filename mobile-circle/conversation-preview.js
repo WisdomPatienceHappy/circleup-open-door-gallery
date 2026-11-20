@@ -1,5 +1,7 @@
 /** Simulated open-time conversation; the live-call view uses real room authority. */
-(() => {
+window.CircleUpConversationPreview = Object.freeze({speakingId: () => null, snapshot: () => ({ready:false,running:false,paused:false})});
+window.CircleUpConversationPreviewReady = (async () => {
+  const {createPrimaryAttention} = await import('./attention-primary/r-ba780d663c8c/room-attention.mjs');
   const grid = document.querySelector('.tuning-grid');
   if (!grid || document.querySelector('#conversation-preview')) return;
   const section = document.createElement('section');
@@ -21,10 +23,10 @@
     <label class="tuning-control" for="camera-style"><span>Camera style</span>
       <select id="camera-style" aria-describedby="camera-style-help"><option value="gentle">Gentle · less motion</option><option value="balanced" selected>Balanced · closer sooner</option><option value="lively">Lively · more motion</option></select>
     </label>
-    <p id="camera-style-help" class="tuning-note">Camera motion is separate from conversation pace. Gentle moves slowly; Balanced focuses sooner.</p>
+    <p id="camera-style-help" class="tuning-note">Camera motion is separate from turn timing. Gentle, Balanced and Lively use 28, 14 and 8-second attention paces.</p>
     <button id="conversation-play" type="button" class="conversation-play paper-outline" aria-pressed="false"><span class="paper-stroke" aria-hidden="true"></span><span>Start conversation preview</span></button>
     <p id="conversation-status" class="tuning-note" role="status">Preview stopped. No real call is running.</p>
-    <p class="tuning-note">Drag takes priority. Let go to refocus on whoever is speaking. Calm starts wide, tightens gradually after a sustained turn, and widens for replies. Compare the original follow-every-change or brief-pause modes.</p>`;
+    <p class="tuning-note">Drag takes priority. Let go to refocus on whoever is speaking. Calm keeps attending through a sustained turn and frames replies without moving the portraits. Compare the original follow-every-change or brief-pause modes.</p>`;
   grid.append(section);
 
   const play = section.querySelector('#conversation-play');
@@ -58,178 +60,18 @@
   let lastFocusAt = -Infinity;
   let rosterSize = seats.length;
 
+  function updateRoles() {
+    const actual = running || paused ? previewSpeaker : null;
+    seats.forEach((seat,id) => seat.toggleAttribute('data-speaker',id === actual));
+    const voice = actual === null ? 'Listening' : names[actual] + ' speaking';
+    const label = voice + ' · ' + names[demoStickHolder] + ' has the stick';
+    if (holderText.textContent !== label) holderText.textContent = label;
+    holderText.title = label;
+    ring.dispatchEvent(new Event('circleup:portrait-state'));
+  }
   function createCalmController() {
-    const api = window.CalmConversationCamera;
-    if (!api || !window.SmoothConversationMotion) throw Error('Calm camera motion unavailable');
-    const motion = window.SmoothConversationMotion.create({stepFrame: api.stepFrame});
-    let policy, proposal, fit, alive = true, suspended = false, manual = pointers.size > 0;
-    let frameRequest, manualTimer, lastTick = null, nextProposal = 0, dirty = true;
-    let needsRebuild = false, context = null;
-    let history = [];
-    const styles = {
-      gentle: {tightenStartMs: 8000, fullTightMs: 40000, recentHoldMs: 8000, wideHoldMs: 4000, zoomInLogRate: .035, yawRate: api.DEFAULTS.yawRate, pitchRate: api.DEFAULTS.pitchRate, zoomOutLogRate: api.DEFAULTS.zoomOutLogRate},
-      balanced: {tightenStartMs: 3000, fullTightMs: 20000, recentHoldMs: 5000, wideHoldMs: 2000, zoomInLogRate: .07, yawRate: api.rad(16), pitchRate: api.rad(7), zoomOutLogRate: 1},
-      lively: {tightenStartMs: 1500, fullTightMs: 12000, recentHoldMs: 3000, wideHoldMs: 1500, zoomInLogRate: .12, yawRate: api.rad(20), pitchRate: api.rad(9), zoomOutLogRate: 1.1}
-    };
-    function remember(type, id) {
-      const lastSpeaker = [...history].reverse().find(event => event.type === 'speaker');
-      if (type === 'speaker' && lastSpeaker?.id === id) return;
-      history.push({type, id, at: context.now});
-      if (history.length < 4096 && history[0].at >= context.now - 120000) return;
-      // Keep a bounded observed-event tail, plus the last real turn start/end
-      // for each person and latest manual-release anchor. Long current turns
-      // therefore retain their original start even after the tail expires.
-      const anchors = new Set();
-      const speakerEvents = history.map((event, index) => ({event, index})).filter(row => row.event.type === 'speaker');
-      const latest = new Map();
-      speakerEvents.forEach((row, index) => latest.set(row.event.id, {row, next: speakerEvents[index + 1]}));
-      for (const {row, next} of latest.values()) { anchors.add(row.index); if (next) anchors.add(next.index); }
-      for (const type of ['endManual', 'beginManual']) {
-        const index = history.findLastIndex(event => event.type === type);
-        if (index >= 0) anchors.add(index);
-      }
-      const selected = history.map((event, index) => ({event, index})).filter(row => row.event.at >= context.now - 120000 || anchors.has(row.index));
-      while (selected.length > 4096) { const index = selected.findIndex(row => !anchors.has(row.index)); selected.splice(index < 0 ? 0 : index, 1); }
-      history = selected.map(row => row.event);
-    }
-    const metrics = {ticks: 0, frames: 0, proposals: 0, proposalMs: [], tickMs: [], fitFailed: false};
-    function configure(now, preserveHistory = false) {
-      const previous = preserveHistory && policy ? policy.update(now) : null;
-      const density = Math.max(0, seats.length - 7);
-      const tuning = Number(restAngle.value) * radians - (38 + density * 2.2) * radians;
-      const fixed = restMode.value === 'fixed';
-      const requestedOverviewPitch = fixed ? Number(restAngle.value) * radians : (66 + density * .85) * radians + tuning;
-      const overview = fitRestCameraPose({pitch: requestedOverviewPitch, zoom: 1}, {fixed});
-      const overviewPitch = overview.pitch;
-      const close = fixed ? overviewPitch : closePitch + tuning;
-      policy = api.createCalmCamera({
-        roster: seats.map((_, index) => index),
-        config: {...styles[cameraStyle.value], minZoom, maxZoom, overviewZoom: overview.zoom, overviewPitch, closePitch: close},
-        speakerYaw: id => -Math.atan2(seatPoints[id][0], seatPoints[id][2]),
-        pitchCandidates: (observed, current) => fixed ? [Number(restAngle.value) * radians] : [current.pitch, observed.desiredPitch, overviewPitch, close,
-          Math.max(Math.min(close, overviewPitch), Math.min(Math.max(close, overviewPitch), current.pitch - 5 * radians)),
-          Math.max(Math.min(close, overviewPitch), Math.min(Math.max(close, overviewPitch), current.pitch + 5 * radians))]
-      });
-      if (previous) {
-        // Events use policy logical time, which excludes pauses. Translate
-        // those actual observations onto the new policy's monotonic clock.
-        const origin = now - previous.now;
-        policy.reset(origin);
-        let replayAt = origin;
-        for (const event of history) {
-          // Bound floating-point translation to the observed current instant.
-          const at = Math.max(replayAt, Math.min(now, origin + event.at));
-          replayAt = at;
-          if (event.type === 'speaker') policy.observeSpeakers([event.id], at);
-          else if (event.type === 'beginManual') policy.beginManual(at);
-          else if (event.type === 'endManual') policy.endManual(at);
-          else if (event.type === 'resume') { policy.pause(at); policy.resume(at); }
-        }
-        context = policy.update(now);
-        if (manual && !context.manual) context = policy.beginManual(now);
-        if (suspended) context = policy.pause(now);
-      } else {
-        history = [];
-        policy.reset(now);
-        context = policy.observeSpeakers([holder], now);
-        remember('speaker', holder);
-        if (suspended) context = policy.pause(now);
-        if (manual) { context = policy.beginManual(now); remember('beginManual'); }
-      }
-      proposal = null; nextProposal = 0; dirty = true; needsRebuild = false;
-      return {overviewPitch, overviewZoom: overview.zoom};
-    }
-    function evaluate(now, current) {
-      const geometry = captureCameraProjection();
-      fit = api.createProjectionFit({
-        ids: geometry.ids, verticalIds: geometry.ids, project: geometry.project,
-        bounds: geometry.bounds, padding: 9, verticalMarginRatio: portraitPaintMarginRatio
-      });
-      const began = performance.now();
-      proposal = policy.proposeFrame(current, fit, now);
-      metrics.proposalMs.push(performance.now() - began);
-      if (metrics.proposalMs.length > 300) metrics.proposalMs.shift();
-      metrics.proposals++; metrics.fitFailed = proposal.fitFailed;
-      context = proposal.context;
-      nextProposal = now + 200; dirty = false;
-    }
-    const owner = {
-      beginManual() {
-        if (!alive) return;
-        clearTimeout(manualTimer);
-        if (!manual) { manual = true; motion.reset(); context = policy.beginManual(performance.now()); remember('beginManual'); }
-        lastTick = null;
-      },
-      manualChange() {
-        owner.beginManual();
-        manualTimer = setTimeout(() => { if (!pointers.size) owner.requestReturn(); }, 550);
-      },
-      requestReturn() {
-        if (!alive || pointers.size) return;
-        clearTimeout(manualTimer);
-        manual = false;
-        motion.reset();
-        context = policy.endManual(performance.now());
-        remember('endManual');
-        dirty = true; lastTick = null;
-      },
-      layoutChanged() { if (alive) { motion.reset(); needsRebuild = true; dirty = true; } }
-    };
-    const initialNow = performance.now();
-    const initial = configure(initialNow);
-    const releaseOwner = takeCameraAutomation(owner);
-    // Explicit Play starts with a group overview, using the selected exact
-    // pitch in fixed mode. Geometry is never translated or rearranged.
-    const overview = {...cameraFrame(), pitch: initial.overviewPitch, zoom: initial.overviewZoom};
-    evaluate(initialNow, manual ? cameraFrame() : overview);
-    // Keep the current pose on ordinary Play; the one motion owner eases
-    // toward this overview rather than snapping to it.
-    function tick() {
-      if (!alive || suspended) return;
-      // RAF timestamps can precede a timer/event observed in the same frame.
-      // Policy observations and renderer ticks must share this monotonic clock.
-      const now = performance.now();
-      const tickBegan = now;
-      metrics.ticks++;
-      if (needsRebuild) configure(now);
-      const dt = lastTick === null ? 0 : Math.max(0, (now - lastTick) / 1000);
-      lastTick = now;
-      if (manual || pointers.size) {
-        context = policy.update(now);
-      } else {
-        if (dirty || now >= nextProposal) evaluate(now, cameraFrame());
-        if (proposal) {
-          const current = cameraFrame();
-          const next = motion.step(current, proposal.target, dt, proposal.motion, reducedMotion.matches,
-            {fit, context: proposal.context, minZoom, maxZoom, overviewZoom: policy.config.overviewZoom, fixedPitch: restMode.value === 'fixed' ? Number(restAngle.value) * radians : undefined});
-          if (Math.abs(shortestArc(next.yaw - current.yaw)) + Math.abs(next.pitch - current.pitch) + Math.abs(Math.log(next.zoom / current.zoom)) > 1e-10) {
-            applyCameraFrame(next);
-            metrics.frames++;
-          }
-        }
-      }
-      metrics.tickMs.push(performance.now() - tickBegan);
-      if (metrics.tickMs.length > 300) metrics.tickMs.shift();
-      frameRequest = requestAnimationFrame(tick);
-    }
-    frameRequest = requestAnimationFrame(tick);
-    return {
-      observe(id) { if (alive) { context = policy.observeSpeakers([id], performance.now()); remember('speaker', id); dirty = true; } },
-      setStyle() { if (alive) configure(performance.now(), true); },
-      pause() { if (!alive) return; suspended = true; motion.reset(); clearTimeout(manualTimer); cancelAnimationFrame(frameRequest); context = policy.pause(performance.now()); lastTick = null; },
-      resume() {
-        if (!alive) return;
-        suspended = false;
-        // Pause cancels transient key/wheel timers. Release that ownership on
-        // resume, while retaining ownership of fingers actually still down.
-        if (manual && !pointers.size) owner.requestReturn();
-        context = policy.resume(performance.now());
-        remember('resume');
-        dirty = true; lastTick = null; frameRequest = requestAnimationFrame(tick);
-      },
-      destroy() { if (!alive) return; alive = false; motion.reset(); clearTimeout(manualTimer); cancelAnimationFrame(frameRequest); releaseOwner(); },
-      snapshot() { return {motion: motion.snapshot(), alive, suspended, manual, context, style: cameraStyle.value, config: {...policy.config}, historyEvents: history.length, target: proposal?.target ?? null, metrics: {...metrics, proposalMs: [...metrics.proposalMs], tickMs: [...metrics.tickMs]}}; }
-    };
+    return createPrimaryAttention({getSpeaker: () => running || paused ? previewSpeaker : null,
+      getStyle: () => cameraStyle.value, getResponse: () => response.value, isPaused: () => paused, notify: updateRoles});
   }
 
   function syncControls() {
@@ -257,7 +99,7 @@
   }
   function requestFocus() {
     clearTimeout(focusTimer);
-    if (response.value === 'calm') {
+    if (response.value === 'calm' || calm) {
       if (!calm) calm = createCalmController();
       calm.observe(holder);
       return;
@@ -277,7 +119,7 @@
     previewSpeaker = turn.speaker;
     holder = previewSpeaker;
     markSpeaker();
-    holderText.textContent = names[holder] + ' is speaking · preview';
+    updateRoles();
     // Keep the user's held view stable, including the adaptive pitch. The
     // current speaking mark remains truthful while focus waits.
     if (!pointers.size && response.value !== 'calm') updateFocusPitch();
@@ -291,8 +133,8 @@
     scheduleTurn(duration);
   }
   function stopPreview(message = 'Preview stopped. No real call is running.') {
-    if (!running && !paused) return;
-    running = false; paused = false;
+    if (!running && !paused && !calm) return;
+    running = false; paused = false; previewSpeaker = null;
     clearTimeout(turnTimer); clearTimeout(focusTimer); clearTimeout(releaseTimer);
     calm?.destroy(); calm = null;
     stop();
@@ -300,6 +142,7 @@
     syncControls();
     status.textContent = message;
     if (holder < seats.length) markSpeaker();
+    updateRoles();
   }
   function startPreview() {
     clearTimeout(turnTimer); clearTimeout(focusTimer); clearTimeout(releaseTimer);
@@ -322,14 +165,14 @@
     stop();
     calm?.pause();
     syncControls();
-    holderText.textContent = names[holder] + ' · paused preview';
+    updateRoles();
     status.textContent = 'Simulated conversation paused. Play resumes this turn.';
   }
   function resumePreview() {
     if (!paused || seats.length !== rosterSize) { startPreview(); return; }
     running = true; paused = false;
     syncControls();
-    holderText.textContent = names[holder] + ' is speaking · preview';
+    updateRoles();
     status.textContent = 'Simulated: ' + names[holder] + ' is speaking · resumed.';
     calm?.resume();
     if (!calm) requestFocus();
@@ -339,7 +182,7 @@
   quick.addEventListener('click', () => running ? pausePreview() : paused ? resumePreview() : startPreview());
   function updateStyleControl() {
     cameraStyle.disabled = response.value !== 'calm';
-    styleHelp.textContent = cameraStyle.disabled ? 'Camera style applies to the calm camera. These comparison modes keep their original response.' : 'Camera motion is separate from conversation pace. Gentle moves slowly; Balanced focuses sooner.';
+    styleHelp.textContent = cameraStyle.disabled ? 'These modes follow the current voice; Brief pause waits before moving. After a pass, the same continuous planner keeps this response.' : 'Camera motion is separate from turn timing. Gentle, Balanced and Lively use 28, 14 and 8-second attention paces.';
   }
   cameraStyle.addEventListener('change', () => { if (response.value === 'calm') calm?.setStyle(); });
   updateStyleControl();
@@ -347,6 +190,7 @@
     updateStyleControl();
     calm?.destroy(); calm = null; stop();
     if (running) requestFocus();
+    updateRoles();
   });
   trace.addEventListener('change', () => { if (running || paused) startPreview(); });
   speed.addEventListener('change', () => {
@@ -356,11 +200,11 @@
     startPreview();
   });
   const stopForChange = () => stopPreview('Preview stopped because the layout changed.');
-  groupSize.addEventListener('change', stopForChange);
-  seatingLayout.addEventListener('change', stopForChange);
-  document.querySelector('#reset-layout').addEventListener('click', stopForChange);
+  groupSize.addEventListener('change', stopForChange, {capture:true});
+  seatingLayout.addEventListener('change', stopForChange, {capture:true});
+  document.querySelector('#reset-layout').addEventListener('click', stopForChange, {capture:true});
   // The ordinary manual handoff should not compete with the simulator.
-  passStick.addEventListener('click', () => stopPreview('Preview stopped for a manual handoff.'), {capture: true});
+  // The talking-stick adapter intercepts the room's legacy pass before its spring.
   camera.addEventListener('pointerdown', () => clearTimeout(focusTimer));
   const released = () => {
     if (!running || calm) return;
@@ -370,9 +214,24 @@
   camera.addEventListener('pointercancel', released);
   window.addEventListener('pagehide', () => stopPreview());
   window.CircleUpConversationPreview = Object.freeze({
-    speakingId: () => running ? previewSpeaker : null,
+    speakingId: () => running || paused ? previewSpeaker : null,
+    beginHandoff(id) {
+      if (paused || pointers.size) return null;
+      clearTimeout(focusTimer); stop();
+      calm ??= createCalmController();
+      return calm.beginHandoff(id);
+    },
+    handoffReady: token => calm?.handoffReady(token) ?? {ready:false,reason:'no-owner'},
+    commitHandoff: (id,token) => calm?.commitHandoff(id,token) ?? false,
+    cancelHandoff: reason => calm?.cancelHandoff(reason) ?? false,
     pauseForHandoff: () => pausePreview(),
     stopForHandoff: () => stopPreview('Preview stopped for a manual handoff.'),
-    snapshot: () => ({running, paused, response: response.value, trace: trace.value, sequenceSeed, step, coverage: sequence?.snapshot() ?? null, remainingTurn: paused ? remainingTurn : Math.max(0, turnDeadline - performance.now()), calm: calm?.snapshot() ?? null})
+    snapshot: () => {const attention=calm?.snapshot() ?? null;return {ready:true, actualSpeaker: running || paused ? previewSpeaker : null, actualHolder:demoStickHolder, running, paused, response: response.value, trace: trace.value, sequenceSeed, step, coverage: sequence?.snapshot() ?? null, remainingTurn: paused ? remainingTurn : Math.max(0, turnDeadline - performance.now()), calm: attention, attention};}
   });
+  const roles = new MutationObserver(() => updateRoles());
+  roles.observe(ring,{childList:true});
+  reducedMotion.addEventListener('change', () => calm?.cancelHandoff('Motion preference changed.'));
+  camera.addEventListener('keydown', event => {if(event.key === '0')calm?.cancelHandoff('The view reset.');}, {capture:true});
+  resetView.addEventListener('click', () => calm?.cancelHandoff('The view reset.'), {capture:true});
+  updateRoles();
 })();

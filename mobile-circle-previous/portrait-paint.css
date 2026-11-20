@@ -1,0 +1,28 @@
+/* Paint only: inherited seats, sizes, order, faces and videos stay in place. */
+.seat[data-conversation-paint] :is(.photo,.portrait) { isolation:isolate; }
+.seat[data-conversation-paint] :is(.photo,.portrait)::after { content:none; }
+.seat[data-conversation-paint] :is(.photo,.portrait) > :is(img,video) {
+  -webkit-mask-image:radial-gradient(closest-side,#000 calc(100% - var(--portrait-feather,4%)),transparent 100%);
+  mask-image:radial-gradient(closest-side,#000 calc(100% - var(--portrait-feather,4%)),transparent 100%);
+}
+.seat[data-conversation-paint] .conversation-ink {
+  position:absolute; inset:-5%; width:110%; height:110%; overflow:visible;
+  pointer-events:none; color:var(--line-ink,#142635);
+}
+.conversation-ink path { fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
+.conversation-ink .paint-contour { stroke-width:1.05; opacity:.6; }
+.conversation-ink .paint-echo { stroke-width:.65; opacity:.32; }
+.conversation-ink .paint-voice { opacity:0; }
+.conversation-ink .paint-voice path { stroke-width:1.65; }
+.seat[data-paint-speaking] .paint-voice { opacity:var(--pose-opacity,0); }
+.seat[data-paint-speaking] .paint-contour { opacity:var(--paint-breath,.7); stroke-width:1.35; }
+.conversation-ink :is(.paint-stick,.paint-stick-image,.paint-held-ring) { opacity:0; }
+.conversation-ink .paint-stick { color:#563a25; stroke-width:2; }
+.conversation-ink .paint-held-ring { stroke:#9a5c20; stroke-width:1.5; }
+.seat[data-paint-holder] .paint-stick { opacity:1; }
+.seat[data-paint-holder][data-paint-image] .paint-stick { opacity:0; }
+.seat[data-paint-holder][data-paint-image] .paint-stick-image { opacity:1; }
+.seat[data-paint-holder-ring] .paint-held-ring { opacity:.75; }
+@media (prefers-reduced-motion:reduce) {
+  .conversation-ink, .conversation-ink * { animation:none !important; transition:none !important; }
+}

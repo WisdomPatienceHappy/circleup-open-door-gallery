@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Listening Together · CircleUp</title>
+  <script>
+    // Keep inherited paper URLs stable across consuming stylesheets and hosts.
+    document.documentElement.style.setProperty('--grain', 'url("' + new URL('../media/paper-grain.png', document.baseURI).href + '")');
+  </script>
+  <link rel="stylesheet" href="cut-paper-topics/topics.css">
+  <link rel="stylesheet" href="room.css?v=natural-depth-19">
+  <link rel="stylesheet" href="gesture-help.css?v=1">
+  <link rel="stylesheet" href="conversation-preview.css?v=visible-play-2">
+  <link rel="stylesheet" href="talking-stick-demo.css?v=handoff-19">
+  <link rel="stylesheet" href="talking-stick-integration.css?v=handoff-19">
+  <link rel="stylesheet" href="portrait-paint.css?v=feather-ink-1">
+  <script defer src="gesture-help.js?v=1"></script>
+  <script defer src="room.js?v=portrait-layout-1"></script>
+  <script defer src="calm-camera.js?v=portrait-margin-1"></script>
+  <script defer src="smooth-camera-motion.js?v=braking-19"></script>
+  <script defer src="conversation-patterns.js?v=whole-roster-19"></script>
+  <script defer src="conversation-preview.js?v=portrait-state-1"></script>
+  <script defer src="talking-stick-demo.js?v=handoff-19"></script>
+  <script defer src="talking-stick-integration.js?v=portrait-state-1"></script>
+  <script defer src="portrait-paint.js?v=feather-ink-1"></script>
+  <script defer src="portrait-paint-integration.js?v=feather-ink-1"></script>
+  <link rel="stylesheet" href="../shared-sample-video.css?v=1">
+  <script defer src="../shared-sample-video.js?v=1"></script>
+  <link rel="stylesheet" href="../listing-action.css">
+  <style>
+    @container room-preview (min-width: 700px) {
+      .room a.listing-flyer--room { top: calc(100% + 4px); left: 16rem; }
+    }
+    @container room-preview (min-width: 700px) and (max-width: 999px) {
+      .room a.listing-flyer--room { top: 0; right: 101px; left: auto; font-size: 11px; }
+    }
+    @media (max-height: 600px) {
+      .room a.listing-flyer--room { position: absolute; top: 0; right: auto; left: 50%; translate: -50% 0; }
+      @container room-preview (max-width: 570px) {
+        .talking-stick-ready .room { --header-height: max(116px, calc(env(safe-area-inset-top) + 104px)); }
+        .room .orbit-hint { right: 92px; min-height: 44px; align-items: center; gap: 8px; }
+        .room .listing-flyer-plus { display: none; }
+        .room a.listing-flyer--room {
+          top: 52px;
+          left: auto;
+          right: 0;
+          translate: none;
+          width: 64px;
+          padding-inline: 6px;
+          font-size: 11px;
+          white-space: normal;
+        }
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="paper-circles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="preview-shell">
+  <div class="room">
+    <header class="masthead">
+      <span class="wordmark">CircleUp</span>
+      <a class="listing-flyer listing-flyer--room" href="../flyer-wall/add-listing.html"><span class="listing-flyer-plus" aria-hidden="true">+</span><span>Add your listing!</span></a>
+      <label class="people-count paper-outline">
+        <span class="paper-stroke" aria-hidden="true"></span>
+        <span class="sr-only">Demo group size</span>
+        <select id="group-size">
+          <option value="3">3 people</option>
+          <option value="4">4 people</option>
+          <option value="5">5 people</option>
+          <option value="6">6 people</option>
+          <option value="7" selected>7 people</option>
+          <option value="8">8 people</option>
+          <option value="9">9 people</option>
+          <option value="10">10 people</option>
+          <option value="11">11 people</option>
+          <option value="12">12 people</option>
+          <option value="13">13 people</option>
+          <option value="14">14 people</option>
+          <option value="15">15 people</option>
+          <option value="16">16 people</option>
+          <option value="17">17 people</option>
+          <option value="18">18 people</option>
+        </select>
+      </label>
+    </header>
+    <main>
+      <h1>Listening Together</h1>
+      <p class="room-name">Main room</p>
+      <section class="table paper-outline" aria-label="Video circle">
+        <span class="paper-stroke" aria-hidden="true"></span>
+        <div class="table-top">
+          <div class="table-heading" aria-live="polite">
+            <span class="speaking-dot" aria-hidden="true"></span>
+            <span id="holder-text">Maya has the stick</span>
+          </div>
+        </div>
+        <div class="camera" tabindex="0" aria-label="Orbit the table" aria-describedby="view-instructions">
+          <canvas class="rim" aria-hidden="true"></canvas>
+          <ul class="ring" aria-label="Participants"></ul>
+          <template id="seat-template">
+            <li class="seat">
+              <span class="photo"><img alt="" draggable="false"></span>
+              <span class="name topic-name torn"></span>
+            </li>
+          </template>
+        </div>
+        <p class="orbit-hint" aria-label="Circle gestures"><span data-gesture="drag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18M3 8l3-3M3 8l3 3M21 8l-3-3M21 8l-3 3M8 20v-6c0-2 3-2 3 0v-3c0-2 3-2 3 0v4c3-2 4 0 3 3l-2 3"/></svg>Drag to turn</span><span data-gesture="zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4l5 4M3 4h4M3 4v4M21 4l-5 4M21 4h-4M21 4v4M7 21v-6c0-2 3-2 3 0v-4c0-2 3-2 3 0v7c3-3 5-1 3 2l-2 2"/></svg>Pinch or + / − to zoom</span></p>
+        <div class="camera-controls">
+          <div class="zoom-group paper-outline" role="group" aria-label="Zoom">
+            <i class="paper-stroke" aria-hidden="true"></i>
+            <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+            <output id="zoom-level">100%</output>
+            <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+          </div>
+          <button type="button" class="text-action" id="reset-view">Reset view</button>
+          <button type="button" id="gesture-help-button" aria-label="How to move around the circle" aria-haspopup="dialog">?</button>
+        </div>
+        <p class="sr-only" id="view-instructions">Drag sideways to turn and vertically to tilt. Pinch to zoom. Use Adjust layout to change face size, spacing, ovality and resting angle. The arrow keys turn and tilt. The circle returns to the speaker on release. Press zero to reset.</p>
+      </section>
+      <section class="call-tools paper-outline" aria-label="Call controls">
+        <span class="paper-stroke" aria-hidden="true"></span>
+        <h2>Call controls</h2>
+        <button class="raised show-gatherings turn-button" type="button" aria-pressed="false"><span class="face">Request a turn</span></button>
+        <footer class="call-bar" aria-label="Illustrative call controls">
+          <span class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Mic off</span>
+          <span class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Camera on</span>
+          <span class="paper-outline"><i class="paper-stroke" aria-hidden="true"></i>Leave</span>
+        </footer>
+      </section>
+    </main>
+  </div>
+  <details class="layout-tuning">
+    <summary>Adjust layout</summary>
+    <div class="tuning-grid">
+          <label class="seating-choice paper-outline" hidden>
+            <i class="paper-stroke" aria-hidden="true"></i>
+            <span class="sr-only">Seating layout</span>
+            <select id="seating-layout">
+              <option value="single">One ring</option>
+              <option value="double">Two rings · 6 + 12</option>
+            </select>
+          </label>
+
+      <label class="tuning-control" for="face-size">
+        <span>Face size <output id="face-size-value" for="face-size">150%</output></span>
+        <input id="face-size" type="range" min="80" max="150" step="1" value="150">
+      </label>
+      <label class="tuning-control" for="circle-spacing">
+        <span>Circle spacing <output id="circle-spacing-value" for="circle-spacing">75%</output></span>
+        <input id="circle-spacing" type="range" min="75" max="125" step="1" value="75">
+      </label>
+      <label class="tuning-control" for="portrait-style">
+        <span>Portrait style</span>
+        <select id="portrait-style">
+          <option value="feather">Feather + ink</option>
+          <option value="original">Original</option>
+        </select>
+      </label>
+      <label class="tuning-control" for="shape-mode">
+        <span>Oval direction</span>
+        <select id="shape-mode">
+          <option value="adaptive">Adaptive · fit the screen</option>
+          <option value="tall">Always taller</option>
+          <option value="wide">Always wider</option>
+          <option value="round">Round</option>
+        </select>
+      </label>
+      <label class="tuning-control" for="ovality">
+        <span>Ovality <output id="ovality-value" for="ovality">100%</output></span>
+        <input id="ovality" type="range" min="0" max="100" step="1" value="100" aria-describedby="ovality-help">
+        <span id="ovality-help" class="range-ends"><span>Round</span><span>More oval</span></span>
+      </label>
+      <label class="tuning-control" for="rest-mode">
+        <span>Rest angle behavior</span>
+        <select id="rest-mode">
+          <option value="adaptive">Adaptive · follows zoom</option>
+          <option value="fixed">Fixed · use exact angle</option>
+        </select>
+      </label>
+      <label class="tuning-control" for="rest-angle">
+        <span><span id="rest-angle-label">Base rest angle</span> <output id="rest-angle-value" for="rest-angle">38°</output></span>
+        <input id="rest-angle" type="range" min="-45" max="135" step="1" value="38" aria-describedby="rest-angle-help">
+        <span id="rest-angle-help" class="range-ends"><span>Below table</span><span>Past overhead</span></span>
+      </label>
+      <p class="tuning-note">Resting view: <output id="effective-angle">38°</output></p>
+      <p class="tuning-note">Adaptive keeps your angle adjustment as you zoom. Fixed uses the exact angle. Dragging always holds the shape and zoom.</p>
+      <label class="tuning-control" for="preview-width">
+        <span>Preview width</span>
+        <select id="preview-width">
+          <option value="auto">Window width</option>
+          <option value="320">320 px phone</option>
+          <option value="375">375 px phone</option>
+          <option value="390">390 px phone</option>
+          <option value="430">430 px phone</option>
+        </select>
+      </label>
+      <a class="inside-link" href="../inside-circle/">Try from your seat ↗</a>
+      <a class="classic-link version-link" href="../mobile-circle-classic/">Compare previous version ↗</a>
+      <button type="button" id="reset-layout" class="text-action">Reset layout</button>
+        <section class="sample-turn" aria-label="Demo controls">
+          <button type="button" class="text-action" id="pass-stick">Demo · Pass the stick to Sam</button>
+        </section>
+
+    </div>
+  </details>
+  </div>
+<dialog id="gesture-help" class="gesture-help" aria-labelledby="gesture-help-title"><h2 id="gesture-help-title">Move around the circle</h2><p><strong>Drag</strong> sideways to turn, or up and down to tilt. Everyone keeps facing you.</p><p><strong>Pinch with two fingers</strong> to zoom. You can also use the + and − buttons.</p><p><strong>Let go</strong> to return to the person with the speaking turn.</p><p><strong>Keyboard:</strong> focus the circle, then use arrow keys to turn, + / − to zoom, and 0 to reset.</p><button type="button">Got it</button></dialog>
+</body>
+</html>

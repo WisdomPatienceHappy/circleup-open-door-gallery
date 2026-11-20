@@ -1,0 +1,10 @@
+{
+  "units": {"yawRate":"radians/second","pitchRate":"radians/second","zoomOutLogRate":"natural-log zoom/second","zoomInLogRate":"natural-log zoom/second","paceSeconds":"exponential attention time constant in seconds"},
+  "scope": "Explicit PRIMARY integration mapping: existing motion rates preserved, new policy pace stated separately from former discrete tighten timing.",
+  "styles": {
+    "gentle": {"paceSeconds":28,"profile":{"yawRate":0.20943951023931953,"pitchRate":0.08726646259971647,"zoomOutLogRate":0.9,"zoomInLogRate":0.035}},
+    "balanced": {"paceSeconds":14,"profile":{"yawRate":0.2792526803190927,"pitchRate":0.12217304763960307,"zoomOutLogRate":1,"zoomInLogRate":0.07}},
+    "lively": {"paceSeconds":8,"profile":{"yawRate":0.3490658503988659,"pitchRate":0.15707963267948966,"zoomOutLogRate":1.1,"zoomInLogRate":0.12}}
+  },
+  "limits": "The former tightenStartMs/fullTightMs/wideHoldMs are not equivalent to the new exponential pace. Preserve conversation-speed settings independently. This mapping does not establish final actual PRIMARY adapter behavior."
+}
