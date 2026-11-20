@@ -1,0 +1,1866 @@
+{
+  "schema": "circleup.http-fixtures.v1",
+  "durationSeconds": 12,
+  "audio": false,
+  "presets": {
+    "180p15": {
+      "width": 320,
+      "height": 180,
+      "fps": 15,
+      "codec": "H.264",
+      "crf": 26
+    },
+    "360p15": {
+      "width": 640,
+      "height": 360,
+      "fps": 15,
+      "codec": "H.264",
+      "crf": 25
+    },
+    "360p30": {
+      "width": 640,
+      "height": 360,
+      "fps": 30,
+      "codec": "H.264",
+      "crf": 25
+    }
+  },
+  "files": [
+    {
+      "url": "media/faces-180p15-01.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 1,
+      "source": "epps",
+      "excerptOffsetSeconds": 0.0,
+      "bytes": 141880,
+      "sha256": "2b8f522852c6e1b013d8491d7261fffb98f30189046da22eaacbb9060f070040",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-02.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 2,
+      "source": "behnken",
+      "excerptOffsetSeconds": 0.37,
+      "bytes": 77340,
+      "sha256": "60a3f7546ca9c7b5f14767bfcd4f6337f1c1afa4b77846ac7fefbd4564af67d9",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-03.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 3,
+      "source": "epps",
+      "excerptOffsetSeconds": 0.74,
+      "bytes": 145109,
+      "sha256": "016bc0b6a2e9b48bb07d8ec5414cf5024be48ef7630ef6fe847314394a8e2818",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-04.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 4,
+      "source": "behnken",
+      "excerptOffsetSeconds": 1.11,
+      "bytes": 76942,
+      "sha256": "50d0c8346990d199eedc3b069c9f5e737ec7f520ea26394aaec14a4a682ad8a7",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-05.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 5,
+      "source": "epps",
+      "excerptOffsetSeconds": 1.48,
+      "bytes": 145055,
+      "sha256": "b01aa308b7877af195605fdf9f6d5366fcade84f51ca8336ff2f228234f83f7f",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-06.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 6,
+      "source": "behnken",
+      "excerptOffsetSeconds": 1.85,
+      "bytes": 75120,
+      "sha256": "92a9b7d31be6b9e1ab3b574bc775a381661ea726e011b574b8996fe02d2693e9",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-07.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 7,
+      "source": "epps",
+      "excerptOffsetSeconds": 2.22,
+      "bytes": 147315,
+      "sha256": "babb2d239a319ad644bcce6d5db2557336cd734258c29840b1457c8663f243bd",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-08.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 8,
+      "source": "behnken",
+      "excerptOffsetSeconds": 2.59,
+      "bytes": 76629,
+      "sha256": "cf160c855dda7f9a99d1f2550ac55d499db1fe22ac428a2edae74f9d965d5e2a",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-09.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 9,
+      "source": "epps",
+      "excerptOffsetSeconds": 2.96,
+      "bytes": 149330,
+      "sha256": "48471254e7e60086b25061bce2b754ce93b1f0dbe29b91f6e96eb33af45f6b11",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-10.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 10,
+      "source": "behnken",
+      "excerptOffsetSeconds": 3.33,
+      "bytes": 74681,
+      "sha256": "7e6fb4009246769303aaaee89a30f4b6e19fcfc30995eb7fa577cb03722f4634",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-11.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 11,
+      "source": "epps",
+      "excerptOffsetSeconds": 3.7,
+      "bytes": 148845,
+      "sha256": "0110ac66711d6707fba0360fff36475bf2e9c3c9cdd77c39ecf5821e546d6c96",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-12.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 12,
+      "source": "behnken",
+      "excerptOffsetSeconds": 4.07,
+      "bytes": 75586,
+      "sha256": "ae380263357e78f7c4f0e46308f1a100a148f3c95ae6547d07d722cd3da713e7",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-13.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 13,
+      "source": "epps",
+      "excerptOffsetSeconds": 4.44,
+      "bytes": 145848,
+      "sha256": "e471e4a0350528cf2bd0118c25c0db550a2450166c41a96d496c43500f7f888e",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-14.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 14,
+      "source": "behnken",
+      "excerptOffsetSeconds": 4.81,
+      "bytes": 75630,
+      "sha256": "e0d3c45ccee28e7c87ad6e4f9c5242fa8210240cb2038a3eb1d2d46aa947b217",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-15.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 15,
+      "source": "epps",
+      "excerptOffsetSeconds": 5.18,
+      "bytes": 145860,
+      "sha256": "74b683f0b1347e10fe6de3e17ea6250ca263eecaec64012a490b1396062fa5e6",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-16.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 16,
+      "source": "behnken",
+      "excerptOffsetSeconds": 5.55,
+      "bytes": 74870,
+      "sha256": "3e1031131c1fa0ab99752f65fb15ea845c7f7c785846b1f98b38c8e2a146436e",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-17.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 17,
+      "source": "epps",
+      "excerptOffsetSeconds": 5.92,
+      "bytes": 145114,
+      "sha256": "fe0bf01c8d19dfa2a17737177b65d61ff5da2be2f565367e26fb840c19b8dbad",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-180p15-18.mp4",
+      "kind": "faces",
+      "preset": "180p15",
+      "stream": 18,
+      "source": "behnken",
+      "excerptOffsetSeconds": 6.29,
+      "bytes": 74514,
+      "sha256": "4b52a6c723785073d1faf20d92dc3094bcb35f0fc9f870c11b5afea47b38a82e",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-01.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 1,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 0.0,
+      "bytes": 202910,
+      "sha256": "dd1b84624cf8742396496ec5ac46f447a280e4e1b4963227a3b6d74e8994b34a",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-02.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 2,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 0.37,
+      "bytes": 224165,
+      "sha256": "87b42aede360d6b2b22cbc44daa19c7455d8ba771b9693d1629837cc28800cc6",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-03.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 3,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 0.74,
+      "bytes": 224165,
+      "sha256": "f4d8518625b58bf1192aa9ada1beed8d32787b46c64dca7cf7a0484ce3327c33",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-04.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 4,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 1.11,
+      "bytes": 224165,
+      "sha256": "08e689c289246d80880e059ea1221c4cfe86105711de7dbf3845395d9ba5b4b9",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-05.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 5,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 1.48,
+      "bytes": 224165,
+      "sha256": "534ae1a458706d0e8beeec92cd4f6173105625022b3799d6bbcebd2a62854c3a",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-06.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 6,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 1.85,
+      "bytes": 224165,
+      "sha256": "eed91cfdbb5928054542f547b01735a39e579aad5f40d446877009262cb42cb9",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-07.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 7,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 2.22,
+      "bytes": 224165,
+      "sha256": "fc81c11d194abd7026cad068db170973c6c6cc18ab4fe7fd23b73c95f793634f",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-08.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 8,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 2.59,
+      "bytes": 224165,
+      "sha256": "e1faae4f7e307301fb02f82e068bd6712b9c87af363a4eef079771ab843a292b",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-09.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 9,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 2.96,
+      "bytes": 224165,
+      "sha256": "43f379456e0750aa68b2fdb67d07b2c090cd9ed0da6cd862975ad4b94dd450d0",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-10.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 10,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 3.33,
+      "bytes": 224166,
+      "sha256": "c50bd76d8f5d0e35d437e2e3531ab72602c231570f14b7bd10a72b15790837b4",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-11.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 11,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 3.7,
+      "bytes": 224166,
+      "sha256": "ef47b557592235bedbca8b5fce21d909915de82c20da96cb04fa44f4d875029b",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-12.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 12,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 4.07,
+      "bytes": 224166,
+      "sha256": "ff112da41afe58fdd34fce5b72745632e87c9032ac4cd71f43c4d32b018b17e4",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-13.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 13,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 4.44,
+      "bytes": 224166,
+      "sha256": "5f52df8d2e2e3c849936598ef3a779724208622f49cf863714591457e1ed67ff",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-14.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 14,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 4.81,
+      "bytes": 224166,
+      "sha256": "fca6b8cb085601020b7045d78719dadc3867b1ff06c952883ad9f5bcb5668caa",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-15.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 15,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 5.18,
+      "bytes": 224166,
+      "sha256": "fa7027429bb6288e0f18869dddbab6eee74f608e26138ca0b3f265c2d5f10be9",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-16.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 16,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 5.55,
+      "bytes": 224166,
+      "sha256": "343c23d64201d0f499f26d15bd9fb4e52747df0d0963a95fc8fb9427deed1502",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-17.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 17,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 5.92,
+      "bytes": 224166,
+      "sha256": "dfef484d2745b062d9af6eacf7056ee8b981a27985c1784562bd5c0ebf49cf73",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-180p15-18.mp4",
+      "kind": "pattern",
+      "preset": "180p15",
+      "stream": 18,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 6.29,
+      "bytes": 224166,
+      "sha256": "815d01d554de8a522f445db1be637610da89dcb80df25f8dc8132dcd3917b826",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-01.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 1,
+      "source": "epps",
+      "excerptOffsetSeconds": 0.0,
+      "bytes": 416672,
+      "sha256": "e1a0ca97a1c8a31b2e8cfc89522bb4b1bee9bf282242c2a5c4e2759c055164ee",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-02.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 2,
+      "source": "behnken",
+      "excerptOffsetSeconds": 0.37,
+      "bytes": 291980,
+      "sha256": "a2268870177526bb0e000ca7e1e069aa5a8ce8043bd72b5eb7b549c95a96e995",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-03.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 3,
+      "source": "epps",
+      "excerptOffsetSeconds": 0.74,
+      "bytes": 409479,
+      "sha256": "3d87dbcd1defd58a9276e098ccd0b63be0dd73a38af91a4b644fb7d3fdffc992",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-04.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 4,
+      "source": "behnken",
+      "excerptOffsetSeconds": 1.11,
+      "bytes": 289569,
+      "sha256": "086a30e34156ef1613e71f33c4d3891a1e5b445f193aee7abc634249d020758b",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-05.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 5,
+      "source": "epps",
+      "excerptOffsetSeconds": 1.48,
+      "bytes": 411320,
+      "sha256": "b2fba1c067ba2a03f694ae465ba7d7ffebe8e34d8c9071f70ba724bc4cfdd88c",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-06.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 6,
+      "source": "behnken",
+      "excerptOffsetSeconds": 1.85,
+      "bytes": 287895,
+      "sha256": "470f481fbf8476ecb1549a9f9c47195985223576ac2fe78f9e9eda4bef1090ba",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-07.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 7,
+      "source": "epps",
+      "excerptOffsetSeconds": 2.22,
+      "bytes": 415953,
+      "sha256": "e0989efea804f0431e13f13a2a6526184198fec08de27c1f23d4223120d84962",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-08.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 8,
+      "source": "behnken",
+      "excerptOffsetSeconds": 2.59,
+      "bytes": 289091,
+      "sha256": "c506d88e15ea5bee6cd555a6418700babc4131dcf156222163b59bf452e82f12",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-09.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 9,
+      "source": "epps",
+      "excerptOffsetSeconds": 2.96,
+      "bytes": 418620,
+      "sha256": "668188b3f54b6009ccbb14d1e9d56cf4ecd33eddcc8428bdbca96c933cd9d7dd",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-10.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 10,
+      "source": "behnken",
+      "excerptOffsetSeconds": 3.33,
+      "bytes": 288109,
+      "sha256": "182d26471f181caa83f028aa7282ed5eacb83c25472b3f43f6b1208bc04f6f55",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-11.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 11,
+      "source": "epps",
+      "excerptOffsetSeconds": 3.7,
+      "bytes": 421217,
+      "sha256": "ef16bc71f4347ea4817367ab40d21d6408a51505255c73811aad3b245e1bd8b1",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-12.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 12,
+      "source": "behnken",
+      "excerptOffsetSeconds": 4.07,
+      "bytes": 276521,
+      "sha256": "841530b7d63ff95ae19ab3e7006eef35af00ba0fc63776b7ec92c36c2c47fda6",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-13.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 13,
+      "source": "epps",
+      "excerptOffsetSeconds": 4.44,
+      "bytes": 433016,
+      "sha256": "e3a814b33533628246b00744084b1f1b548215710b19a16b52dfd1a314238442",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-14.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 14,
+      "source": "behnken",
+      "excerptOffsetSeconds": 4.81,
+      "bytes": 278471,
+      "sha256": "7e6cbdd8519b1fb97281d5ffaf4eea6de2d269470da7224e0e8edeb707f608ff",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-15.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 15,
+      "source": "epps",
+      "excerptOffsetSeconds": 5.18,
+      "bytes": 430381,
+      "sha256": "a9155d10399d6ae5c0d9d414a538a60d58fbefa1be080b290804ba1a1592ef06",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-16.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 16,
+      "source": "behnken",
+      "excerptOffsetSeconds": 5.55,
+      "bytes": 277672,
+      "sha256": "61ad2d06b3ab2a7a9f23a174816aa4590749afec37c73a26eddd61bbf0a692bb",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-17.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 17,
+      "source": "epps",
+      "excerptOffsetSeconds": 5.92,
+      "bytes": 430692,
+      "sha256": "6ed1b3fc77d01fd6c78963e5cfc2ca7e61d8860437851f19f7af2e24ed455992",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p15-18.mp4",
+      "kind": "faces",
+      "preset": "360p15",
+      "stream": 18,
+      "source": "behnken",
+      "excerptOffsetSeconds": 6.29,
+      "bytes": 275216,
+      "sha256": "f7b43a698248e5aec5d8482a2afcadc2fb8e94ef46cff89f438f5810e632b20c",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-01.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 1,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 0.0,
+      "bytes": 674410,
+      "sha256": "9cb78b510e61e928aa78f33d5492d6f6a800b03e945298a665f49fe78443b09b",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-02.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 2,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 0.37,
+      "bytes": 693135,
+      "sha256": "2bbdf200849bd4bd26670504969368aa5c1585cc836a0151bab5ace238d394d5",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-03.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 3,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 0.74,
+      "bytes": 693135,
+      "sha256": "544d747e258b240c1d82a702cead9921b40baf44be92bbc743590ae533614585",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-04.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 4,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 1.11,
+      "bytes": 693135,
+      "sha256": "6dcd8c6881a91803939458bd1ed89c8b71fc430038b99a6cd82e7530d15a7997",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-05.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 5,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 1.48,
+      "bytes": 693135,
+      "sha256": "a56fa8330b87de7b4a6f8a364b4dd8a862546065f8fb0f54324f6351e2ec9c15",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-06.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 6,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 1.85,
+      "bytes": 693135,
+      "sha256": "67893985145e97d37e505d00b07ae17c2aa61b4155079b6051952eb803a39209",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-07.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 7,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 2.22,
+      "bytes": 693135,
+      "sha256": "b8dab6d8f896d0f122b5568fc158d8b3018546b173ce8931a0bd5aa7f62ccc53",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-08.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 8,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 2.59,
+      "bytes": 693135,
+      "sha256": "8ed14b431a8aae1d87e827ee140cd7aeb138d749498114c6d4ca4d408cd261a4",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-09.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 9,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 2.96,
+      "bytes": 693135,
+      "sha256": "4f050bde15f09c320d0e9f300f3dadd51c93ff0ef2ceeeef8c81acaa5671cbcb",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-10.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 10,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 3.33,
+      "bytes": 693136,
+      "sha256": "46788df007c44470648edd9dff055145f516d728a2688e657cfb3a7ff17365d1",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-11.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 11,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 3.7,
+      "bytes": 693136,
+      "sha256": "e2ec352ff4377c5d4edc7e6f03db42081d614e1ff3afee9796e14c4152ed8d1f",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-12.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 12,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 4.07,
+      "bytes": 693136,
+      "sha256": "1f45f299535f93b19127cd43f8bbca371d91863ec447467965c735e53a0f72e0",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-13.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 13,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 4.44,
+      "bytes": 693136,
+      "sha256": "42c7abbcae226c389bef6f05320d2e7975c22b4a25957bd08864a865f1451a03",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-14.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 14,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 4.81,
+      "bytes": 693136,
+      "sha256": "7a4f75d9b783f1830d83fd0f746b098bc360cce3c58cda020c4c20c160b858d9",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-15.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 15,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 5.18,
+      "bytes": 693136,
+      "sha256": "1c8679b5f7cd92fa5f268ad84a97b30b307fa7006bd231281095e49c78fe4c46",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-16.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 16,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 5.55,
+      "bytes": 693136,
+      "sha256": "4f310ce6939517d353aa022e62bb0e95d9720566e16fb325518ec20b75869e4f",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-17.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 17,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 5.92,
+      "bytes": 693136,
+      "sha256": "89516de57db3b1ab80371fd9e7f83d0996be64496684b2c749cfe3880b2936b3",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p15-18.mp4",
+      "kind": "pattern",
+      "preset": "360p15",
+      "stream": 18,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 6.29,
+      "bytes": 693136,
+      "sha256": "c52d37a0c4cf1bddf7642f0092ace4fd3e74bca16ccea1b0f0efce8052016f03",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "15/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-01.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 1,
+      "source": "epps",
+      "excerptOffsetSeconds": 0.0,
+      "bytes": 404482,
+      "sha256": "3b11da90c9bff360efcbcfd87e1d5421f8de6073e8e638e269d6f1f06df2cdcd",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-02.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 2,
+      "source": "behnken",
+      "excerptOffsetSeconds": 0.37,
+      "bytes": 293941,
+      "sha256": "f314a53600d8568d6e960b70143a4a4886db8662234ed98f08caa58fdc801341",
+      "durationSeconds": 11.966667,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-03.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 3,
+      "source": "epps",
+      "excerptOffsetSeconds": 0.74,
+      "bytes": 404308,
+      "sha256": "4109e0fd59c5f744710b982b1690c10c0f0180b625bf17c81c8d75b309c52dce",
+      "durationSeconds": 11.966667,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-04.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 4,
+      "source": "behnken",
+      "excerptOffsetSeconds": 1.11,
+      "bytes": 290954,
+      "sha256": "066ad275120be470b7c9994dbfd925bd92851b287f48916215f24d37847ca0c0",
+      "durationSeconds": 11.966667,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-05.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 5,
+      "source": "epps",
+      "excerptOffsetSeconds": 1.48,
+      "bytes": 402794,
+      "sha256": "828e51f7e46a0df37ccf9c22d3070bd973b52c545ab287b9e58e1fdb8b6454d6",
+      "durationSeconds": 11.966667,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-06.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 6,
+      "source": "behnken",
+      "excerptOffsetSeconds": 1.85,
+      "bytes": 288383,
+      "sha256": "393bf0c2a73e9081d781a8c8bf07ffbe426305f00479975b3a414ce232b6c7e4",
+      "durationSeconds": 11.966667,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-07.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 7,
+      "source": "epps",
+      "excerptOffsetSeconds": 2.22,
+      "bytes": 411810,
+      "sha256": "45808964112877dbafff14dd5972ee578f9e5f723781b22463d296bec178835a",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-08.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 8,
+      "source": "behnken",
+      "excerptOffsetSeconds": 2.59,
+      "bytes": 290924,
+      "sha256": "3ddb15a679cd2f0fa90018fcb68d1e836b1529b92f830863bc9e73efe32e4c09",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-09.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 9,
+      "source": "epps",
+      "excerptOffsetSeconds": 2.96,
+      "bytes": 417254,
+      "sha256": "ec9c09ffdf78b76548d3df16e52cf16779b397df5504c40fbb2d8a14dc6e197b",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-10.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 10,
+      "source": "behnken",
+      "excerptOffsetSeconds": 3.33,
+      "bytes": 290793,
+      "sha256": "eb96253a57d48f896671a76467de30e0654b5e5256d333a12e67f8497301b815",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-11.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 11,
+      "source": "epps",
+      "excerptOffsetSeconds": 3.7,
+      "bytes": 419453,
+      "sha256": "270fe2dc1f9e16369bbbd719cae643a06b00289ba6bf0ae41e988fc595271eff",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-12.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 12,
+      "source": "behnken",
+      "excerptOffsetSeconds": 4.07,
+      "bytes": 280173,
+      "sha256": "830c890263dadd0ffc1538faefed0bd9a4277340a3428038395a0e24fc02b97b",
+      "durationSeconds": 11.966667,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-13.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 13,
+      "source": "epps",
+      "excerptOffsetSeconds": 4.44,
+      "bytes": 415801,
+      "sha256": "2b3f0901138c69f8d44f5d0d9191678e8b3237c9e2b5f56db205562f501e488c",
+      "durationSeconds": 11.966667,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-14.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 14,
+      "source": "behnken",
+      "excerptOffsetSeconds": 4.81,
+      "bytes": 283882,
+      "sha256": "1cb01f730c24fd65fa3a79479ebbfabbd22dbb8795972543041c213ea45a9244",
+      "durationSeconds": 11.966667,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-15.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 15,
+      "source": "epps",
+      "excerptOffsetSeconds": 5.18,
+      "bytes": 413705,
+      "sha256": "a6e87f276ae4dccf41c3876dcb75f7a796c837804ef10b4f0228e731a3e104a9",
+      "durationSeconds": 11.966667,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-16.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 16,
+      "source": "behnken",
+      "excerptOffsetSeconds": 5.55,
+      "bytes": 283366,
+      "sha256": "fc3bc400303cd9f794f62dc6ec39a30e810caa932edf8883eb47d0da864bbd26",
+      "durationSeconds": 11.966667,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-17.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 17,
+      "source": "epps",
+      "excerptOffsetSeconds": 5.92,
+      "bytes": 414041,
+      "sha256": "223d5bd99da7664957311724726a5fbe5b0cb1ebb24e4ca85cf16747f1e2ecde",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/faces-360p30-18.mp4",
+      "kind": "faces",
+      "preset": "360p30",
+      "stream": 18,
+      "source": "behnken",
+      "excerptOffsetSeconds": 6.29,
+      "bytes": 277960,
+      "sha256": "e4ee417e035565d354a8368279a2b67c81d6f1d2067b542340f955e9ddbb00f0",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-01.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 1,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 0.0,
+      "bytes": 916634,
+      "sha256": "b16b919e3142221842ca373ef7a51a38cb88bb24d7fa00736149855121cbbbc8",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-02.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 2,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 0.37,
+      "bytes": 946744,
+      "sha256": "283a25d6926bbd1c17719863a22e716d67ae18596d42ce0a4ef439d736da544d",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-03.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 3,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 0.74,
+      "bytes": 946744,
+      "sha256": "9c7285f5d02c511b46b822e430a837b30575a81673e3efbda2940a65b9c12d0e",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-04.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 4,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 1.11,
+      "bytes": 946744,
+      "sha256": "087e8940e4935fd38cf4cb58d07395656ce86c99befd93bd305dd5d8f5b04137",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-05.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 5,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 1.48,
+      "bytes": 946744,
+      "sha256": "788ceb9c6f3dd7a622c0dfc8f53aecfa27866adc1511468d4a2618de5c2d583a",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-06.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 6,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 1.85,
+      "bytes": 946744,
+      "sha256": "dc4b6aa74704add39a04fd04b1442220408e6b24050e16389a7748900643be1c",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-07.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 7,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 2.22,
+      "bytes": 946744,
+      "sha256": "a7a9764d13306b47ac51e1465333d2ff2b6da035246a0b588353aaf4a833a99f",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-08.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 8,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 2.59,
+      "bytes": 946744,
+      "sha256": "145516cfa75ded6e87fa3b5e9bec7273c37938aea575a061fbaf9b14d3f70f53",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-09.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 9,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 2.96,
+      "bytes": 946744,
+      "sha256": "9a4919fa6c5964c18178b1337f2194db11c239c5263600f7cda3b9faf358260f",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-10.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 10,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 3.33,
+      "bytes": 946745,
+      "sha256": "b586d05f5a593a0792adb37e026e6e0fa68b70eb706fd7d5227a8b481cb4c887",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-11.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 11,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 3.7,
+      "bytes": 946745,
+      "sha256": "1ae834c559f0a9e2176474a7fc3260904a225007bf2ea0f0f593a73c4e039958",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-12.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 12,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 4.07,
+      "bytes": 946745,
+      "sha256": "902ee85dd2c358cc8f03d0114f3c97ab6253288e5062cceb3808a89988d2dfd5",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-13.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 13,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 4.44,
+      "bytes": 946745,
+      "sha256": "f9b799b9f237193fd9d1968d95f8e6d931332d6d81eece5ae7c0db13147b24e7",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-14.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 14,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 4.81,
+      "bytes": 946745,
+      "sha256": "838f428e54f41ebf243a5e99aa8f77507f115816a6bdd37338abdf649d5c81ef",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-15.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 15,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 5.18,
+      "bytes": 946745,
+      "sha256": "d7440264cdb57a448b187f424368931df8737cd6d550fddbdcce50a691694a2d",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-16.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 16,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 5.55,
+      "bytes": 946745,
+      "sha256": "1b059d9404251ce40041b4beaf75c1a95c0addc62229ff28fba53fd7038bb46b",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-17.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 17,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 5.92,
+      "bytes": 946745,
+      "sha256": "a3de57359123eb0f6e5938c3dd828fd2e9357e917d9a2a11391031f27eb11ac5",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    },
+    {
+      "url": "media/pattern-360p30-18.mp4",
+      "kind": "pattern",
+      "preset": "360p30",
+      "stream": 18,
+      "source": "FFmpeg testsrc2",
+      "excerptOffsetSeconds": 6.29,
+      "bytes": 946745,
+      "sha256": "e7c828df5aedfb653b866e6115ff41eea6540cdfafdbcfe7394c60fea3f98604",
+      "durationSeconds": 12.0,
+      "video": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 360,
+        "avg_frame_rate": "30/1"
+      }
+    }
+  ]
+}

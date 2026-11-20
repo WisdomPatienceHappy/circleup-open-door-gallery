@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>CircleUp · video performance lab</title>
+    <link rel="stylesheet" href="lab.css" />
+    <script src="lab.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="brand" href="#">CircleUp <span>media lab</span></a
+        ><span id="run-count">No trials yet</span>
+      </header>
+      <section class="intro">
+        <h1>How does the room feel?</h1>
+        <p>
+          Play separate server-served videos, move around, then save the
+          measurements from this device.
+        </p>
+      </section>
+      <form id="settings">
+        <label
+          >Videos<select id="count">
+            <option>3</option>
+            <option>6</option>
+            <option>12</option>
+            <option>18</option>
+          </select></label
+        >
+        <label
+          >Quality<select id="quality">
+            <option value="180p15">180p · 15 fps</option>
+            <option value="360p15">360p · 15 fps</option>
+            <option value="360p30">360p · 30 fps</option>
+          </select></label
+        >
+        <label
+          >View<select id="layout">
+            <option value="orbit">Orbit</option>
+            <option value="grid">Full grid</option>
+            <option value="seat">From a seat</option>
+          </select></label
+        >
+        <label
+          >Footage<select id="footage">
+            <option value="faces">NASA interviews</option>
+            <option value="pattern">Moving patterns</option>
+          </select></label
+        >
+        <label class="wide"
+          >Playback policy<select id="policy">
+            <option value="all">All requested videos</option>
+            <option value="nearby">Nearest 6 · unload the others</option>
+          </select></label
+        >
+        <label
+          >Measure<select id="duration">
+            <option value="20">20 seconds</option>
+            <option value="60">60 seconds</option>
+          </select></label
+        >
+        <label
+          >Repeats<select id="repeats">
+            <option value="1">1 trial</option>
+            <option value="3">3 trials</option>
+          </select></label
+        >
+      </form>
+      <div class="stage-wrap">
+        <section
+          id="stage"
+          class="stage"
+          tabindex="0"
+          aria-label="Video comparison. Drag to look around, pinch to zoom, or use arrow keys."
+        >
+          <div class="ring-guide" aria-hidden="true"></div>
+          <div id="tiles"></div>
+          <div id="stage-placeholder">Choose a workload, then play.</div>
+        </section>
+        <div class="view-tools">
+          <span id="focus-label">Stream 01</span
+          ><button id="next" type="button">Next focus</button
+          ><button id="zoom-out" type="button" aria-label="Zoom out">−</button
+          ><output id="zoom-value">100%</output
+          ><button id="zoom-in" type="button" aria-label="Zoom in">+</button>
+        </div>
+      </div>
+      <p class="gesture-hint">
+        Drag to turn · pinch to zoom · videos stay in their fixed seats
+      </p>
+      <div class="actions">
+        <button id="start" class="primary" type="button">
+          Play &amp; measure</button
+        ><button id="stop" type="button" disabled>Stop</button
+        ><button id="export" type="button" disabled>Save JSON</button>
+      </div>
+      <div class="progress">
+        <progress id="progress" value="0" max="100"></progress>
+        <p id="status" role="status">
+          5-second warmup, then a timed trial. Audio is off.
+        </p>
+      </div>
+      <section class="metrics" aria-label="Current trial measurements">
+        <div>
+          <strong id="playing">—</strong><span>playing / requested</span>
+        </div>
+        <div>
+          <strong id="cadence">—</strong><span>p95 frame interval</span>
+        </div>
+        <div><strong id="latency">—</strong><span>p95 input → frame</span></div>
+        <div><strong id="stalls">—</strong><span>media stalls</span></div>
+      </section>
+      <p class="result-note">
+        Short clips can fully cache during warmup. Network loading is recorded
+        separately from playback.
+      </p>
+      <p id="result-note" class="result-note">
+        A recorded HTTP video workload. Physical-device results come from that
+        device’s exported trial.
+      </p>
+      <details>
+        <summary>Streams and errors</summary>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Stream</th>
+                <th>State</th>
+                <th>Video frames</th>
+                <th>Dropped</th>
+                <th>Stalls</th>
+              </tr>
+            </thead>
+            <tbody id="stream-rows"></tbody>
+          </table>
+        </div>
+        <pre id="errors">No errors recorded.</pre>
+      </details>
+      <details>
+        <summary>How to compare results</summary>
+        <p>
+          Keep count, footage, quality, playback policy, device and connection
+          fixed. Change only the view. Run three trials per view in alternating
+          order. Tap Next focus, zoom and drag during each trial. Repeat with a
+          second network if useful. Save the JSON before closing the tab.
+        </p>
+        <p>
+          All requested videos remains the load target in every view. Nearest 6
+          changes the workload and unloads other URLs. Actual active and
+          completed counts are in the results. The first trial and repeated
+          trials have different cache histories.
+        </p>
+        <p>
+          The frame interval samples the UI animation loop. Input → frame
+          measures event handling through two animation callbacks, a proxy for
+          response before display scanout. Frame callbacks and browser playback
+          counters have separate coverage. HTTP video has different transport,
+          encode, audio and recovery work from a live call.
+        </p>
+      </details>
+      <footer>
+        <p>
+          NASA interview excerpts, credited to NASA, used as factual video
+          fixtures. Faces repeat across 18 distinct encodes and URLs.
+          <a href="credits.html">Sources and transformations</a>
+        </p>
+        <p>
+          CircleUp media lab · <span id="build-label">HTTP rung v1</span> ·
+          <a href="../mobile-circle/">Adaptive</a> ·
+          <a href="../inside-circle/">Seated</a> ·
+          <a href="../mobile-circle-classic/">Classic</a>
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>

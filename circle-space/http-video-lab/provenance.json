@@ -1,0 +1,51 @@
+{
+  "sources": [
+    {
+      "id": "epps",
+      "catalogId": "iss061m2627771232_Live_Interviews_Jeanette_Epps_191004",
+      "title": "Artemis Interviews with NASA Astronaut Jeanette Epps - October 4, 2019",
+      "credit": "NASA",
+      "catalog": "https://images.nasa.gov/details/iss061m2627771232_Live_Interviews_Jeanette_Epps_191004",
+      "collection": "https://images-assets.nasa.gov/video/iss061m2627771232_Live_Interviews_Jeanette_Epps_191004/collection.json",
+      "sourceURL": "https://images-assets.nasa.gov/video/iss061m2627771232_Live_Interviews_Jeanette_Epps_191004/iss061m2627771232_Live_Interviews_Jeanette_Epps_191004~medium.mp4",
+      "excerptStartSeconds": 90,
+      "excerptDurationSeconds": 20,
+      "excerptSha256": "fbf6013ac6b105ff6c7b586a933788b7db5ec4f70cc8d294a3b9535411b7ac29",
+      "excerptBytes": 855138,
+      "usageSource": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "usage": "NASA-produced media generally not subject to US copyright; factual educational performance fixture with attribution. No third-party copyright credit in inspected catalog entry. No endorsement or advertising rights claimed."
+    },
+    {
+      "id": "behnken",
+      "catalogId": "iss063m261222124_NASA_SpaceX_Demo2_Robert_Behnken_Interviews",
+      "title": "NASA\u2019s SpaceX Demo-2 Interviews with Astronaut Robert Behnken",
+      "credit": "NASA",
+      "catalog": "https://images.nasa.gov/details/iss063m261222124_NASA_SpaceX_Demo2_Robert_Behnken_Interviews",
+      "collection": "https://images-assets.nasa.gov/video/iss063m261222124_NASA_SpaceX_Demo2_Robert_Behnken_Interviews/collection.json",
+      "sourceURL": "https://images-assets.nasa.gov/video/iss063m261222124_NASA_SpaceX_Demo2_Robert_Behnken_Interviews/iss063m261222124_NASA_SpaceX_Demo2_Robert_Behnken_Interviews~medium.mp4",
+      "excerptStartSeconds": 600,
+      "excerptDurationSeconds": 20,
+      "excerptSha256": "c775715e6fbb64314c87420fb46df516773c9f974f2fd995cd3e6f3f1e87b73c",
+      "excerptBytes": 648968,
+      "usageSource": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+      "usage": "NASA-produced media generally not subject to US copyright; factual educational performance fixture with attribution. No third-party copyright credit in inspected catalog entry. No endorsement or advertising rights claimed."
+    }
+  ],
+  "fixtureTransform": "Short video-only excerpts resized to 640x360. Final 12-second participant encodes alternate the two excerpts with unique temporal offsets, baked Stream NN badges, per-file metadata, H.264 yuv420p, faststart, no audio; 180p15 / 360p15 / 360p30. Synthetic control uses original FFmpeg testsrc2 with matching presets and labels. 108 distinct files and hashes.",
+  "tools": {
+    "ffmpeg": "8.1",
+    "Pillow": "existing local install"
+  },
+  "geometry": [
+    {
+      "source": "mobile-circle-sphere/room.js",
+      "sha256": "f7564841dea75c85da160494895ed8d39c21b72669de642fc2f2397c2281cafe",
+      "use": "fixed ring yaw/pitch perspective formula"
+    },
+    {
+      "source": "inside-circle/inside.js",
+      "sha256": "9a85aa271ce767949c737c7f06f112f23b1f4fcc3e75b1522167486eb0a0d70b",
+      "use": "fixed-seat camera projection, adapted to keep N total HTTP videos as workload"
+    }
+  ]
+}

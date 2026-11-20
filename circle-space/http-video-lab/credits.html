@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Video lab sources</title>
+    <link rel="stylesheet" href="lab.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="brand" href="./">CircleUp <span>media lab</span></a>
+      </header>
+      <article class="intro">
+        <h1>Video fixture sources</h1>
+        <p>
+          These excerpts show NASA interviews for an educational browser
+          performance experiment. The two people recur across separately encoded
+          participant files. Each URL has a unique time offset, stream badge and
+          checksum.
+        </p>
+      </article>
+      <p>Credit NASA for the interview footage.</p>
+      <ul>
+        <li>
+          <a
+            href="https://images.nasa.gov/details/iss061m2627771232_Live_Interviews_Jeanette_Epps_191004"
+            >Jeanette Epps · October 4, 2019</a
+          >. A 20-second excerpt beginning at 90 seconds.
+        </li>
+        <li>
+          <a
+            href="https://images.nasa.gov/details/iss063m261222124_NASA_SpaceX_Demo2_Robert_Behnken_Interviews"
+            >Robert Behnken · May 1, 2020</a
+          >. A 20-second excerpt beginning at 600 seconds.
+        </li>
+      </ul>
+      <p>
+        The final files are 12 seconds each, video only, with resized frames and
+        numbered badges. A separate synthetic control uses FFmpeg’s moving test
+        pattern. The browser starts streams at distinct playback offsets and
+        loops the short clips.
+      </p>
+      <p>
+        NASA’s
+        <a href="https://www.nasa.gov/nasa-brand-center/images-and-media/"
+          >media usage guidelines</a
+        >
+        describe factual educational use with attribution. This lab implies no
+        endorsement or participation by the people shown.
+      </p>
+      <p>
+        The orbit and seated projection math is adapted from CircleUp’s November
+        17–18 design proposals. All lab controls and instrumentation are
+        independent code. The lab uses its own fixture encoder and browser
+        instrumentation.
+      </p>
+      <p>
+        <a href="media-manifest.json">Every fixture and checksum</a> ·
+        <a href="provenance.json">Source and transformation record</a>
+      </p>
+    </main>
+  </body>
+</html>

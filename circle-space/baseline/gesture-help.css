@@ -1,0 +1,19 @@
+/* Hints live in the header, outside the orbit's drawing bounds. */
+.preview-shell { --header-height: calc(156px + env(safe-area-inset-top)); }
+.orbit-hint {
+  position: absolute; z-index: 5000; top: calc(max(12px, env(safe-area-inset-top)) + 120px);
+  left: 12px; right: 12px; display: flex; justify-content: center; gap: 15px;
+  margin: 0; min-height: 20px; font-size: 11px; line-height: 1.3; pointer-events: none;
+}
+.orbit-hint > span { display: inline-flex; align-items: center; gap: 5px; }
+.orbit-hint > span[hidden] { display: none; }
+.orbit-hint svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+#gesture-help-button { min-width: 44px; min-height: 44px; padding: 2px; border: 1px solid var(--line-ink); border-radius: 49% 51% 47% 53%; color: var(--ink); background: var(--grain) repeat, var(--paper); font-size: 17px; }
+#gesture-help-button:active { background-color: var(--sage); }
+.gesture-help { width: min(340px, calc(100vw - 32px)); max-height: calc(100dvh - 36px); overflow: auto; padding: 22px; border: 1.5px solid var(--line-ink); border-radius: 19px 22px 18px 21px; color: var(--ink); background: var(--grain) repeat, var(--paper); }
+.gesture-help::backdrop { background: #17382f55; }
+.gesture-help h2 { margin: 0 0 14px; font-family: 'DM Serif Text', Georgia, serif; font-size: 26px; line-height: 1.1; }
+.gesture-help p { margin: 12px 0; font-size: 14px; line-height: 1.5; }
+.gesture-help button { min-height: 44px; padding: 8px 18px; border: 1px solid var(--line-ink); border-radius: 12px 15px 11px 14px; background: var(--sage); color: inherit; font: inherit; }
+@container room-preview (min-width: 700px) { .room { --header-height: calc(112px + env(safe-area-inset-top)); } .orbit-hint { top: calc(max(12px, env(safe-area-inset-top)) + 76px); } }
+@media (max-height: 600px) { .room { --header-height: calc(92px + env(safe-area-inset-top)); } .orbit-hint { top: calc(max(12px, env(safe-area-inset-top)) + 52px); display: flex; } }
