@@ -257,7 +257,12 @@ function createFlyer(item, lazy) {
   button.style.setProperty('--pin', categoryFor(item.topic).color);
   if (hash % 3 === 0) button.dataset.pin = 'tape';
   const note = element('span', 'flyer-note');
-  note.append(element('strong', '', item.name), element('small', '', factsFor(item).join(' · ')));
+  const cardFacts = factsFor(item);
+  if (item.startsAt) cardFacts.splice(1, 0, datesFor(item.timeZone || pacific).time.format(new Date(item.startsAt)));
+  note.append(element('span', 'flyer-kind', kindLabels[kindOf(item)]?.[0] || 'Image'),
+    element('strong', '', item.name), element('small', 'flyer-facts', cardFacts.join(' · ')));
+  if (item.description) note.append(element('span', 'flyer-description', item.description));
+  note.append(element('span', 'flyer-open', 'View details ↗'));
   button.append(makeArtwork(item, 'poster', lazy), note);
   button.addEventListener('click', () => {
     openFlyer = button;
@@ -284,7 +289,10 @@ function packRows(entries, width) {
   }
 
   for (const [index, entry] of entries.entries()) {
-    const ratio = entry.item.width / entry.item.height;
+    const naturalRatio = entry.item.width / entry.item.height;
+    const ratio = infoMode === 'below' && entry.button.classList.contains('flyer')
+      ? Math.max(naturalRatio, Math.min(compact ? 145 : 165, width) / (target * .71))
+      : naturalRatio;
     const predicted = (width - gap * row.length) / (ratios + ratio);
     if (row.length && (predicted < target * .71 || row.length >= capacity)) finish();
     row.push({...entry, ratio});
@@ -300,15 +308,17 @@ function packRows(entries, width) {
 
 function layOut(board) {
   const width = board.wall.clientWidth;
-  if (!width || (width === board.width && flyerScale === board.scale)) return;
+  if (!width || (width === board.width && flyerScale === board.scale && infoMode === board.infoMode)) return;
   board.width = width;
   board.scale = flyerScale;
+  board.infoMode = infoMode;
   const focused = document.activeElement;
   const rows = packRows(board.entries, width).map(row => {
     const line = element('div', 'flyer-row');
     line.style.setProperty('--gap', row.gap + 'px');
     for (const entry of row.entries) {
       entry.button.style.setProperty('--width', row.height * entry.ratio + 'px');
+      entry.button.style.setProperty('--art-height', row.height + 'px');
       line.append(entry.button);
     }
     return line;
@@ -484,7 +494,7 @@ function syncAppearanceControls() {
   for (const choice of infoChoices) choice.checked = choice.value === infoMode;
   document.querySelector('#flyer-hint').textContent = infoMode === 'hover'
     ? 'Hover or focus a flyer for a little more. Tap to open it.'
-    : 'Titles and details stay under each flyer. Tap or click to open.';
+    : 'Each paper card keeps its title, details and summary below the artwork. Tap or click to open.';
 }
 sizeControl.addEventListener('input', () => {
   flyerScale = Number(sizeControl.value) / 100;

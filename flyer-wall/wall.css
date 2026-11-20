@@ -837,3 +837,74 @@ body[data-info="hover"] .flyers { gap: 28px; padding-bottom: 18px; }
 
 .listing-card .listing-paper::before { content: ""; position: absolute; inset: 9px; border: 1px solid #6c644642; border-radius: 5px 3px 6px 4px / 3px 6px 3px 5px; pointer-events: none; }
 .listing-paper-title::after { content: ""; display: block; width: 42%; height: 3px; margin: 10cqw auto 0; background: #bb7452a6; clip-path: var(--rule-shape); }
+
+/* Underneath is a single paper card; its height follows real copy and artwork. */
+body[data-info="below"] .flyer {
+  position: relative;
+  padding: 8px;
+  border: 1px solid #766f4c22;
+  border-radius: 3px 2px 4px 2px / 2px 4px 2px 3px;
+  background: var(--grain) repeat, #fff9eb;
+  color: var(--ink);
+  box-shadow: 1px 2px 0 #fff9eb, 2px 5px 8px #25262228;
+  transform: rotate(var(--tilt));
+  transform-origin: 50% 6%;
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+body[data-info="below"] .flyer > .poster,
+body[data-info="below"] .flyer:hover > .poster,
+body[data-info="below"] .flyer:active > .poster {
+  transform: none;
+  box-shadow: none;
+}
+body[data-info="below"] .flyer > .poster::after { display: none; }
+body[data-info="below"] .flyer::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 49%;
+  width: 9px;
+  height: 9px;
+  border-radius: 48% 49% 47% 53%;
+  background: radial-gradient(circle at 40% 32%, #fff3cd 0 17%, var(--pin) 38%);
+  box-shadow: 1px 2px 2px #0005;
+}
+body[data-info="below"] .flyer[data-pin="tape"]::after {
+  left: 38%; top: -6px; width: 25%; height: 15px; border-radius: 0;
+  background: var(--grain) repeat, #f7dda2b8;
+  clip-path: polygon(1% 7%,100% 0,96% 31%,100% 54%,98% 90%,3% 100%,0 82%,3% 63%,0 39%);
+  transform: rotate(-4deg); box-shadow: none;
+}
+body[data-info="below"] .flyer:hover { transform: translateY(-2px) rotate(0); box-shadow: 2px 7px 12px #25262230; }
+body[data-info="below"] .flyer:active { transform: translateY(1px) rotate(var(--tilt)); }
+body[data-info="below"] .flyer-note { padding: 12px 5px 7px; }
+body[data-info="below"] .flyer-note strong { font: 400 clamp(16px,1.45vw,22px)/1.12 var(--title-face); }
+.flyer-kind { display: block; margin: 0 0 7px; color: var(--muted); font: 600 9px/1.3 Inter,sans-serif; letter-spacing: .07em; text-transform: uppercase; }
+body[data-info="below"] .flyer-note .flyer-facts { margin-top: 9px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+.flyer-description { display: block; margin-top: 10px; font: 400 12px/1.5 Inter,sans-serif; }
+.flyer-open { display: block; margin-top: 12px; padding-top: 8px; border-top: 1px solid #8c957645; color: var(--muted); font: 400 10px/1.4 Inter,sans-serif; }
+@media (prefers-reduced-motion:reduce) { body[data-info="below"] .flyer { transition: none; } }
+
+/* Small drawn fasteners, with no spherical highlights or dimensional shadow. */
+.poster::after, body[data-info="below"] .flyer::after {
+  background: var(--pin, #e6aa80);
+  border: 1px solid #304036b3;
+  border-radius: 46% 54% 49% 51% / 52% 47% 53% 48%;
+  box-shadow: none;
+}
+.flyer[data-pin="tape"] .poster::after,
+body[data-info="below"] .flyer[data-pin="tape"]::after {
+  background: #d9cba7d9;
+  border: 0;
+  border-block: 1px solid #77735a55;
+  box-shadow: none;
+}
+.listing-card .listing-paper::after { background: #edaf89; border: 1px solid #304036b3; box-shadow: none; }
+
+@media (max-width: 580px) {
+  body[data-info="below"] .flyer { transform: none; }
+  body[data-info="below"] .flyer:hover { transform: translateY(-2px); }
+  body[data-info="below"] .flyer:active { transform: translateY(1px); }
+}
+
+body[data-info="below"] .flyer > .poster { height: var(--art-height); aspect-ratio: auto; }
