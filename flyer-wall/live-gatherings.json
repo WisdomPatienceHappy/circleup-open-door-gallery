@@ -1,22 +1,6 @@
 {
-  "checkedAt": "2026-11-20T22:20:01.192Z",
+  "checkedAt": "2026-11-21T21:03:54.728Z",
   "events": [
-    {
-      "id": "circleup-external_event_42077ebd-b916-59c5-9b72-a41d333b6350",
-      "name": "Red/Blue Workshop",
-      "topic": "community",
-      "startsAt": "2026-11-21T18:00:00.000Z",
-      "endsAt": "2026-11-22T00:15:00.000Z",
-      "timeZone": "America/Los_Angeles",
-      "format": "In person",
-      "place": "Petaluma · Sonoma County",
-      "description": "A facilitated workshop for listening and dialogue across political differences. Participants and observers have different roles; attendance covers both workshop parts.",
-      "source": "https://braverangels.org/event/red-blue-workshop-3/",
-      "credit": "San Francisco Bay Area Braver Angels Super Alliance",
-      "image": "https://playground.circleup.org/assets/external-events/530f8073c3f3a9161ee090adc4f564537b4edc555db2489b0271f7678812a2ae-640.webp",
-      "width": 640,
-      "height": 389
-    },
     {
       "id": "circleup-external_event_5e2dd3ae-a778-5372-a447-161b07896d8a",
       "name": "Skills for Disagreeing Better",
