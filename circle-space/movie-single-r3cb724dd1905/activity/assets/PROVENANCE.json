@@ -1,0 +1,199 @@
+{
+  "generatedAt": "2026-11-21T23:18:28.989Z",
+  "method": "Installed local macOS say voices; approved Node-owned file rendering; existing ffmpeg24kHz mono PCM16 WAV. No downloads/provider/newdependencies.",
+  "claim": "Six distinct synthetic speech test voices, not real participants or a live call. You is also assigned a generated voice without microphone capture.",
+  "voices": [
+    {
+      "key": "samantha",
+      "voice": "Samantha",
+      "rate": 168,
+      "label": "Locally generated Samantha synthetic speech",
+      "clips": [
+        {
+          "key": "samantha-statement",
+          "kind": "statement",
+          "text": "I keep thinking about how we make room for quieter people.",
+          "file": "assets/samantha-statement.wav",
+          "durationSeconds": 3.130875,
+          "sha256": "7e9b74f7356bee1bffae475e7731f28e06a5066d2a1643bca02f38cf59214edd"
+        },
+        {
+          "key": "samantha-reply",
+          "kind": "reply",
+          "text": "Yes, a little space before the next reply would help.",
+          "file": "assets/samantha-reply.wav",
+          "durationSeconds": 3.266875,
+          "sha256": "010cbbf5f206a012206de844ff1c69573862327d8ff85feb8b3dd7d4b7321d61"
+        },
+        {
+          "key": "samantha-interjection",
+          "kind": "interjection",
+          "text": "Can I add something?",
+          "file": "assets/samantha-interjection.wav",
+          "durationSeconds": 1.114292,
+          "sha256": "412ac70c00cdb54612566cc877d4869fc38dce704819b9f050725efc28dfb838"
+        }
+      ]
+    },
+    {
+      "key": "daniel",
+      "voice": "Daniel",
+      "rate": 170,
+      "label": "Locally generated Daniel synthetic speech",
+      "clips": [
+        {
+          "key": "daniel-statement",
+          "kind": "statement",
+          "text": "Listening starts when I stop preparing my answer.",
+          "file": "assets/daniel-statement.wav",
+          "durationSeconds": 3.02125,
+          "sha256": "d73453046834f8cd8882a631b2d861a444514d149629bcdbd3c54a79cd95966e"
+        },
+        {
+          "key": "daniel-reply",
+          "kind": "reply",
+          "text": "I agree. I noticed that pause as well.",
+          "file": "assets/daniel-reply.wav",
+          "durationSeconds": 2.628333,
+          "sha256": "a77648093023b67744ef2d10b55a5181b4b122b5c5717ee6f9caf372633a66a4"
+        },
+        {
+          "key": "daniel-interjection",
+          "kind": "interjection",
+          "text": "Yes, exactly.",
+          "file": "assets/daniel-interjection.wav",
+          "durationSeconds": 1.511708,
+          "sha256": "f0ca55a94e2a641d6d8229402b60a3d05a9f5dd79440c45fd8a9d1e16f39f8c2"
+        }
+      ]
+    },
+    {
+      "key": "karen",
+      "voice": "Karen",
+      "rate": 168,
+      "label": "Locally generated Karen synthetic speech",
+      "clips": [
+        {
+          "key": "karen-statement",
+          "kind": "statement",
+          "text": "I tried a slower conversation yesterday, and everyone joined in.",
+          "file": "assets/karen-statement.wav",
+          "durationSeconds": 3.793625,
+          "sha256": "078c2f79fa4b008942b40521505f245c3080778558be300d6dc53ea38b01e43f"
+        },
+        {
+          "key": "karen-reply",
+          "kind": "reply",
+          "text": "We do not have to fill every silence.",
+          "file": "assets/karen-reply.wav",
+          "durationSeconds": 2.073708,
+          "sha256": "28d5cd4863be5ebfd7e31e95bf1efcc21c302c7f8934e071aa3bede6796ea57e"
+        },
+        {
+          "key": "karen-interjection",
+          "kind": "interjection",
+          "text": "Wait, one thought.",
+          "file": "assets/karen-interjection.wav",
+          "durationSeconds": 1.354167,
+          "sha256": "cd101e20152ee429f47ff0b1ebb672796d7869a75dae94bec39441d91628b830"
+        }
+      ]
+    },
+    {
+      "key": "moira",
+      "voice": "Moira",
+      "rate": 170,
+      "label": "Locally generated Moira synthetic speech",
+      "clips": [
+        {
+          "key": "moira-statement",
+          "kind": "statement",
+          "text": "Sometimes two people begin together, and then one gives way.",
+          "file": "assets/moira-statement.wav",
+          "durationSeconds": 3.537333,
+          "sha256": "1e0285cef9374d135ad3110a9580e9ddee8f4f17609a1e89ee19e06d1af77594"
+        },
+        {
+          "key": "moira-reply",
+          "kind": "reply",
+          "text": "I would like to hear what you were saying.",
+          "file": "assets/moira-reply.wav",
+          "durationSeconds": 2.025292,
+          "sha256": "961a47a81ba7e6273552f25c7a5ec84ceb0c74e6903b72667fe277d8a58e10c3"
+        },
+        {
+          "key": "moira-interjection",
+          "kind": "interjection",
+          "text": "Please go ahead.",
+          "file": "assets/moira-interjection.wav",
+          "durationSeconds": 1.025417,
+          "sha256": "4ddf5b9dc1b1d7d453231d59ebd015e16240333b551d8037282ec048393784f5"
+        }
+      ]
+    },
+    {
+      "key": "tessa",
+      "voice": "Tessa",
+      "rate": 170,
+      "label": "Locally generated Tessa synthetic speech",
+      "clips": [
+        {
+          "key": "tessa-statement",
+          "kind": "statement",
+          "text": "The part I found useful was asking one simple question.",
+          "file": "assets/tessa-statement.wav",
+          "durationSeconds": 3.746583,
+          "sha256": "65d30fe87fb107fccef8f2026b896c80fa9c5b22f19201e2e7e7a61210b986d8"
+        },
+        {
+          "key": "tessa-reply",
+          "kind": "reply",
+          "text": "Maybe we can try that with the next person.",
+          "file": "assets/tessa-reply.wav",
+          "durationSeconds": 2.63925,
+          "sha256": "ecc50fe6660ebbb24164d0805aece2c6a4fda407cf9a6bbc1e4a16b9a8d59dad"
+        },
+        {
+          "key": "tessa-interjection",
+          "kind": "interjection",
+          "text": "I have a question.",
+          "file": "assets/tessa-interjection.wav",
+          "durationSeconds": 1.111875,
+          "sha256": "78bf3d48d9a451480da3f2227fd38d843a589985e0c70b5cd071bcd1a2060897"
+        }
+      ]
+    },
+    {
+      "key": "rishi",
+      "voice": "Rishi",
+      "rate": 170,
+      "label": "Locally generated Rishi synthetic speech",
+      "clips": [
+        {
+          "key": "rishi-statement",
+          "kind": "statement",
+          "text": "I was quiet at first, but now I want to add something.",
+          "file": "assets/rishi-statement.wav",
+          "durationSeconds": 3.775625,
+          "sha256": "ca398ee18fb5e7a30a43f685fc34c69b8318f1a6f1fe0c8b1b30fb2a1d68ae10"
+        },
+        {
+          "key": "rishi-reply",
+          "kind": "reply",
+          "text": "Thank you. That gave me time to think.",
+          "file": "assets/rishi-reply.wav",
+          "durationSeconds": 2.582125,
+          "sha256": "a0ca6fab736e480abe72174d6bcb0297e17ef39489a8cc80613cb240faa860a0"
+        },
+        {
+          "key": "rishi-interjection",
+          "kind": "interjection",
+          "text": "That happened to me too.",
+          "file": "assets/rishi-interjection.wav",
+          "durationSeconds": 1.367375,
+          "sha256": "8057c59507d03656767593adc380340c64e6ff495e7fe75c924dd64ea8b24362"
+        }
+      ]
+    }
+  ]
+}
