@@ -22,7 +22,14 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "creativity"
       ],
-      "originalImage": "https://images.lumacdn.com/uploads/bj/94830d3f-b4d5-4318-bf5a-055d94e2a428.png"
+      "originalImage": "https://images.lumacdn.com/uploads/bj/94830d3f-b4d5-4318-bf5a-055d94e2a428.png",
+      "cost": {
+        "kind": "free",
+        "label": "Free option",
+        "details": "Free non-member tickets are listed; optional donation and member tickets are also offered.",
+        "source": "https://luma.com/the-x2j9",
+        "checkedDate": "2026-11-24"
+      }
     },
     {
       "id": "poster-mixed-roots-an-interactive-reading-hosted-by-anne-liu-kellor-and-interwoven",
@@ -46,7 +53,13 @@ window.CIRCLEUP_LISTINGS = {
         "creativity",
         "books"
       ],
-      "originalImage": "https://images.squarespace-cdn.com/content/v1/61723c2de8cefe792bc5292b/1793246095385-P7BQALU7S850ASIJLIAR/mixed+roots+11.21.png?format=750w"
+      "originalImage": "https://images.squarespace-cdn.com/content/v1/61723c2de8cefe792bc5292b/1793246095385-P7BQALU7S850ASIJLIAR/mixed+roots+11.21.png?format=750w",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://medicinefornightmares.com/events/mixed-roots-an-interactive-reading-hosted-by-anne-liu-kellor-and-interwoven"
+      }
     },
     {
       "id": "sip-solutions",
@@ -69,7 +82,14 @@ window.CIRCLEUP_LISTINGS = {
         "dialogue",
         "connection"
       ],
-      "originalImage": "https://images.lumacdn.com/uploads/cg/877a6cb7-b375-4b82-b74c-ff5dbf5a8510.png"
+      "originalImage": "https://images.lumacdn.com/uploads/cg/877a6cb7-b375-4b82-b74c-ff5dbf5a8510.png",
+      "cost": {
+        "kind": "paid",
+        "label": "Fee · from $5",
+        "details": "Checkout lists a USD $5 minimum; the description suggests a $10 contribution. See the original listing for current terms.",
+        "source": "https://luma.com/5up1p5lh",
+        "checkedDate": "2026-11-24"
+      }
     },
     {
       "id": "poster-sfpl-storytelling",
@@ -92,7 +112,14 @@ window.CIRCLEUP_LISTINGS = {
         "listening",
         "creativity"
       ],
-      "originalImage": "https://sfpl.org/sites/default/files/2026-08/31537.png"
+      "originalImage": "https://sfpl.org/sites/default/files/2026-08/31537.png",
+      "cost": {
+        "kind": "free",
+        "label": "Free",
+        "details": "San Francisco Public Library programs are free.",
+        "source": "https://sfpl.org/sites/default/files/2026-04/TechWeek2026_Brochure_rem.pdf",
+        "checkedDate": "2026-11-24"
+      }
     },
     {
       "id": "poster-the-mlon",
@@ -104,7 +131,7 @@ window.CIRCLEUP_LISTINGS = {
       "place": "San Francisco",
       "region": "San Francisco",
       "timeZone": "America/Los_Angeles",
-      "description": "A women\u2019s somatic practice lab exploring patterns in love and connection.",
+      "description": "A women’s somatic practice lab exploring patterns in love and connection.",
       "source": "https://luma.com/the-mlon",
       "credit": "The Commons, The SF Commons, Annalisa Jackson",
       "image": "assets/event-c0c9f6b67c53945e.webp",
@@ -114,7 +141,14 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "listening"
       ],
-      "originalImage": "https://images.lumacdn.com/uploads/0c/fdea16f5-ef8b-4ceb-815c-966bb721e77e.png"
+      "originalImage": "https://images.lumacdn.com/uploads/0c/fdea16f5-ef8b-4ceb-815c-966bb721e77e.png",
+      "cost": {
+        "kind": "donation",
+        "label": "Pay what you can",
+        "details": "The organizer lists name-your-price tickets. Check the ticket options for any minimums.",
+        "source": "https://luma.com/the-mlon",
+        "checkedDate": "2026-11-24"
+      }
     },
     {
       "id": "poster-the-eu2j",
@@ -136,7 +170,14 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "community"
       ],
-      "originalImage": "https://images.lumacdn.com/uploads/0u/2cedc4ad-bb9c-4082-9ed9-7d68a8ff71a5.png"
+      "originalImage": "https://images.lumacdn.com/uploads/0u/2cedc4ad-bb9c-4082-9ed9-7d68a8ff71a5.png",
+      "cost": {
+        "kind": "paid",
+        "label": "Fee · $5 non-members",
+        "details": "The organizer requests a USD $5 contribution from non-members and invites people to contact them if cost is a barrier.",
+        "source": "https://luma.com/the-eu2j",
+        "checkedDate": "2026-11-24"
+      }
     },
     {
       "id": "poster-xps86ezkmg2n6bnhw7jmse2nnhx84g",
@@ -158,7 +199,13 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "creativity"
       ],
-      "originalImage": "https://images.squarespace-cdn.com/content/v1/61723c2de8cefe792bc5292b/1740277094399-Z5OZFSTDXL4AQMKWN5H6/speaking+axolotl+josiah+flyer+1.png?format=750w"
+      "originalImage": "https://images.squarespace-cdn.com/content/v1/61723c2de8cefe792bc5292b/1740277094399-Z5OZFSTDXL4AQMKWN5H6/speaking+axolotl+josiah+flyer+1.png?format=750w",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://medicinefornightmares.com/events/xps86ezkmg2n6bnhw7jmse2nnhx84g"
+      }
     },
     {
       "id": "poster-thebeam-u8me",
@@ -180,7 +227,14 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "creativity"
       ],
-      "originalImage": "https://images.lumacdn.com/uploads/py/b3a9e1fe-0173-4393-94b0-c39480bab12d.png"
+      "originalImage": "https://images.lumacdn.com/uploads/py/b3a9e1fe-0173-4393-94b0-c39480bab12d.png",
+      "cost": {
+        "kind": "paid",
+        "label": "Fee · $40–$60",
+        "details": "Sliding-scale USD tickets: community $40, standard $50, supporter $60. Check the source for current availability and fees.",
+        "source": "https://luma.com/thebeam-u8me",
+        "checkedDate": "2026-11-24"
+      }
     },
     {
       "id": "poster-gp7ffscssx4lsrr98dy8fe5wf94y82",
@@ -202,7 +256,13 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "community"
       ],
-      "originalImage": "https://images.squarespace-cdn.com/content/v1/61723c2de8cefe792bc5292b/1793247560837-GD9ZXODD85SDQEH60O2L/2026+November+Flyer.jpeg?format=750w"
+      "originalImage": "https://images.squarespace-cdn.com/content/v1/61723c2de8cefe792bc5292b/1793247560837-GD9ZXODD85SDQEH60O2L/2026+November+Flyer.jpeg?format=750w",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://medicinefornightmares.com/events/gp7ffscssx4lsrr98dy8fe5wf94y82"
+      }
     },
     {
       "id": "poster-friend-seekers-book-release-with-siamak-vossoughi",
@@ -214,7 +274,7 @@ window.CIRCLEUP_LISTINGS = {
       "place": "San Francisco",
       "region": "San Francisco",
       "timeZone": "America/Los_Angeles",
-      "description": "A San Francisco launch for Siamak Vossoughi\u2019s book The Friend Seekers.",
+      "description": "A San Francisco launch for Siamak Vossoughi’s book The Friend Seekers.",
       "source": "https://medicinefornightmares.com/events/friend-seekers-book-release-with-siamak-vossoughi",
       "credit": "Medicine for Nightmares Bookstore & Gallery",
       "image": "assets/event-c85a17fe07539561.webp",
@@ -225,7 +285,13 @@ window.CIRCLEUP_LISTINGS = {
         "ideas",
         "books"
       ],
-      "originalImage": "https://images.squarespace-cdn.com/content/v1/61723c2de8cefe792bc5292b/1793306055838-1RWI733XU6ZTCB6K72SQ/Vossoughi.TheFriendSeekers.FrontCover.webp?format=750w"
+      "originalImage": "https://images.squarespace-cdn.com/content/v1/61723c2de8cefe792bc5292b/1793306055838-1RWI733XU6ZTCB6K72SQ/Vossoughi.TheFriendSeekers.FrontCover.webp?format=750w",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://medicinefornightmares.com/events/friend-seekers-book-release-with-siamak-vossoughi"
+      }
     },
     {
       "id": "poster-ip4qb3c7",
@@ -247,7 +313,13 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "community"
       ],
-      "originalImage": "https://images.lumacdn.com/uploads/xm/c4921263-79a2-4ffa-9771-0cd0f2f77d3c.png"
+      "originalImage": "https://images.lumacdn.com/uploads/xm/c4921263-79a2-4ffa-9771-0cd0f2f77d3c.png",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://luma.com/ip4qb3c7"
+      }
     },
     {
       "id": "poster-ar-games",
@@ -269,7 +341,14 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "listening"
       ],
-      "originalImage": "https://images.squarespace-cdn.com/content/v1/5f3ad7477f569f2042df199b/1792599336681-BE72HSPBHV8GQMDQN7PD/Capture.JPG?format=750w"
+      "originalImage": "https://images.squarespace-cdn.com/content/v1/5f3ad7477f569f2042df199b/1792599336681-BE72HSPBHV8GQMDQN7PD/Capture.JPG?format=750w",
+      "cost": {
+        "kind": "donation",
+        "label": "Pay what you can",
+        "details": "The organizer welcomes participants who cannot contribute financially; donations are optional.",
+        "source": "https://www.ar-go.live/events/hsbj9",
+        "checkedDate": "2026-11-24"
+      }
     },
     {
       "id": "poster-storytelling-workshop-68nam",
@@ -291,7 +370,14 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "creativity"
       ],
-      "originalImage": "https://images.squarespace-cdn.com/content/v1/5c547bfcb10f25541c7eadf0/1781829608709-CWL6DH0Z1CJO0QUGILSO/BSF+Storytelling+Workshop+Poster.png?format=750w"
+      "originalImage": "https://images.squarespace-cdn.com/content/v1/5c547bfcb10f25541c7eadf0/1781829608709-CWL6DH0Z1CJO0QUGILSO/BSF+Storytelling+Workshop+Poster.png?format=750w",
+      "cost": {
+        "kind": "paid",
+        "label": "Fee · from $30",
+        "details": "Flexible tickets start at USD $30; general admission is $40 plus booking fees. Free community-gift tickets were sold out when checked.",
+        "source": "https://events.humanitix.com/storytelling-workshop-december/tickets",
+        "checkedDate": "2026-11-24"
+      }
     },
     {
       "id": "poster-opendecember",
@@ -314,7 +400,13 @@ window.CIRCLEUP_LISTINGS = {
         "listening",
         "creativity"
       ],
-      "originalImage": "https://images.squarespace-cdn.com/content/v1/5c547bfcb10f25541c7eadf0/1790034344984-LFJ5QIS3GTV3XOHBT1O8/IMG_1283.PNG?format=750w"
+      "originalImage": "https://images.squarespace-cdn.com/content/v1/5c547bfcb10f25541c7eadf0/1790034344984-LFJ5QIS3GTV3XOHBT1O8/IMG_1283.PNG?format=750w",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://www.diasporaartsconnection.org/events/opendecember"
+      }
     },
     {
       "id": "poster-hy7yax9j",
@@ -336,7 +428,13 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "listening"
       ],
-      "originalImage": "https://images.lumacdn.com/uploads/7k/ef1515aa-5b0b-4279-a693-31300f9ba24c.png"
+      "originalImage": "https://images.lumacdn.com/uploads/7k/ef1515aa-5b0b-4279-a693-31300f9ba24c.png",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://luma.com/hy7yax9j"
+      }
     },
     {
       "id": "poster-thirdculture-dec",
@@ -359,7 +457,13 @@ window.CIRCLEUP_LISTINGS = {
         "community",
         "creativity"
       ],
-      "originalImage": "https://images.squarespace-cdn.com/content/v1/5c547bfcb10f25541c7eadf0/1791088511867-5U50K3HOBR6SZ8OM3NH1/TCT+DECEMBER+%282%29.png?format=750w"
+      "originalImage": "https://images.squarespace-cdn.com/content/v1/5c547bfcb10f25541c7eadf0/1791088511867-5U50K3HOBR6SZ8OM3NH1/TCT+DECEMBER+%282%29.png?format=750w",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://www.diasporaartsconnection.org/events/thirdculture-dec"
+      }
     },
     {
       "id": "poster-circle-december",
@@ -382,11 +486,18 @@ window.CIRCLEUP_LISTINGS = {
         "community",
         "creativity"
       ],
-      "originalImage": "https://images.squarespace-cdn.com/content/v1/5c547bfcb10f25541c7eadf0/1794842005268-ZM691GABFKM6ZPL07U6E/Drumming+Dec+2.jpg.jpeg?format=750w"
+      "originalImage": "https://images.squarespace-cdn.com/content/v1/5c547bfcb10f25541c7eadf0/1794842005268-ZM691GABFKM6ZPL07U6E/Drumming+Dec+2.jpg.jpeg?format=750w",
+      "cost": {
+        "kind": "paid",
+        "label": "Fee · tickets",
+        "details": "General admission is listed at USD $30 plus booking fees, with additional ticket options. Check current availability on the ticket page.",
+        "source": "https://events.humanitix.com/circle-of-love-and-light-december-13/tickets",
+        "checkedDate": "2026-11-24"
+      }
     },
     {
       "id": "poster-community-chapbook-exchange-and-open-mic",
-      "name": "\"In the Company of Many Saviors\" \u00a0Chabook Release Party and Community Chapbook/Zine Exchange",
+      "name": "\"In the Company of Many Saviors\"  Chabook Release Party and Community Chapbook/Zine Exchange",
       "topic": "community",
       "startsAt": "2026-12-19T14:00:00-08:00",
       "endsAt": "2026-12-19T16:00:00-08:00",
@@ -405,7 +516,13 @@ window.CIRCLEUP_LISTINGS = {
         "community",
         "books"
       ],
-      "originalImage": "https://images.squarespace-cdn.com/content/v1/61723c2de8cefe792bc5292b/1794703127565-A7PXAHT7I1GAFGGCQRRF/IMG_3487.jpeg?format=750w"
+      "originalImage": "https://images.squarespace-cdn.com/content/v1/61723c2de8cefe792bc5292b/1794703127565-A7PXAHT7I1GAFGGCQRRF/IMG_3487.jpeg?format=750w",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://medicinefornightmares.com/events/community-chapbook-exchange-and-open-mic"
+      }
     },
     {
       "id": "poster-earth-listening",
@@ -427,7 +544,13 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "listening"
       ],
-      "originalImage": "https://pachamama.org/hubfs/%E2%80%93%202026%20Seasonal%20ELCs/December%20Solstice/2026%20December%20Solstice_events%20page_1080x1080.jpg"
+      "originalImage": "https://pachamama.org/hubfs/%E2%80%93%202026%20Seasonal%20ELCs/December%20Solstice/2026%20December%20Solstice_events%20page_1080x1080.jpg",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://landing.pachamama.org/2026-december-solstice-elc"
+      }
     },
     {
       "id": "unsaid",
@@ -448,7 +571,14 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "listening"
       ],
-      "originalImage": "https://images.lumacdn.com/uploads/nw/efca5417-b2b2-4d6d-958f-53a1e15ecb9b.png"
+      "originalImage": "https://images.lumacdn.com/uploads/nw/efca5417-b2b2-4d6d-958f-53a1e15ecb9b.png",
+      "cost": {
+        "kind": "paid",
+        "label": "Fee · tickets",
+        "details": "Tickets include admission and a drink. The organizer invites people to contact them about financial accessibility.",
+        "source": "https://luma.com/6f85e9lg",
+        "checkedDate": "2026-11-24"
+      }
     },
     {
       "id": "tuning-in",
@@ -459,7 +589,7 @@ window.CIRCLEUP_LISTINGS = {
       "place": "Los Angeles",
       "timeZone": "America/Los_Angeles",
       "source": "https://www.eventbrite.com/e/tuning-in-community-a-deep-listening-workshop-with-abby-dahlquist-tickets-2003856847774",
-      "credit": "Organizer\u2019s Eventbrite listing",
+      "credit": "Organizer’s Eventbrite listing",
       "image": "assets/event-23b5a547b58d6b48.webp",
       "width": 940,
       "height": 470,
@@ -469,7 +599,13 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "listening"
       ],
-      "originalImage": "https://cdn.evbuc.com/images/1178661093/494250625447/1/original.20260228-005412"
+      "originalImage": "https://cdn.evbuc.com/images/1178661093/494250625447/1/original.20260228-005412",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://www.eventbrite.com/e/tuning-in-community-a-deep-listening-workshop-with-abby-dahlquist-tickets-2003856847774"
+      }
     },
     {
       "id": "denver-circle",
@@ -491,7 +627,13 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "community"
       ],
-      "originalImage": "https://cdn.evbuc.com/images/1184247275/487592234705/1/original.20260510-192311"
+      "originalImage": "https://cdn.evbuc.com/images/1184247275/487592234705/1/original.20260510-192311",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://www.eventbrite.com/e/sapphic-community-connection-circle-december-tickets-2003321913772"
+      }
     },
     {
       "id": "belonging",
@@ -501,7 +643,7 @@ window.CIRCLEUP_LISTINGS = {
       "endsAt": "2026-10-28T01:15:00.000Z",
       "format": "In person",
       "place": "San Francisco",
-      "description": "A facilitated group conversation and practice exploring connection, relationships and belonging. See the organizer\u2019s entrance instructions.",
+      "description": "A facilitated group conversation and practice exploring connection, relationships and belonging. See the organizer’s entrance instructions.",
       "source": "https://luma.com/the-0frg",
       "credit": "The SF Commons and the event organizers via Luma",
       "image": "assets/event-ee8a099ad994953b.webp",
@@ -511,17 +653,23 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "community"
       ],
-      "originalImage": "https://playground.circleup.org/assets/external-events/ee8a099ad994953b4583946355ac9a607b85c850979305dace5744a5366e9558-640.webp"
+      "originalImage": "https://playground.circleup.org/assets/external-events/ee8a099ad994953b4583946355ac9a607b85c850979305dace5744a5366e9558-640.webp",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://luma.com/the-0frg"
+      }
     },
     {
       "id": "practice",
       "topic": "listening",
-      "name": "Communication Dojo \u2013 Weekly Practice Session",
+      "name": "Communication Dojo – Weekly Practice Session",
       "startsAt": "2026-10-28T19:00:00.000Z",
       "endsAt": "2026-10-28T20:00:00.000Z",
       "format": "Online",
       "place": null,
-      "description": "Practice Nonviolent Communication with other participants and ask a trainer for help. No registration is required; consult the organizer\u2019s page for current access details.",
+      "description": "Practice Nonviolent Communication with other participants and ask a trainer for help. No registration is required; consult the organizer’s page for current access details.",
       "source": "https://baynvc.org/event/weekly-practice-session-2026-09-10-28/",
       "credit": "BayNVC / Communication Dojo",
       "image": "assets/event-5bdc992c68bafa25.webp",
@@ -531,7 +679,14 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "listening"
       ],
-      "originalImage": "https://playground.circleup.org/assets/external-events/5bdc992c68bafa2508a15cc6fa0fa52bed03446a82f4e54cdd7fa6cbef4ac0c5-640.webp"
+      "originalImage": "https://playground.circleup.org/assets/external-events/5bdc992c68bafa2508a15cc6fa0fa52bed03446a82f4e54cdd7fa6cbef4ac0c5-640.webp",
+      "cost": {
+        "kind": "free",
+        "label": "Free",
+        "details": "No financial contribution is required for this practice session. Donations are welcome.",
+        "source": "https://baynvc.org/event/weekly-practice-session-2026-09-10-28/",
+        "checkedDate": "2026-11-24"
+      }
     },
     {
       "id": "thought-lab",
@@ -552,12 +707,18 @@ window.CIRCLEUP_LISTINGS = {
         "ideas",
         "books"
       ],
-      "originalImage": "https://playground.circleup.org/assets/external-events/67872a03e23691dce7521d330d59685dafb6a05b28f0e4c65a8b23e9c995b75e-640.webp"
+      "originalImage": "https://playground.circleup.org/assets/external-events/67872a03e23691dce7521d330d59685dafb6a05b28f0e4c65a8b23e9c995b75e-640.webp",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://luma.com/thoughtexperiments"
+      }
     },
     {
       "id": "anti-debate",
       "topic": "dialogue",
-      "name": "Anti-Debate \u00b7 The Billionaire Tax",
+      "name": "Anti-Debate · The Billionaire Tax",
       "startsAt": "2026-10-28T00:30:00.000Z",
       "endsAt": "2026-10-28T03:00:00.000Z",
       "format": "In person",
@@ -573,7 +734,13 @@ window.CIRCLEUP_LISTINGS = {
         "dialogue",
         "connection"
       ],
-      "originalImage": "https://playground.circleup.org/assets/external-events/beb69780e7289852ca81dcfa002f37267f444883195c4e6599d0b425762755ad-640.webp"
+      "originalImage": "https://playground.circleup.org/assets/external-events/beb69780e7289852ca81dcfa002f37267f444883195c4e6599d0b425762755ad-640.webp",
+      "cost": {
+        "kind": "unknown",
+        "label": "Check price",
+        "details": "Check the original listing for current pricing.",
+        "source": "https://luma.com/the-xuk5"
+      }
     },
     {
       "id": "org-diaspora-arts-connection",
@@ -589,7 +756,14 @@ window.CIRCLEUP_LISTINGS = {
         "creativity",
         "community"
       ],
-      "checkedDate": "2026-11-23"
+      "checkedDate": "2026-11-23",
+      "cost": {
+        "kind": "varies",
+        "label": "Varies by event",
+        "details": "See the website or contact the provider for the cost of a specific offering.",
+        "source": "https://www.diasporaartsconnection.org/our-mission"
+      },
+      "format": "Format varies"
     },
     {
       "id": "org-the-commons",
@@ -605,7 +779,14 @@ window.CIRCLEUP_LISTINGS = {
         "community",
         "community"
       ],
-      "checkedDate": "2026-11-23"
+      "checkedDate": "2026-11-23",
+      "cost": {
+        "kind": "varies",
+        "label": "Varies by event",
+        "details": "See the website or contact the provider for the cost of a specific offering.",
+        "source": "https://www.thesfcommons.com/about/"
+      },
+      "format": "In person"
     },
     {
       "id": "fac-amir-etemadzadeh",
@@ -620,14 +801,22 @@ window.CIRCLEUP_LISTINGS = {
       "topics": [
         "creativity"
       ],
-      "checkedDate": "2026-11-23"
+      "checkedDate": "2026-11-23",
+      "cost": {
+        "kind": "varies",
+        "label": "Ask for pricing",
+        "details": "See the website or contact the provider for the cost of a specific offering.",
+        "source": "https://www.amirschoolofmusic.com/about-amir"
+      },
+      "format": "Online + in person",
+      "formatSource": "https://www.amirschoolofmusic.com/about-amir"
     },
     {
       "id": "fac-newt-bailey",
       "kind": "facilitator",
       "name": "Newt Bailey",
       "topic": "listening",
-      "place": "San Francisco Bay Area \u00b7 Online",
+      "place": "San Francisco Bay Area · Online",
       "description": "The founder of Communication Dojo leads workshops in Nonviolent Communication and helps groups practice listening and working through conflict.",
       "source": "https://www.communicationdojo.com/",
       "website": "https://www.communicationdojo.com/",
@@ -637,7 +826,16 @@ window.CIRCLEUP_LISTINGS = {
         "connection",
         "dialogue"
       ],
-      "checkedDate": "2026-11-23"
+      "checkedDate": "2026-11-23",
+      "cost": {
+        "kind": "varies",
+        "label": "Ask for pricing",
+        "details": "See the website or contact the provider for the cost of a specific offering.",
+        "source": "https://www.communicationdojo.com/"
+      },
+      "format": "Online + in person",
+      "formatSource": "https://www.communicationdojo.com/"
     }
-  ]
+  ],
+  "metadataCheckedAt": "2026-11-24"
 };

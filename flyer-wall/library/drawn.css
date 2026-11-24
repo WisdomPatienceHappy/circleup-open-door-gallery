@@ -179,3 +179,40 @@ body{isolation:isolate}
 /* Quiet category scrolling; keep label space and native wheel/touch/key access. */
 .category-list{scrollbar-width:none;padding-inline-end:18px}
 .category-list::-webkit-scrollbar{display:none;width:0;height:0}
+
+/* Keep decorative full-width paper inside the real viewport, including classic scrollbars. */
+html{overflow-x:clip;overscroll-behavior-x:none}
+body{max-width:100%;overflow-x:clip}
+.masthead:before{position:fixed;inset:0 0 auto;height:var(--masthead-height,78px)}
+.listing-meta{display:flex;flex-wrap:wrap;align-items:start;gap:6px 7px;min-width:0;max-width:100%;margin-top:9px}
+.meta-badge{display:inline-block;max-width:100%;padding:4px 9px;font-size:13px;font-weight:600;line-height:1.25;background:#dfe4c6 url('assets/paper-grain.png');background-size:220px;clip-path:var(--paper-strip-b);overflow-wrap:anywhere}
+.cost-badge{background-color:#ffe5a9}.cost-badge[data-cost=free]{background-color:#e2e8c7}.cost-badge[data-cost=unknown],.cost-badge[data-cost=varies]{background-color:#eee4cc;color:#4c5c49}
+.cards.list .listing-meta{grid-column:2;grid-row:4;margin:6px 0 0}
+.detail-participation{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px 18px;margin-top:20px}
+.detail-dialog .detail-meta-value{font-size:18px;line-height:1.3;font-weight:600;overflow-wrap:anywhere}
+.detail-dialog .detail-cost-note{grid-column:1/-1;font-size:14px;line-height:1.4;color:#4e604b;margin:0}
+@media(min-width:701px){
+ html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+ body{height:100dvh;min-height:0;display:flex;flex-direction:column}
+ .masthead{position:relative;top:auto;flex:0 0 auto}
+ .layout{flex:1;min-height:0;grid-template-rows:minmax(0,1fr);align-items:stretch;margin-bottom:20px;overflow:hidden}
+ .category-library{position:relative;top:auto;height:100%;min-height:0}
+ .workspace{height:100%;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:#a1ab87 transparent;padding:0 12px 12px 3px}
+ .workspace:focus-visible{outline:2px dashed #607848;outline-offset:-3px}
+ body:has(#details[open]) .workspace{overflow-y:hidden}
+ .cards.list .art-button{grid-row:1/6}
+}
+@media(min-width:701px) and (max-width:1050px){
+ .cards.list .listing-meta{grid-column:2;grid-row:4}.cards.list .card-description{grid-column:2;grid-row:5}.cards.list .detail-link{grid-column:2;grid-row:6}.cards.list .art-button{grid-row:1/7}
+}
+@media(max-width:700px){
+ .meta-badge{font-size:15px;padding:4px 10px}.listing-meta{margin-top:10px;gap:7px}
+ .cards.list .listing-meta{grid-column:1/-1;grid-row:4;margin-top:9px}.cards.list .card-description{grid-row:5}.cards.list .detail-link{grid-row:6}
+}
+
+@media(min-width:701px) and (max-width:900px){.masthead .desktop-link{display:none}}
+
+@media(min-width:701px) and (max-width:900px){
+ .cards:not(.list){grid-template-columns:minmax(0,1fr)}
+ .board-head{grid-template-columns:minmax(0,1fr);gap:12px}.board-head h1{font-size:42px}.board-about{padding-left:0}.board-about:before{display:none}.view-switch{grid-column:1;justify-self:start;margin-top:0}
+}
