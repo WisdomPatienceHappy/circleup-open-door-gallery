@@ -99,3 +99,70 @@ html{scroll-padding-top:calc(var(--masthead-height,76px) + 12px)}
  .creation-note{font-size:16px;margin-top:20px;padding-top:18px}
 }
 @media(max-width:360px){.creation-choice{gap:12px;padding:18px 13px}.creation-choice>svg:not(.ink-frame){width:48px;height:48px}.creation-copy h3{font-size:25px}.creation-intro h2{font-size:32px}.creation-copy p{font-size:17px}.creation-action{font-size:16px}}
+
+/* More room around the same board, at natural browser scale. */
+body{isolation:isolate}
+.page-ornaments{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+.ornament{position:absolute;display:block;aspect-ratio:1;background-image:url('assets/paper-grain.png');background-size:220px;border-radius:47% 53% 49% 51% / 54% 46% 53% 47%;transform:rotate(-12deg)}
+.ornament-sun{width:clamp(300px,31vw,470px);right:max(-70px,calc((100vw - 1440px)/2 + 10px));top:86px;background-color:#febe40;opacity:.17}
+.ornament-coral{width:430px;left:-290px;bottom:-145px;background-color:#fd6b46;opacity:.13;transform:rotate(18deg)}
+.ornament-sage{width:520px;right:-230px;bottom:-310px;background-color:#bdcca5;opacity:.32;transform:rotate(24deg)}
+@media(min-width:1051px){
+ .masthead,.layout{max-width:1440px;width:calc(100% - 96px)}
+ .masthead{min-height:78px;padding-block:10px 15px}
+ .brand{font-size:40px;letter-spacing:-1.7px}.brand img{width:44px;height:44px}
+ .masthead nav{font-size:18px;gap:32px}
+ .masthead .raised span{padding:11px 21px}.masthead .raised b{font-size:24px}
+ .layout{grid-template-columns:246px minmax(0,1fr);column-gap:28px;margin-block:32px 48px}
+ .category-library{padding-top:11px;padding-right:20px}
+ .category-library h2{font-size:30px;margin:4px 0 22px}
+ .category-search{min-height:44px;font-size:17px;padding:8px 14px;margin-bottom:19px;gap:12px}
+ .category-list{gap:6px}
+ .category{min-height:76px}
+ .category-image{width:76px;height:76px;flex:0 0 76px}.category-image img{width:67px;height:67px}
+ .category-label,.category:nth-child(3n+2) .category-label,.category:nth-child(3n) .category-label{font-size:21px;padding:8px 11px}
+ .filters{gap:24px;margin:0 4px 32px;min-height:46px}
+ .search-field,.location-field{font-size:18px;min-height:46px;padding-block:9px;gap:14px}
+ .board{padding:28px 30px 30px}
+ .board-head{grid-template-columns:auto minmax(0,1fr) auto;gap:24px;min-height:62px;margin-bottom:32px}
+ .board-head h1{font-size:52px}
+ .board-about{padding-left:25px}.board-about p{font-size:19px;line-height:1.3}
+ .view-switch{grid-column:auto;margin-top:4px}.view-switch button{font-size:16px;padding:8px 17px;gap:10px}.view-switch svg{width:18px;height:18px}
+ .cards:not(.list){gap:36px 24px}
+ .cards:not(.list)>.card{padding:18px}
+ .cards:not(.list) .art{height:185px}
+ .cards:not(.list) .card h2{font-size:23px;line-height:1.12;margin-top:11px}
+ .cards:not(.list) .card-kind{font-size:11px;margin-top:9px}
+ .cards:not(.list) .card-facts{font-size:16px;line-height:1.3;margin-top:5px}
+ .cards:not(.list) .card-description{font-size:17px;line-height:1.35;margin:9px 0 14px}
+ .cards:not(.list) .detail-link{font-size:17px;line-height:1.35}
+ .cards:not(.list) .listing-card{padding:26px 23px;gap:20px}
+ .cards:not(.list) .listing-card h2{font-size:34px;line-height:1.04;margin:0 auto;max-width:9.5ch}
+ .cards:not(.list) .listing-card p{font-size:17px;line-height:1.35}
+ .listing-entry-trigger{font-size:18px}
+ .cards:not(.list) .paper-art strong{font-size:27px}.cards:not(.list) .paper-art em{font-size:15px}
+}
+@media(min-width:1051px) and (max-width:1280px){
+ .masthead,.layout{width:calc(100% - 64px)}
+ .masthead nav{gap:22px;font-size:17px}
+ .layout{grid-template-columns:224px minmax(0,1fr);column-gap:24px}
+ .category-library{padding-right:14px}.category-library h2{font-size:28px}
+ .category-image{width:68px;flex-basis:68px}.category-image img{width:61px;height:61px}
+ .category-label,.category:nth-child(3n+2) .category-label,.category:nth-child(3n) .category-label{font-size:20px;padding-inline:9px}
+ .board{padding:25px 24px}.board-head{grid-template-columns:auto minmax(0,1fr);gap:20px;margin-bottom:30px}.board-head h1{font-size:47px}
+ .view-switch{grid-column:1/-1;margin-top:0}.cards:not(.list){gap:32px 18px}.cards:not(.list)>.card{padding:14px}
+ .cards:not(.list) .art{height:170px}.cards:not(.list) .card h2{font-size:22px}.cards:not(.list) .paper-art strong{font-size:24px}
+}
+@media(min-width:701px) and (max-width:1050px){
+ .layout{column-gap:24px;margin-top:30px}.cards:not(.list){gap:34px 20px}.cards:not(.list)>.card{padding:15px}.board-head{margin-bottom:30px}
+}
+@media(max-width:700px){
+ .ornament-sun{width:270px;right:-175px;top:185px;opacity:.14}.ornament-coral{width:290px;left:-235px;bottom:10%;opacity:.12}.ornament-sage{width:320px;right:-230px;bottom:-160px;opacity:.25}
+ .layout{margin-top:25px}.filters{gap:14px;margin-bottom:22px}.category-library{margin-bottom:29px}
+ .board-head{margin-bottom:35px;row-gap:16px}.cards:not(.list){row-gap:36px}.cards:not(.list)>.card{padding:18px 17px 20px}
+ .cards:not(.list) .card h2{margin-top:13px;line-height:1.12}.cards:not(.list) .card-description{line-height:1.35;margin-block:10px 15px}
+ .cards:not(.list) .listing-card{padding:30px 24px;gap:22px}
+}
+
+/* Pins sit in front of the sheet and its ink outline. */
+.pin{top:-5px;z-index:4}
