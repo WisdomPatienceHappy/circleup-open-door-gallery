@@ -114,13 +114,13 @@ body{isolation:isolate}
  .masthead nav{font-size:18px;gap:32px}
  .masthead .raised span{padding:11px 21px}.masthead .raised b{font-size:24px}
  .layout{grid-template-columns:246px minmax(0,1fr);column-gap:28px;margin-block:32px 48px}
- .category-library{padding-top:11px;padding-right:20px}
+ .category-library{padding-top:11px;padding-right:16px}
  .category-library h2{font-size:30px;margin:4px 0 22px}
  .category-search{min-height:44px;font-size:17px;padding:8px 14px;margin-bottom:19px;gap:12px}
  .category-list{gap:6px}
  .category{min-height:76px}
  .category-image{width:76px;height:76px;flex:0 0 76px}.category-image img{width:67px;height:67px}
- .category-label,.category:nth-child(3n+2) .category-label,.category:nth-child(3n) .category-label{font-size:21px;padding:8px 11px}
+ .category-label,.category:nth-child(3n+2) .category-label,.category:nth-child(3n) .category-label{font-size:21px;padding:8px 7px}
  .filters{gap:24px;margin:0 4px 32px;min-height:46px}
  .search-field,.location-field{font-size:18px;min-height:46px;padding-block:9px;gap:14px}
  .board{padding:28px 30px 30px}
@@ -166,3 +166,12 @@ body{isolation:isolate}
 
 /* Pins sit in front of the sheet and its ink outline. */
 .pin{top:-5px;z-index:4}
+
+/* Reserve the scrollbar gutter so label fit is consistent in app/WebKit panes. */
+.category-list{scrollbar-gutter:stable}
+
+@media(min-width:1051px) and (max-width:1280px){.category-label,.category:nth-child(3n+2) .category-label,.category:nth-child(3n) .category-label{padding-inline:7px}}
+@media(min-width:701px) and (max-width:1050px){
+ .category-image{width:64px;flex-basis:64px}.category-image img{width:58px;height:58px}
+ .category-label,.category:nth-child(3n+2) .category-label,.category:nth-child(3n) .category-label{font-size:19px;padding-inline:6px}
+}
