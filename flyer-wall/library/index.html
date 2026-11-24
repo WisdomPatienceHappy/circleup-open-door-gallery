@@ -12,11 +12,11 @@
   <meta property="og:url" content="https://wisdompatiencehappy.github.io/circleup-open-door-gallery/flyer-wall/library/">
   <link rel="icon" href="assets/brush-dots.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="drawn.css">
+  <link rel="stylesheet" href="drawn.css?v=adaptive-2">
   <script defer src="data.js"></script>
-  <script defer src="app.js"></script>
+  <script defer src="app.js?v=adaptive-2"></script>
   <script defer src="pickers.js"></script>
-  <script defer src="drawn.js"></script>
+  <script defer src="drawn.js?v=adaptive-2"></script>
 </head>
 <body>
   <a class="skip" href="#board-title">Skip to the board</a>
@@ -58,7 +58,7 @@
       <p class="board-foot"><span id="result-count" role="status" aria-live="polite"></span><span>Public listings · Always check the original source.</span></p>
     </section>
   </main>
-  <dialog id="details" aria-labelledby="detail-title"><button class="close-dialog" id="close-dialog" aria-label="Close listing details">Close <span aria-hidden="true">×</span></button><div id="detail-content"></div></dialog>
+  <dialog id="details" class="detail-dialog" aria-labelledby="detail-title"><div class="detail-shell"><div class="detail-toolbar"><button class="close-dialog outline" id="close-dialog" aria-label="Close listing details"><span>Close</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div><div class="detail-scroll"><div id="detail-content"></div></div></div></dialog>
   <noscript><p class="noscript">Please enable JavaScript to browse the local listing collection.</p></noscript>
 </body>
 </html>
