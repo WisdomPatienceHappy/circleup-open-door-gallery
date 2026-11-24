@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Community boards · CircleUp</title>
+  <meta name="description" content="Browse gatherings, organizations and facilitators on CircleUp’s community boards.">
+  <meta property="og:title" content="CircleUp · Community boards">
+  <meta property="og:description" content="Find gatherings, organizations and facilitators. Browse the boards together.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wisdompatiencehappy.github.io/circleup-open-door-gallery/flyer-wall/library/">
+  <link rel="icon" href="assets/brush-dots.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="drawn.css">
+  <script defer src="data.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="pickers.js"></script>
+  <script defer src="drawn.js"></script>
+</head>
+<body>
+  <a class="skip" href="#board-title">Skip to the board</a>
+  <header class="masthead">
+    <a class="brand" href="?topic=all" aria-label="CircleUp — all boards"><img src="assets/brush-dots.svg" alt="" width="52" height="52"><span>CircleUp</span></a>
+    <nav aria-label="Main navigation">
+      <a class="find-link" href="?topic=all&kind=gathering">Find gatherings</a>
+      <a class="desktop-link" href="https://playground.circleup.org/gatherings/new">Host a circle</a>
+      <a class="desktop-link" href="https://playground.circleup.org/about">About</a>
+      <a class="login" href="https://playground.circleup.org/account/signin">Log in</a>
+      <a class="raised" href="https://playground.circleup.org/account/signin"><span>Join CircleUp <b aria-hidden="true">→</b></span></a>
+    </nav>
+  </header>
+  <main class="layout">
+    <aside class="category-library" aria-label="Browse category boards">
+      <button class="mobile-categories outline" id="category-toggle" aria-expanded="false" aria-controls="category-panel">Browse boards: <strong id="mobile-topic">Creativity</strong><span class="chevron" aria-hidden="true"></span></button>
+      <div id="category-panel">
+        <h2>Browse boards</h2>
+        <label class="category-search outline"><span class="search-icon" aria-hidden="true"></span><span class="sr-only">Find a category</span><input id="category-search" type="search" placeholder="Find a category" autocomplete="off"></label>
+        <div id="category-list" class="category-list" role="group" aria-label="Category boards"></div>
+        <p id="no-categories" hidden>No categories match.</p>
+        <div class="category-footer"><button id="more-categories" class="paper-label" aria-expanded="false">More categories <span aria-hidden="true">↓</span></button><button id="all-categories" class="text-link">Browse all categories</button></div>
+      </div>
+    </aside>
+    <section class="workspace" aria-label="Community listings">
+      <div class="filters">
+        <label class="search-field outline"><span class="search-icon" aria-hidden="true"></span><span class="sr-only">Search all listings on this board</span><input id="search" type="search" placeholder="Search all listings" autocomplete="off"></label>
+        <div class="location-field outline"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="sr-only" id="location-label">Location</span><select id="location" hidden aria-hidden="true" tabindex="-1"><option value="">All locations</option></select><button type="button" class="picker-trigger" id="location-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="location-menu" aria-labelledby="location-label location-value"><span id="location-value">All locations</span><span class="chevron" aria-hidden="true"></span></button></div>
+      </div>
+      <section class="board outline" aria-labelledby="board-title">
+        <div class="board-head">
+          <h1 id="board-title" tabindex="-1">Creativity</h1>
+          <div class="board-about"><p id="board-description">Make, explore and create together.</p><div class="kind-filter"><span class="sr-only" id="kind-label">Listing type</span><select id="kind" hidden aria-hidden="true" tabindex="-1"><option value="">All listings</option><option value="gathering">Gatherings</option><option value="organization">Organizations</option><option value="facilitator">Facilitators</option></select><button type="button" class="picker-trigger kind-trigger" id="kind-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="kind-menu" aria-labelledby="kind-label kind-value"><span id="kind-value">All listings</span><span class="chevron" aria-hidden="true"></span></button></div></div>
+          <div class="view-switch outline" role="group" aria-label="Listing view"><button id="board-view" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>Board</button><button id="list-view" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h14M7 12h14M7 19h14M3 5h.5M3 12h.5M3 19h.5"/></svg>List</button></div>
+        </div>
+        <p id="empty-message" class="empty-message" hidden>No matching listings. Try a different search or location. <button id="clear-filters" class="text-link">Clear filters</button></p>
+        <div id="cards" class="cards"></div>
+      </section>
+      <p class="board-foot"><span id="result-count" role="status" aria-live="polite"></span><span>Public listings · Always check the original source.</span></p>
+    </section>
+  </main>
+  <dialog id="details" aria-labelledby="detail-title"><button class="close-dialog" id="close-dialog" aria-label="Close listing details">Close <span aria-hidden="true">×</span></button><div id="detail-content"></div></dialog>
+  <noscript><p class="noscript">Please enable JavaScript to browse the local listing collection.</p></noscript>
+</body>
+</html>
