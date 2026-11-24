@@ -1,0 +1,37 @@
+/* Color only. Apply the attribute to any containing element. No adopted default. */
+[data-warm-echo-palette="clay"] {
+  --warm-echo-start:#e5b299;
+  --warm-echo-middle:#c47e65;
+  --warm-echo-end:#dba087;
+  --warm-echo-echo:#d7b793;
+  --warm-echo-shade:#b7705b;
+  --warm-echo-highlight:#ecd0ba;
+  --warm-echo-ripple:#815b50;
+}
+[data-warm-echo-palette="honey-ochre"] {
+  --warm-echo-start:#e6c593;
+  --warm-echo-middle:#c69b54;
+  --warm-echo-end:#d9b574;
+  --warm-echo-echo:#dec7ad;
+  --warm-echo-shade:#b68a49;
+  --warm-echo-highlight:#ecd6b2;
+  --warm-echo-ripple:#806445;
+}
+[data-warm-echo-palette="slate-blue"] {
+  --warm-echo-start:#b4c6d0;
+  --warm-echo-middle:#819fac;
+  --warm-echo-end:#9bb6c4;
+  --warm-echo-echo:#c9c2bd;
+  --warm-echo-shade:#7597a7;
+  --warm-echo-highlight:#cfdae0;
+  --warm-echo-ripple:#526b79;
+}
+[data-warm-echo-palette="legacy-green"] {
+  --warm-echo-start:#c8cfa6;
+  --warm-echo-middle:#a4b079;
+  --warm-echo-end:#b9c492;
+  --warm-echo-echo:#d4b67d;
+  --warm-echo-shade:#9cac71;
+  --warm-echo-highlight:#c9d0a1;
+  --warm-echo-ripple:#435344;
+}
