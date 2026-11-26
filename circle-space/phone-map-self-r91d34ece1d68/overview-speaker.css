@@ -1,0 +1,30 @@
+#main-layout.overview-split{display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:var(--preview-row-height,180px) minmax(0,1fr);gap:1px;min-height:0}
+#main-layout.overview-split>#phone-preview-row{grid-column:1;grid-row:1}
+#main-layout.overview-split>#scene-stage{grid-column:1;grid-row:2;min-height:0;height:100%;width:100%}
+#main-layout.overview-split.previews-bottom{grid-template-rows:minmax(0,1fr) var(--preview-row-height,180px)}
+#main-layout.overview-split.previews-bottom>#scene-stage{grid-row:1}#main-layout.overview-split.previews-bottom>#phone-preview-row{grid-row:2}
+#phone-preview-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;padding:8px;box-sizing:border-box;min-height:0;border-bottom:1px solid #244b3c44}
+#phone-preview-row[hidden],#joined-overview[hidden]{display:none!important}
+#joined-overview,#self-preview{min-width:0;min-height:0;position:relative;overflow:hidden;border:1px solid #244b3c88;border-radius:11px 15px 12px 14px;background:#faf0e350}
+#joined-overview{cursor:pointer;touch-action:manipulation}#joined-overview:focus-visible{outline:3px solid #b47825;outline-offset:2px}
+#self-preview{display:grid;grid-template-rows:minmax(0,1fr) 24px;justify-items:center;align-items:center}
+.self-photo{width:min(calc(100% - 18px),calc((var(--preview-row-height,180px) - 54px)*var(--self-photo-scale,1)));aspect-ratio:1;overflow:hidden;border:1px solid #244b3c88;border-radius:49% 51% 50% 48%;background:#e5dec6}
+.self-photo img{width:100%;height:100%;object-fit:cover;display:block}
+#self-preview p{font:12px/18px var(--sans);margin:0;color:var(--ink);white-space:nowrap}
+.speaker-pane-label{position:absolute;left:8px;bottom:5px;max-width:calc(100% - 90px);height:18px;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:2100000;font:12px/18px var(--sans);background:#faf0e3d9;color:var(--ink);pointer-events:none}
+.overview-speaker-demo #main-layout>.drawer{position:absolute!important}
+.phone-demo-layout{border:0;border-top:1px solid #244b3c44;margin-top:8px;padding:10px 0;display:grid;gap:10px;min-width:0}
+.phone-demo-layout legend{font:18px var(--serif)}.phone-placement{display:flex;gap:6px}.phone-placement button{flex:1;min-height:44px}.phone-placement [aria-pressed=true]{--fill:#cdd4ad}
+.phone-demo-layout label{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px;font:13px/18px var(--sans)}.phone-demo-layout input{grid-column:1/-1;min-height:34px}
+.phone-demo-layout output{font-variant-numeric:tabular-nums}.phone-demo-layout .muted{font-size:11px;line-height:1.2}
+#phone-breakout-map{position:fixed;inset:0;width:100dvw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;border-radius:0;clip-path:none;background:var(--grain),var(--paper);color:var(--ink);overflow:hidden}
+#phone-breakout-map[open]{display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+#phone-breakout-map::backdrop{background:#f7efdf}
+.phone-map-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;padding-top:max(8px,env(safe-area-inset-top));border-bottom:1px solid #244b3c44}
+.phone-map-heading h2{font:21px/1.1 var(--serif);margin:0;text-align:center}.phone-map-heading button{min-width:44px;min-height:44px;font:14px var(--sans);padding:6px 9px}
+#phone-map-surface{position:relative;min-height:0;overflow:hidden}
+.phone-map-note{font:12px/18px var(--sans);text-align:center;padding:5px 10px;padding-bottom:max(5px,env(safe-area-inset-bottom));margin:0}
+.phone-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-height:499px){#main-layout.overview-split{--preview-row-height:120px}.phone-map-heading{padding-block:3px}.phone-map-heading h2{font-size:18px}}
+
+.world-header .phone-brand{display:flex;align-items:center;gap:7px;min-width:0}.phone-brand>img{display:block;width:32px;height:32px;flex:none}.world-header .phone-brand .wordmark{font-size:25px;line-height:1}.world-header .phone-brand #room-name{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
