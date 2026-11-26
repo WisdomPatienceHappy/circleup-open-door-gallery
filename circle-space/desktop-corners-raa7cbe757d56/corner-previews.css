@@ -1,0 +1,14 @@
+/* Optional desktop comparison. Absolute thumbnails reserve no columns or stage space. */
+#corner-previews{position:absolute;inset:0;z-index:2300000;pointer-events:none}
+#corner-previews[hidden],.corner-map-back[hidden],.corner-self[hidden]{display:none!important}
+.corner-preview{position:absolute;bottom:8px;width:112px;height:112px;box-sizing:border-box;background:var(--grain),#faf0e3ec;border:1px solid #335b4b99;border-radius:9px 11px 8px 12px;color:var(--ink);isolation:isolate}
+.corner-map{left:10px;display:grid;grid-template-rows:minmax(0,1fr) 22px;gap:0;padding:5px 6px 4px;min-width:0;min-height:44px;pointer-events:auto;cursor:pointer;text-align:left}
+.corner-map::before{background:transparent!important;clip-path:var(--torn-rect)!important}.corner-map:hover{background:var(--grain),#eff0d9}.corner-map .ui-ink{opacity:.55}
+.corner-room-diagram{display:block;width:100%;height:100%;overflow:visible}.corner-room-diagram circle{fill:#faf0e3;stroke:#315a47;stroke-width:1}.corner-room-diagram .current-room circle{fill:#ccd7ac;stroke:#3b6039;stroke-width:1.7}.corner-room-diagram [data-status=locked]:not(.current-room) circle{stroke-dasharray:2 1.5}.corner-room-diagram text{font:12px 'Source Sans 3',sans-serif;fill:#173e33;text-anchor:middle;dominant-baseline:middle;paint-order:stroke;stroke:#faf0e3;stroke-width:1px}.corner-map-caption{display:flex;align-items:center;justify-content:space-between;gap:4px;font:14px/1.1 'Source Sans 3',sans-serif;padding:0 3px}.corner-expand{width:17px;height:17px;flex:none}.corner-expand path{fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.corner-self{right:62px;display:grid;grid-template-rows:minmax(0,1fr) 20px;gap:3px;justify-items:center;align-items:center;padding:6px;pointer-events:none}
+.corner-self-photo{width:76px;height:76px;max-width:100%;max-height:100%;border-radius:50%;object-fit:cover;mask-image:radial-gradient(closest-side,#000 96%,transparent 100%);box-shadow:0 0 0 1px #234d3e66}.corner-self-label{font:12px/1.2 'Source Sans 3',sans-serif;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.corner-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.corner-map-back{white-space:nowrap}
+@media(min-width:900px){body[data-corner-comparison=true] .consumer-header #view-toggle{display:none!important}}
+@media(min-width:900px) and (max-width:1300px){.corner-preview{width:100px;height:100px}.corner-self-photo{width:66px;height:66px}.corner-map-caption{font-size:13px}.corner-self-label{font-size:11px}}
+@media(max-width:899px){#corner-previews,.corner-map-back{display:none!important}}

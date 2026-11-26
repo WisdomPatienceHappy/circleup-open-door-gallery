@@ -1,0 +1,38 @@
+/* A consumer header with two view decisions; prototype tuning stays in Demo. */
+.consumer-header{display:grid;grid-template-columns:minmax(150px,1fr) auto auto;align-items:center;gap:10px;padding:8px 18px;padding-top:max(8px,env(safe-area-inset-top));z-index:4000000;isolation:isolate}
+.consumer-header .wordmark{font-size:28px}.consumer-header h1{font-size:15px;margin-top:3px;line-height:1.2}
+.consumer-header .header-actions{display:block;max-width:none;justify-self:end}
+.consumer-header .view-controls{position:static;inset:auto;translate:none;transform:none;display:flex;justify-content:end;gap:6px;padding:0;margin:0;min-width:0}
+.consumer-header .view-controls button,.consumer-header #demo-trigger{font-size:15px;min-height:44px;padding:8px 13px;white-space:nowrap}
+.consumer-header #cinematic-toggle[hidden]{display:none!important}
+.consumer-header .view-picker-trigger{width:190px;display:flex;align-items:center;justify-content:space-between;gap:9px}
+.consumer-header .view-picker-popover{right:0;left:auto;width:270px;min-width:0;padding:7px;z-index:5000000}
+.view-option{min-height:64px;display:flex;align-items:center;gap:10px;padding:10px 12px}
+.view-option-copy{display:grid;gap:3px;text-align:left;white-space:normal}.view-option-copy strong{font-weight:600;font-size:16px}.view-option-copy small{font-size:14px;line-height:1.2;color:#526553}
+.view-option-check{flex:none}.demo-disclosure{position:relative}#demo-trigger{color:#496354}
+.chrome-popover{position:absolute;top:calc(100% + 8px);right:0;z-index:5000000;width:min(280px,calc(100vw - 20px));padding:16px;background:var(--grain),var(--paper);border:1px solid #46664977;border-radius:8px 11px 9px 12px;box-shadow:0 6px 18px #173b2d1c;max-height:calc(100dvh - 100px);overflow:auto;overscroll-behavior:contain}
+.chrome-popover[hidden]{display:none}.chrome-eyebrow{font-size:11px;letter-spacing:.09em;color:#677260;margin:0 0 10px}.demo-actions{display:grid;gap:4px}.consumer-header .demo-actions button{text-align:left;min-height:44px;padding:8px 10px;font-size:15px}
+.demo-host-toggle{display:grid;grid-template-columns:1fr 40px;align-items:center;gap:8px;padding:14px 3px 9px;position:relative;font-size:15px}.demo-host-toggle input{position:absolute;right:0;width:44px;height:44px;opacity:0;margin:0;cursor:pointer}.toggle-track{height:24px;width:40px;border-radius:20px;background:#c4c8b6;pointer-events:none}.toggle-track::after{content:'';display:block;width:18px;height:18px;margin:3px;background:#fff8ec;border-radius:50%;transition:transform .12s}.demo-host-toggle input:checked+.toggle-track{background:#60805b}.demo-host-toggle input:checked+.toggle-track::after{transform:translateX(16px)}.demo-host-toggle input:focus-visible+.toggle-track{outline:3px dashed #a9782f;outline-offset:4px}.demo-host-toggle input:disabled+.toggle-track{opacity:.4}.demo-help{font-size:13px;color:#61705c;line-height:1.4;border-top:1px solid #46664933;padding-top:11px;margin-bottom:0}#demo-role-status{font-size:13px;margin:7px 3px}
+/* Existing nodes stay available to the scene, without consuming consumer stage space. */
+#navigation-help,#browse-state,#browse-state[hidden],#sample-caption{display:none!important}
+/* Keep the real record-backed center measured by the existing scene; improve its natural ink bounds. */
+.world-center[data-joined=true]:not(.world-center-image):not(:has(.inline-center-form)){width:260px;padding:8px;font-size:28px;line-height:1.22;background:none;border-radius:0}
+.world-center[data-joined=true]>.center-topic-text{display:grid;place-items:center;min-height:44px;box-sizing:border-box;width:100%;padding:4px 2px;font-size:inherit;line-height:inherit;font-weight:400;letter-spacing:-.015em;text-wrap:balance;white-space:pre-line;color:#173e33}
+.world-center[data-joined=true]>.center-topic-text::before{background:none!important}.world-center[data-joined=true]>.center-topic-text:disabled{opacity:1;cursor:default}
+.world-center[data-joined=true] .center-host-tools{display:none}
+body[data-host-tools=true] .world-center[data-joined=true]:not(.world-center-image):not(:has(.inline-center-form)){width:350px;padding-inline:44px}
+body[data-host-tools=true] .world-center[data-joined=true] .center-host-tools{display:contents}
+body:not([data-host-tools=true]) .world-center[data-joined=true][data-center-mode=empty]{visibility:hidden}
+.world-center:has(.inline-center-form){font-size:19px;line-height:1.2}.inline-center-form textarea{font-size:20px}
+@media(max-width:699px){.consumer-header{grid-template-columns:minmax(0,1fr) auto;gap:3px 7px;padding:6px 10px;padding-top:max(6px,env(safe-area-inset-top))}.consumer-header .wordmark{font-size:25px}.consumer-header h1{font-size:13px;max-width:100%;margin-top:2px}.consumer-header .view-controls{grid-row:2;grid-column:1;justify-content:start;gap:5px}.consumer-header .header-actions{grid-column:2;grid-row:2}.consumer-header .view-controls button,.consumer-header #demo-trigger{font-size:14px;padding:7px 10px}.consumer-header .view-picker-trigger{width:170px}.consumer-header .view-picker-popover{left:0;right:auto;width:min(268px,calc(100vw - 95px))}.view-option-copy strong{font-size:15px}.view-option-copy small{font-size:13px}.chrome-popover{top:calc(100% + 5px)}.world-center[data-joined=true]:not(.world-center-image):not(:has(.inline-center-form)){width:230px;font-size:25px;padding:6px}.world-center[data-joined=true].mobile-topic{background:var(--grain),#faf0e3e8;border-radius:7px}.world-center[data-center-mode=both]>.center-topic-text{font-size:20px}}
+@media(max-height:550px) and (min-width:700px){.consumer-header{padding-top:3px;padding-bottom:3px}.consumer-header h1{display:none}.consumer-header .wordmark{font-size:23px}.consumer-header .view-controls button,.consumer-header #demo-trigger{min-height:44px}.chrome-popover{max-height:calc(100dvh - 68px)}}
+
+.consumer-header #view-toggle[aria-pressed=true]{--fill:#cdd4ad}
+
+@media(max-width:699px){body[data-host-tools=true] .world-center[data-joined=true]:not(.world-center-image):not(:has(.inline-center-form)){width:318px;padding-inline:44px}}
+
+/* Selected canonical six Brush Dots; room context remains accessible, not a subtitle. */
+.consumer-header .brand-lockup{display:flex;align-items:center;gap:8px;white-space:nowrap;line-height:1}
+.consumer-header .brand-mark{display:block;width:40px;height:40px;flex:none;object-fit:contain}
+.consumer-header .room-context{display:block!important;position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:699px){.consumer-header .brand-mark{width:36px;height:36px}.consumer-header .brand-lockup{gap:7px}}
