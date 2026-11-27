@@ -1,0 +1,27 @@
+/* Participant paint only. The host owns seat placement, size, focus and buttons. */
+.seat[data-conversation-paint] :is(.photo,.portrait) {isolation:isolate;}
+.seat[data-conversation-paint] :is(.photo,.portrait)::after {content:none;}
+.seat[data-conversation-paint] :is(.photo,.portrait) > :is(img,video) {
+  -webkit-mask-image:radial-gradient(closest-side,#000 calc(100% - var(--portrait-feather,4%)),transparent 100%);
+  mask-image:radial-gradient(closest-side,#000 calc(100% - var(--portrait-feather,4%)),transparent 100%);
+}
+.seat[data-conversation-paint] .conversation-ink {position:absolute;inset:-5%;width:110%;height:110%;overflow:visible;pointer-events:none;color:var(--line-ink,#142635);z-index:2;}
+.conversation-ink path {fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;}
+.conversation-ink .paint-contour {stroke-width:1.05;opacity:.6;}
+.conversation-ink .paint-echo {stroke-width:.65;opacity:.32;}
+.conversation-ink .paint-voice {opacity:0;}
+.conversation-ink .paint-voice path {stroke-width:1.65;}
+.seat[data-paint-speaking][data-paint-style="feather-ink"] .paint-voice {opacity:var(--pose-opacity,0);}
+.seat[data-paint-speaking] .paint-contour {opacity:var(--paint-breath,.7);stroke-width:1.35;}
+.conversation-ink .paint-held-ring {opacity:0;stroke:#9a5c20;stroke-width:1.5;}
+.seat[data-paint-holder-ring] .paint-held-ring {opacity:.75;}
+.seat .conversation-warm-echo {position:absolute;inset:-20%;width:140%;height:140%;overflow:visible;z-index:1;pointer-events:none;opacity:var(--echo-strength,0);transform:scale(var(--echo-scale,1));transform-origin:center;}
+.seat[data-paint-style="feather-ink"] .conversation-warm-echo {display:none;}
+.conversation-warm-echo .ripple {fill:none;stroke:var(--warm-echo-ripple,#435344);stroke-width:.7;opacity:calc(.2 + var(--echo-level,0)*.55);transform-box:fill-box;transform-origin:center;transform:scale(calc(1 + var(--echo-level,0)*.08));}
+.seat[data-conversation-paint] .conversation-piece {display:none;position:absolute;left:25%;top:calc(-50% - 8px);width:50%;height:50%;z-index:3;pointer-events:none;}
+.seat[data-paint-holder][data-paint-image] .conversation-piece {display:block;}
+.seat[data-conversation-paint] .conversation-piece img {display:block;width:100%;height:100%;object-fit:contain;object-position:center;border-radius:0!important;mask-image:none!important;-webkit-mask-image:none!important;filter:none;}
+@media(prefers-reduced-motion:reduce) {
+  .conversation-ink,.conversation-ink *,.conversation-warm-echo,.conversation-warm-echo * {animation:none!important;transition:none!important;}
+  .seat .conversation-warm-echo,.conversation-warm-echo .ripple {transform:none;}
+}
